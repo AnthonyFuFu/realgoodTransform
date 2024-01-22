@@ -40,12 +40,6 @@ public class DataSourceConfig {
 		return DruidDataSourceBuilder.create().build();
 	}
 
-	@Bean(name = "fifthDataSource")
-	@ConfigurationProperties(prefix = "spring.datasource.druid.fifth")
-	public DataSource primaryDataSource5() {
-		return DruidDataSourceBuilder.create().build();
-	}
-	
 	@Bean(name = "postgresqlJdbcTemplate")
 	public JdbcTemplate postgresqlJdbcTemplate(@Qualifier("firstDataSource") DataSource dataSource) {
 		return new JdbcTemplate(dataSource);
@@ -71,9 +65,4 @@ public class DataSourceConfig {
 		return new JdbcTemplate(dataSource);
 	}
 
-	@Bean(name = "fifthJdbcTemplate")
-	public JdbcTemplate fifthJdbcTemplate(@Qualifier("fifthDataSource") DataSource dataSource) {
-		return new JdbcTemplate(dataSource);
-	}
-	
 }

@@ -3,18 +3,12 @@ package com.tkb.realgoodTransform.model;
 import java.sql.Timestamp;
 import java.util.List;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 /**
  * 地區
- * @author Ken
- * @version 創建時間：2016-04-28
  */
-@Getter
-@Setter
-@ToString
+@Data
 public class Area {
 	
 	private Integer id;							//流水號

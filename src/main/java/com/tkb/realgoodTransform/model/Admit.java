@@ -2,14 +2,12 @@ package com.tkb.realgoodTransform.model;
 
 import java.sql.Timestamp;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * 考取金榜
  */
-@Getter
-@Setter
+@Data
 public class Admit {
 	
 	private Integer id;						//流水號
