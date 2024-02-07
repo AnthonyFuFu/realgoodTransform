@@ -1,6 +1,6 @@
 package com.tkb.realgoodTransform.model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -8,24 +8,42 @@ import lombok.Data;
  * 後台會員
  */
 @Data
+//TkpApi用
 public class UserAccount {
-	
-	private int id;
-	private String account;
-	private String password;
-	private String chinese_name;
-	private String department_no;
-	private String unit_no;
+
+	private String account;	// login用
+	private String password;// login用
+
+	private Integer user_account_id;
+	private String employee_no;
+	private String employee_name;
+	private String unit_id;
+	private String department_id;
+	private String business_group_id;
 	private String email;
-	private String groups;
 	private String status;
+	private Integer group_id;
 	private String create_by;
+	private Date create_date;
 	private String update_by;
-	private Timestamp create_date;
-	private Timestamp update_date;
-	private String area;
+	private Date update_date;
+	private String check_date;
 	
-	private String company;
+	private String department_no;//部門
+	private String company;//TKB
+	
+	/*搜尋用*/
+	private String search_department_id;
+	private String search_unit_id;
+	private String search_employee_no;
+	private String search_employee_name;
+	private String search_email;
+	
+	// 舊的
+	private Integer id;
+	private String chinese_name;
+	private String unit_no;
+	private String area;
 	private String dept_name;
 	private String area_name;
 	private String groups_name;

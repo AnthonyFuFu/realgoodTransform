@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta charset="UTF-8">
+	<title>甄戰後台</title>
+	<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/byone.ico}" />
+	<link th:href="${@environment.getProperty('static.url')}+@{/css/admin/reset.css}" rel="stylesheet" />
+	<link th:href="${@environment.getProperty('static.url')}+@{/css/admin/style.css}" rel="stylesheet" />
+	<script th:src="${@environment.getProperty('static.url')}+@{/js/jquery-2.1.4.min.js}"></script>
+</head>
+<body>
+	<div class="container">
+	<div class="contentInn">
+		
+		<h1 id="backSystem_Name" >甄戰後台管理系統</h1>
+
+		<input type="hidden" id="msg" th:value="${msg}">
+    
+    	<!-- <form id="mainForm" class="input-form" method="POST" onsubmit="return checkLogin()"> -->
+    	<form id="mainForm" class="input-form" method="POST" onsubmit="checkLogin()">
+    		<p class="important"></p>
+			<div class="input-group">
+				<input class="input-box" type="text" id="user_account" name="account" autocomplete="off"  placeholder="Username" autofocus>
+			</div>
+			
+			<div class="input-group">
+				<input class="input-box" type="password" id="user_password" name="password" autocomplete="off"  placeholder="Password">
+			</div>
+			<div style="padding-bottom:30px;"><font style="color:black;font-size:12px;">*請使用打卡系統之帳號/密碼登入，輸入時不分英文大小寫。</font></div>
+			<button type="submit" class="button-box">登入</button>
+		</form>
+	</div>
+	</div>
+	<script type="text/javascript">
+		$(function() {
+			if (!sessionStorage.getItem('codeExecuted')) {
+				sessionStorage.setItem('codeExecuted', true);
+				location.reload();
+			}
+		});
+		$(function() {
+			if ($("#msg").val())
+				alert($("#msg").val());
+			checkLogin = function() {
+				if ($("#user_account").val() == "") {
+					alert("請輸入帳號！");
+					return false;
+				}
+				if ($("#user_password").val() == "") {
+					alert("請輸入密碼！");
+					return false;
+				}
+				$("#mainForm").attr("action", "doLogin");
+			}
+		});
+	</script>
+</body>
+</html>

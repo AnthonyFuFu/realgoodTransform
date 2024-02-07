@@ -1,6 +1,6 @@
 package com.tkb.realgoodTransform.model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -11,6 +11,6 @@ public class UserLoginLog {
 	private String account;
 	private String ip;
 	private String status;
-	private Timestamp create_date;
+	private Date create_date;
 	
 }

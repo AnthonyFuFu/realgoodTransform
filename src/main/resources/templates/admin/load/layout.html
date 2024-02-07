@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<div th:fragment="top">
+		<header>
+			<ul>
+				<li>
+					[[${userAccountSession.chinese_name}]],您好
+					&nbsp;&nbsp;&nbsp;
+					<button style="background: none; color: inherit; border-color: white;" onclick="logout()">
+						<b style="color:white;">登出</b>
+					</button>
+				</li>
+			</ul>
+		</header>
+		<!-- Google Tag Manager (noscript) -->
+		<noscript>
+			<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PGWXRVG"
+				height="0" width="0" style="display:none;visibility:hidden">
+			</iframe>
+		</noscript>
+		<!-- End Google Tag Manager (noscript) -->
+		<script>
+			function logout(){
+				location.href = "/tkbrule/user/logout";
+			}
+		</script>
+	</div>
+	
+	<div th:fragment="menu">
+		<form id="menuForm" method="POST" enctype="multipart/form-data">
+			<input type="hidden" id="menu_id" name="menu_id" />
+		</form>
+		<div class="sidebar"><!-- sidebar -->
+			<div class="sidebar-header">功能</div>
+			<div class="control-btn">
+				<div class="sidebar-section-control control-open">選單展開</div>
+				<div class="sidebar-section-control control-close">選單關閉</div>
+			</div>
+			<th:block th:if="${MENU_LIST} == NULL">
+				<th:block th:each="dataStatus,layer1 : ${sideMenuList}">
+					<div class="sidebar-section">
+						<div class="sidebar-section-title">[[${dataStatus.name}]]</div>
+						
+						<ul class="sidebar-section-content">
+							<th:block th:each="dataStatus,layer2 : ${dataStatus.menu_list}">
+								<li><a href="javascript:void(0)" th:attr="onclick=|changeMenuAction('/tkbrule/${dataStatus.link}/index', ${dataStatus.id})|">[[${dataStatus.name}]]</a></li>
+							</th:block>
+						</ul>
+					</div>
+				</th:block>
+			</th:block>
+			<th:block th:unless="${MENU_LIST} == NULL">
+				<th:block th:each="dataStatus,layer1 : ${MENU_LIST}">
+					<div class="sidebar-section">
+						<div class="sidebar-section-title">[[${dataStatus.name}]]</div>
+						
+						<ul class="sidebar-section-content">
+							<th:block th:each="dataStatus,layer2 : ${dataStatus.menu_list}">
+								<li><a href="javascript:void(0)" th:onclick="|changeMenuAction('/tkbrule/${layer2.link}', ${layer2.id})|">[[${layer2.name}]]</a></li>
+							</th:block>
+						</ul>
+					</div>
+				</th:block>
+			</th:block>
+		</div><!-- sidebar -->
+		<script>
+		$(function(){
+			changeMenuAction = function(link, id){
+				$("#menu_id").val(id);
+				$("#menuForm").attr("action", link);
+				$("#menuForm").submit();
+			},
+			toMenuIndex = function(link){
+				$("#totalPage").val(0);
+				$("#menuForm").attr("action", link);
+				$("#menuForm").submit();
+			}
+		})
+		</script>
+	</div>
+	
+	<div th:fragment="page">
+		<input type="hidden" id="pageNo" name="pageNo" th:value="${pageNo}">
+		<input type="hidden" id="totalPage" name="totalPage" th:value="${totalPage}" />
+		<input type="hidden" id="abc" name="abc" th:value="${pageCount}" />
+		
+		<div class="pagination"> <!-- pagination -->
+			<ul>
+				<th:block th:if="${pageTotalCount > pageCount}">
+				
+					<th:block th:if="${totalPage > 1}">
+						
+						<th:block th:if="${pageNo == 1}">
+							<li class="disabled"><a>第一頁</a></li>
+							<li class="disabled"><a>上一頁</a></li>
+						</th:block>
+						<th:block th:unless="${pageNo == 1}">
+							<li><a href="javascript:void(0)" onclick="pageChange(1)">第一頁</a></li>
+							<li><a href="javascript:void(0)" th:onclick="|pageChange(${pageNo-1})|">上一頁</a></li>
+						</th:block>
+						<th:block th:if="${leftPageNum > 0}">
+							<th:block th:each="leftPage : ${#numbers.sequence(leftStartPage, leftEndPage)}">
+								<li><a href="javascript:void(0)" th:onclick="|pageChange(${leftPage})|">[[${leftPage}]]</a></li>
+							</th:block>
+						</th:block>
+						
+						<li class="current"><a href="javascript:void(0)">[[${pageNo}]]</a></li>
+						
+						<th:block th:if="${rightPageNum > 0}">
+							<th:block th:each="rightPage : ${#numbers.sequence(rightStartPage, rightEndPage)}">
+								<li><a href="javascript:void(0)" th:onclick="|pageChange(${rightPage})|">[[${rightPage}]]</a></li>
+							</th:block>
+						</th:block>
+						
+						<th:block th:if="${pageNo == totalPage}">
+							<li class="disabled"><a>下一頁</a></li>
+							<li class="disabled"><a>最末頁</a></li>
+						</th:block>
+						<th:block th:unless="${pageNo == totalPage}">
+							<li><a href="javascript:void(0)" th:onclick="|pageChange(${pageNo+1})|">下一頁</a></li>
+							<li><a href="javascript:void(0)" th:onclick="|pageChange(${totalPage})|">最末頁</a></li>
+						</th:block>
+						
+					</th:block>
+				
+				</th:block>
+				<th:block th:unless="${pageTotalCount > pageCount}">
+					<li class="disabled"><a>[[${totalPage}]]</a></li>
+				</th:block>
+			</ul>
+		</div><!-- pagination -->
+		
+		<div class="totalData">共<span>[[${pageTotalCount}]]</span>筆</div>
+		
+		<script>
+			$(function(){
+				pageChange = function(pageNo) {
+					$("#mainForm").attr("action","index");
+					$("#pageNo").val(pageNo);
+					var fr = $("#mainForm");
+					fr.submit();
+					
+				}
+			});
+		</script>
+	</div>
+
+</html>

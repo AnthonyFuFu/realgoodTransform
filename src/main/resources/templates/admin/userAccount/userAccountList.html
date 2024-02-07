@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta charset="UTF-8">
+</head>
+<body>
+
+	<th:block th:each="dataStatus, data : ${userAccountList}">
+		<td th:text="${dataStatus.chinese_name}"></td>
+	</th:block>
+
+</body>
+</html>

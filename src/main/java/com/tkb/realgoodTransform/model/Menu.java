@@ -1,6 +1,6 @@
 package com.tkb.realgoodTransform.model;
 
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
@@ -17,9 +17,9 @@ public class Menu {
 	private String layer;				//層級
 	private String link;				//連結
 	private String create_by;			//創建者
-	private Timestamp create_date;		//創建日期
+	private Date create_date;		//創建日期
 	private String update_by;			//編輯者
-	private Timestamp update_date;		//編輯日期
+	private Date update_date;		//編輯日期
 	
 	private String parent_name;			//父層名稱
 	
