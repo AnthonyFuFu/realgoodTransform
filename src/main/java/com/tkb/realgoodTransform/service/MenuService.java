@@ -1,12 +1,13 @@
 package com.tkb.realgoodTransform.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
 import com.tkb.realgoodTransform.model.Menu;
 import com.tkb.realgoodTransform.model.User;
+
+
 
 /**
  * 選單Service介面接口
@@ -14,13 +15,6 @@ import com.tkb.realgoodTransform.model.User;
  * @version 創建時間：2022-01-25
  */
 public interface MenuService {
-
-	// ======================================== 開發用method start ========================================= 
-	public List<Map<String, Object>> getListForInsertData();
-	public List<Map<String, Object>> getListForChecktData();
-	public void insertForRemake(Menu menu);
-	public void updateForRemake(Menu menu);
-	// ======================================== 開發用method end =========================================
 	
 	/**
 	 * 取得選單總筆數
@@ -98,5 +92,12 @@ public interface MenuService {
 	public List<Menu> getLayer2AllList(Menu menu);
 
 	public ResponseEntity<?> getMenuLayer2List(Menu menu, Integer integer);
+	
+	/**
+	 * 拿舊大碩的菜單id放在網址用
+	 * @param String link
+	 * @return Integer
+	 */
+	public Integer getMenuId(String link);
 
 }

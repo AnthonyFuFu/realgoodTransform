@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseUtil.js}"></script>
+<meta charset="UTF-8">
+<body>
+	<div class="container">
+		<div th:insert="~{admin/load/layout :: top}"></div>
+		<div class="main">
+			<div th:insert="~{admin/load/layout :: menu}"></div>
+			<!-- content -->
+			<div class="content">
+
+		<!-- table -->
+		<table class="table-vertical" cellspacing="0">
+
+			<caption>
+				<h2>外交特考-瀏覽頁面</h2>
+			</caption>
+			<tr>
+				<th>前台網址</th>
+				<td>/gSAT/index?str=[[${gSAT.front_url}]]</td>
+			</tr>
+
+			<tr>
+				<th>功能</th>
+				<td class="table-button vertical-btn"><a href="#" onclick="history.back()">返回</a></td>
+			</tr>
+		</table>
+		<!-- table -->
+	</div>
+	<!-- content -->
+	</div>
+	</div>
+</body>

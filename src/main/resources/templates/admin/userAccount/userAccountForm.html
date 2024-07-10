@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseUtil.js}"></script>
+<meta charset="UTF-8">
+</head>
+<body>
+	<div class="container">
+		<div th:insert="~{admin/load/layout :: top}"></div>
+		<div class="main">
+			<div th:insert="~{admin/load/layout :: menu}"></div>
+			
+			<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${user}" th:with="btn_name = ${user.id == null ? '新增': '修改'}">
+				<input type="hidden" th:field="*{id}">
+				<input type="hidden" name="pageNo" th:value="${pageNo}">
+				<input type="hidden" th:field="*{department_no}">
+				<input type="hidden" th:field="*{unit_no}">
+<!-- 				<input type="hidden" id="user_area" th:field="*{area}"> -->
+				<input type="hidden" id="area_parent_id" th:value="${area.parent_id}">
+				<input type="hidden" id="area_id" th:value="${area.id}">
+				<input type="hidden" id="location_id" th:value="${location.id}">
+
+				<!-- content -->
+				<div class="content">
+					<!-- table -->
+					<table class="table-vertical" cellspacing="0">
+						<caption><h2>帳號</h2></caption>
+						<tr>
+							<th>帳號</th>
+							<td>[[${user.account}]]</td>
+						</tr>
+						<tr>
+							<th><span class="important">*</span>狀態</th>
+							<td>
+								<label><input type="radio" th:field="*{status}" value="1">啟用</label>
+								<label><input type="radio" th:field="*{status}" value="0">停用</label>
+							</td>
+						</tr>
+						<tr>
+							<th><span class="important">*</span>地區</th>
+							<td>
+								<select id="areaLayerOne" name="areaLayerOne" onchange="changeArea()">
+									<option value="0" th:selected="${area.id == 0}">請選擇</option>
+									<option value="1" th:selected="${area.id == 1}">全區</option>
+									<th:block th:each="areaStatus, iter : ${areaList}">
+										<option th:value="${areaStatus.id}" th:text="${areaStatus.name}" th:selected="${area.id == areaStatus.id}" />
+									</th:block>
+								</select>
+								<select id="areaLayerTwo" th:field="*{area}"></select>
+							</td>
+						</tr>
+						<tr>
+							<th>權限群組</th>
+							<td>
+								<select name="group" th:field="*{group_id}">
+									<option value="0">請選擇</option>
+									<th:block th:each="groups, iter : ${groupsList}">
+										<option th:value="${groups.id}" th:text="${groups.name}" />
+									</th:block>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<th>功能</th>
+							<td class="table-button vertical-btn">
+								<a href="index">返回</a>
+								<a href="javascript:void(0)" onclick="add()">[[${btn_name}]]</a>
+							</td>
+						</tr>
+					</table><!-- table -->
+				</div><!-- content -->
+			</form>
+			
+		</div>
+		<script>
+		$(function(){
+			if($("#id").val() != 0) {
+				/* $("#areaLayerOne").val($("#area_parent_id"));
+				$("#areaLayerTwo").val($("#user_area")); */
+			}
+			
+			add = function() {
+				if($("#areaLayerTwo").val()=="N" || $("#areaLayerOne").val()=="0"){
+					alert("請選擇地區");
+					return false;
+				}
+				
+				var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+				$("#area").val($("#areaLayerTwo").val());
+				if($("#area").val() == "") {
+					$("#area").val("0");
+				}
+
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+			},
+			
+			changeArea = function() {
+				$.ajax({
+					url: "changeArea",
+					cache: false,
+					async: false,
+					dataType: "json",
+					type:"GET",
+					data:{
+						id : $("#areaLayerOne").val()
+					},
+					error: function(xhr) {
+						alert('Ajax request 發生錯誤');
+					},
+					success: function(data, statusText, xhr) {
+						$("#areaLayerTwo").empty();
+						if(xhr.status == 200){
+							if($("#areaLayerOne").val() == 0) {
+								displayControl($("#areaLayerTwo"), "hide");
+							} else {
+								displayControl($("#areaLayerTwo"), "show");
+							}
+							var area_id = $("#location_id").val();
+							if(data != null && data.length > 0){
+								$("#areaLayerTwo").append("<option value='N'>請選擇</option>");
+								for(i = 0 ; i < data.length; i++){
+									var area = data[i];
+									if(area.id == area_id){
+										$("#areaLayerTwo").append(`<option value='${area.id}' selected> ${area.name} </option>`);
+									} else {
+										$("#areaLayerTwo").append(`<option value='${area.id}'> ${area.name} </option>`);
+									}
+								}
+							}
+						}else if(xhr.status == 204){
+							displayControl($("#areaLayerTwo"), "hide");
+						}
+					}
+				});
+			}
+			changeArea();
+		});
+		</script>
+	</div>
+</body>
+</html>

@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseUtil.js}"></script>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseForm.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+<!-- content -->
+	<div class="content">
+		<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${courseDiscount}" th:with="btn_name = *{id} == null ? '新增': '修改'">
+			<input type="hidden" id="id" th:field="*{id}" />
+			
+			<input type="hidden" id="iconList" name="iconList" />
+			<input type="hidden" id="contentTitleList" name="contentTitleList" />
+			<input type="hidden" id="contentContentList" name="contentContentList" />
+			<input type="hidden" id="courseDiscountContentIdList" name="courseDiscountContentIdList" />
+			<input type="hidden" id="contentImageList" name="contentImageList" />
+			
+			<input type="hidden" id="checkTop" th:value="${courseDiscount.course_discount_top}" >			
+			
+			<input type="hidden" id="deletePhoto" name="deletePhoto" th:field="*{photo}" />
+			<input type="hidden" id="deleteIndex_Image" name="deleteIndex_Image" th:field="*{index_image}" />
+			
+			<!-- table -->
+			<table class="table-vertical" cellspacing="0">
+				<caption><h2>課程優惠-[[${btn_name}]]頁面</h2></caption>
+				<tr>
+					<th>
+						<span class="important">*</span>首頁置頂
+					</th>
+					<td>
+						<input type="radio"  name="course_discount_top"  value="1" th:checked="*{course_discount_top == 1}" th:field="*{course_discount_top}" onchange="checkTopCount()">是
+						<input type="radio" id="index"  name="course_discount_top"  value="0" th:checked="*{course_discount_top == 0}" th:field="*{course_discount_top}" onclick="hide()" checked>否
+						<div class="tips" style="color:red;">※首頁近期活動數目已達六則</div>
+					</td>
+				</tr>			
+				<tr>
+					<th>
+						<span class="important">*</span>是否顯示於前台
+					</th>
+					<td>
+						<input type="radio" id="show" name="courseDiscount.show" value="1" th:checked="*{show == 1}" th:field="*{show}">是
+						<input type="radio" id="show2" name="courseDiscount.show" value="0" th:checked="*{show == 0}" th:field="*{show}">否
+					</td>
+				</tr>				
+				<tr>
+					<th>
+						<span class="important">*</span>標題
+					</th>
+					<td>
+						<input type="text" id="title" th:field="*{title}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>列表簡介
+						<br/><span class="important" style="font-size:13px; opacity:0.8;">限140個字</span>
+					</th>
+					<td>
+						<textarea id="title_content" th:field="*{content}">[[${courseDiscount.content}]]</textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>列表類別Icon
+					</th>
+					<td>
+						<input type="radio" name="courseDiscount.type_icon" class="type_icon" value="offer_type1" th:checked="*{type_icon} == 'offer_type1'" th:field="*{type_icon}"/>&nbsp;
+						<span class="offer_type1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						<input type="radio" name="courseDiscount.type_icon" class="type_icon" value="offer_type2" th:checked="*{type_icon} == 'offer_type2'" th:field="*{type_icon}"/>&nbsp;
+						<span class="offer_type2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						<input type="radio" name="courseDiscount.type_icon" class="type_icon" value="offer_type3" th:checked="*{type_icon} == 'offer_type3'" th:field="*{type_icon}"/>&nbsp;
+						<span class="offer_type3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>								
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>列表類別Icon文字
+					</th>
+					<td>
+						<input type="text" id="type_icon_text" th:field="*{type_icon_text}">						
+					</td>
+				</tr>												
+				<tr>
+				    <th><span class="important">*</span>類別</th>
+					<td>
+						<select id="courseDiscountCategory" th:field="*{category}">
+							<option value="0">請選擇</option>
+							<th:block th:each="dataStatus , data : ${courseDiscountCategoryList}">
+								<option th:value="${dataStatus.id}" th:text="${dataStatus.name}"></option>
+							</th:block>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						產品網址分類
+					</th>
+					<td>
+						<input type="text" th:field="*{product_category}">
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>首頁圖片</th>
+					<td>
+<!-- 						<input type="hidden" id="index_image" th:field="*{index_image}"/> -->
+						<input type="hidden" id="index_imageExtension" name="index_imageExtension" />
+						<input type="file" id="uploadIndex_image" name="uploadIndex_image" />
+						<span style="color:red;">上傳圖片不可超過500KB，尺寸：150*150px。</span>
+						<div style="color:red;">請注意：如上傳圖片規格不符，則需重新填寫資料!!</div>						
+						<br/><br/>
+						<th:block th:if="*{index_image} != null">
+							<img th:src="${@environment.getProperty('static.url')}+@{/upload/image/courseDiscount/indexImage/{image}(image=*{index_image})}" th:alt="*{index_image}" width="350px" height="200px" />
+						</th:block>						
+					</td>
+				</tr>							
+				<tr>
+					<th><span class="important">*</span>列表圖片</th>
+					<td>
+						<input type="hidden" id="photoExtension" name="photoExtension" />
+						<input type="file" id="uploadPhoto" name="uploadPhoto" />
+						<span style="color:red;">上傳圖片不可超過500KB，尺寸：300*184px。</span>
+						<div style="color:red;">請注意：如上傳圖片規格不符，則需重新填寫資料!!</div>						
+						<br/><br/>
+						<th:block th:if="*{photo} != null">
+							<img th:src="${@environment.getProperty('static.url')}+@{/upload/image/courseDiscount/photo/{photo}(photo=*{photo})}" th:alt="*{photo}" width="350px" height="200px" />
+						</th:block>						
+					</td>
+				</tr>	
+				<tr>
+					<th><span class="important">*</span>開始日期</th>
+					<td>
+						<input type="text" id="begin_date" placeholder="開始日期" th:field="*{begin_date}" format="yyyy-MM-dd" />
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>結束日期</th>
+					<td>
+						<input type="text" id="end_date" placeholder="結束日期" th:field="*{end_date}" format="yyyy-MM-dd" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>EDM網址
+					</th>
+					<td>
+						<input type="text" id="edm_url" th:field="*{edm_url}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>EDM資料夾編號
+					</th>
+					<td>
+						<input type="text" id="edm_type_id" th:field="*{edm_type_id}">
+					</td>
+				</tr>				
+				<tr>
+					<th>功能</th>
+					<td class="table-button vertical-btn">
+						<a onclick="history.back()" style="cursor:pointer;">返回</a>
+						<a onclick="add()" style="cursor:pointer;">[[${btn_name}]]</a>
+					</td>
+				</tr>
+			</table><!-- table -->
+		</form>
+	</div><!-- content -->
+	
+	<script>
+		$(function(){
+			
+			var h2Content = $("h2").text();
+// 			console.log(h2Content);
+			
+			if('課程優惠-新增頁面' === h2Content){
+// 				console.log(true);
+				$("#index").prop("checked", true);
+				$("#show").prop("checked", true);
+			}
+			
+			
+			
+			hide = function(){
+				$(".tips").css("display", "none");	
+			}
+			
+			$(".tips").css("display", "none");	
+			
+			if($("#id").val() != 0) {
+				$("#courseDiscountCategory").val();
+			}
+			
+			$(document).on("click", ".type_icon", function() {
+				if($(".type_icon:checked").val() == "offer_type1"){
+					$("#type_icon_text").attr("value", "價格優");
+				}else if($(".type_icon:checked").val() == "offer_type2"){
+					$("#type_icon_text").attr("value", "送好禮");
+				}else if($(".type_icon:checked").val() == "offer_type3"){
+					$("#type_icon_text").attr("value", "最強勢");
+				}
+
+			});	
+			//置頂次數判斷
+			checkTopCount = function(){
+				//標籤使用中不可更改publish
+					$.ajax({
+						url: "[[${@environment.getProperty('weburl')}]]/tkbrule/courseDiscount/checkTopCount",
+						data : {
+						},
+						type : "GET",
+						dataType : 'text',
+						async:false,
+
+						success : function(data, statusText, xhr) {
+							if(xhr.status == 200){
+								$(".tips").css("display", "none");
+							}
+							debugger;
+						},
+						error : function(xhr, ajaxOptions, thrownError) {
+							if(xhr.status == 400){
+								$(".tips").css("display", "block");
+								$("[name='lectures_top']").focus();
+							}else{
+								alert(ajaxOptions);
+								alert(xhr.status);
+								alert(thrownError);
+							}
+							}
+					});
+				
+			};				
+			
+			$("#begin_date").datepicker({dateFormat: 'yy-mm-dd'});
+			$("#end_date").datepicker({dateFormat: 'yy-mm-dd'});
+			
+			//刪除
+			$(document).on("click", ".closebtn", function() {
+				if($("#contentBox").children(".addDemand").size() <= 2) {
+					$("#contentBox").find(".closebtn").hide();
+				}
+				
+				$(this).parent(".addDemand").remove();
+				
+				$("#contentBox").children(".addDemand").each(function(i) {
+					$(this).children(".icon").attr("name", "icon"+(i+1));
+				})
+			});
+			
+			
+			add = function() {
+				
+				var check = "T";
+						
+				if($(".tips").css("display") == "block") {
+					alert("首頁近期活動數目已達六則");
+					$("#courseDiscountCategory").focus();
+					return false;
+				}					
+				
+				//標題判斷
+				if($("#title").val() == "") {
+					alert("請輸入標題");
+					$("#title").focus();
+					return false;
+				} else {
+					if(checkByteLen($("#title").val(), "210")) {
+						alert("標題限70字，請重新輸入");
+						return false;
+					}
+				}
+				
+				//標題簡介判斷
+				if($("#title_content").val() == "") {
+					alert("請輸入列表簡介");
+					$("#title_content").focus();
+					return false;
+				}		
+				
+			if($(".type_icon:checked").size() != 1 ) {
+				alert("請選擇列表類別ICON");
+				check = "F";
+				$(".type_icon").focus();
+				return false;
+			}				
+				
+				//列表類別文字判斷
+				if($("#type_icon_text").val() == "") {
+					alert("請輸入列表類別文字");
+					$("#type_icon_text").focus();
+					return false;
+				}					
+				
+				//類別判斷
+				if($("#courseDiscountCategory").val() == 0) {
+					alert("請選擇類別");
+					$("#courseDiscountCategory").focus();
+					return false;
+				}	
+//首頁圖片判斷
+				
+				var index_imagesize = 0;
+				
+				if ($("#uploadIndex_image").val() != "") {
+					$("#index_imageExtension").val($("#uploadIndex_image").val().substr(($("#uploadIndex_image").val().lastIndexOf('.')+1)));
+					index_imagesize = document.getElementById("uploadIndex_image").files.item(0).size; //抓取圖檔大小
+				} else {
+					$("#index_imageExtension").val($("#uploadIndex_image").val().substr(($("#uploadIndex_image").val().lastIndexOf('.')+1)));
+				}					
+				if($("#id").val() == 0){
+					if ($("#uploadIndex_image").val() == "") {
+						alert("必須上傳圖片");
+						return false;
+					}
+				}
+				if ($("#uploadIndex_image").val() != "") {
+					if ($("#index_imageExtension").val() != "png" && $("#index_imageExtension").val() != "jpeg"
+						&& $("#index_imageExtension").val() != "jpg" && $("#index_imageExtension").val() != "gif") {
+						alert("上傳圖片格式必須為png、jpeg、jpg、gif");
+						return false;
+					}
+				}				
+				
+				if(index_imagesize > 512000 && $("#uploadIndex_image").val() != ""){
+					alert("圖檔大小限制500K內");
+					return false;
+				}									
+			
+				//列表圖片判斷
+				
+				var photosize = 0;
+				
+				if ($("#uploadPhoto").val() != "") {
+					$("#photoExtension").val($("#uploadPhoto").val().substr(($("#uploadPhoto").val().lastIndexOf('.')+1)));
+					photosize = document.getElementById("uploadPhoto").files.item(0).size; //抓取圖檔大小
+				} else {
+					$("#photoExtension").val($("#uploadPhoto").val().substr(($("#uploadPhoto").val().lastIndexOf('.')+1)));
+				}					
+				if($("#id").val() == 0){
+					if ($("#uploadPhoto").val() == "") {
+						alert("必須上傳圖片");
+						return false;
+					}
+				}
+				if ($("#uploadPhoto").val() != "") {
+					if ($("#photoExtension").val() != "png" && $("#photoExtension").val() != "jpeg"
+						&& $("#photoExtension").val() != "jpg" && $("#photoExtension").val() != "gif") {
+						alert("上傳圖片格式必須為png、jpeg、jpg、gif");
+						return false;
+					}
+				}				
+				
+				if(photosize > 512000 && $("#uploadPhoto").val() != ""){
+					alert("圖檔大小限制500K內");
+					return false;
+				}	
+				//開始日期判斷
+				if($.trim($("#begin_date").val())==""){
+					$("#begin_date").focus();
+					alert("開始時間不可為空");
+					return false;
+				}
+				
+				//結束日期判斷
+				if($.trim($("#end_date").val())==""){
+					$("#end_date").focus();
+					alert("結束時間不可為空");
+					return false;
+				}
+				
+				//日期起迄判斷
+				var beginDate = Date.parse($.datepicker.formatDate('yy/mm/dd', new Date($("#begin_date").val()))+" 00:00:00");
+				var endDate = Date.parse($.datepicker.formatDate('yy/mm/dd', new Date($("#end_date").val()))+" 00:00:00");
+				if (endDate.valueOf() <= beginDate.valueOf()){
+					$("#begin_date").focus();
+					alert("開始時間不可大於等於結束時間");
+					return false;
+				}
+				
+				if($('#show').is(':checked')){
+					if($("#edm_url").val()==""){
+						alert("請輸入EDM網址");
+						return false;
+					}
+					if($("#edm_type_id").val()==""){
+						alert("請輸入EDM資料夾編號");
+						return false;
+					}	
+				}
+				var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+			}
+			
+		});
+		</script>
+</body>
+</html>

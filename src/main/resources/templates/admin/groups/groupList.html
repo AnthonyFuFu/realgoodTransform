@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<meta charset="UTF-8">
+<body>
+
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+		<form id="mainForm" method="POST" th:object="${groups}">
+			<input type="hidden" id="id" th:field="*{id}" />
+			<input type="hidden" id="menu_id_hidden" name="menu_id_hidden" th:value="${menu_id_hidden}" />
+			<input type="hidden" id="deleteList" name="deleteList" />
+
+			<div class="content"><!-- /*content*/ -->
+				<!-- /*button group*/ -->
+				<div class="btn-group">
+					<ul>
+						<li><a href="javascript:void(0)" onclick="gotoPage('add')">新增</a></li>
+						<li><a href="javascript:void(0)" onclick="checkAll()">全選</a></li>
+						<li><a id="checkData" href="javascript:void(0)">刪除</a></li>
+					</ul>
+				</div>
+				<!-- /*button group*/ -->
+				
+				<!-- /*search*/ -->
+				<div class="search">
+					<ul>
+						<li>群組名稱搜尋:</li>
+<!--/* 						<li><input type="text" id="name" name="groups.name" value="${groups.name}"></li> */-->
+						<li><input type="text" id="name" th:field="*{name}"></li>
+						<li><button class="search-button" onclick="searchQuery()">搜尋</button></li>
+						<li><button class="search-button" onclick="resetData()">清除</button></li>
+					</ul>
+				</div>
+				<!-- /*search*/ -->
+				
+				<!-- /*table*/ -->
+				<table class="table-horizon">
+					<caption><h2>群組設定</h2></caption>
+					
+					<thead>
+						<tr>
+							<th></th>
+							<th>序號</th>
+							<th>群組名稱</th>
+<!--/* 							<th>描述</th> 暫時拿掉，bc不必要*/-->
+							<th class="width-fixed">功能</th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:if="${#lists.isEmpty(groupsList)}">
+							<tr>
+								<td colspan="4" align="center">尚無任何資料</td>
+							</tr>
+						</th:block>
+						<th:block th:each="dataStatus, data : ${groupsList}">
+							<tr>
+								<td><input type="checkbox" name="selectList" th:value="${dataStatus.id}" /></td>
+								<td th:text="${(pageNo-1) * pageCount + data.count}"></td>
+								<td th:text="${dataStatus.name}"></td>
+								<td class="table-button width-fixed">
+									<a href="javascript:void(0)" th:attr="onclick=|changeAction('update', ${dataStatus.id})|"><i class="fa fa-pencil"></i></a>
+								</td>
+							</tr>
+						</th:block>
+					</tbody>
+				</table>
+				<!-- /*table*/ -->
+				
+				<!-- /*pagination*/ -->
+				<div th:insert="~{admin/load/layout :: page}"></div>
+			</div><!-- /*content*/ -->
+		</form>
+		
+		<script>
+			$(function(){
+				
+				changeAction = function(link, id){
+					$("#id").val(id);
+					$("#mainForm").attr("action", link);
+					$("#mainForm").submit();
+				},
+				
+				resetData = function(){
+					$("#name").val('');
+				},
+				
+				gotoPage = function(link){
+					$("#mainForm").attr("action", link);
+					$("#mainForm").submit();
+				},
+				$("#checkData").on('click', function(){
+					var checkArray = new Array();
+					var checkList;
+					$("input[name='selectList']:checked").each(function(i){
+						checkArray[i] = this.value;
+					});
+					checkList = checkArray.join(",");
+					if(!checkList){
+						alert('未勾選任何項目，請再確認。');
+						return false;
+					}
+					$.ajax({
+						url: 'checkData',
+						cache: false,
+						async: false,
+						dataType: 'text',
+						type: 'POST',
+						data:{
+							checkList : checkList
+						},
+						error: function(xhr){
+							alert('Ajax request 發生錯誤');
+						},
+						success: function(data, textStatus, xhr){
+							if(xhr.status == 204) {
+								deleteData();
+							} else {
+								alert("您欲刪除的群組還有員工尚未移出，請再確認。");
+							}
+						}
+					});
+				});
+				
+			});
+		</script>
+	</div>
+</div>
+
+</body>
+</html>

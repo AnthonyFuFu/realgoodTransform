@@ -6,9 +6,13 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 /**
- * 首頁Banner
+ * 後台會員
+ * 對照table: NavBanner
+ * @author Felix
+ * @version 創建時間2022-03-04
  */
 @Data
+//@Component
 public class NavBanner {
 	
 	private Integer id;					//序號
@@ -25,7 +29,8 @@ public class NavBanner {
 	private Integer show;				//是否顯示於前台
 	private Integer sort;				//排序
 	private Integer count;				//計算數量
-	private String type;             	//計算數量
+	private String type;             //計算數量
 	private String show_message;		//頁面訊息
-    
+	private String show_page;		
 }
+ 

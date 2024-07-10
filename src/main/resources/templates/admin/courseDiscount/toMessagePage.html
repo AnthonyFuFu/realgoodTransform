@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+	<form id="mainForm" method="POST" action="index">
+		<input type="hidden" id="show_message" name="show_message" th:value="${courseDiscount.show_message}" />
+	</form>
+	<script>
+		$(function(){
+			alert($("#show_message").val());
+			$("#mainForm").submit();
+		})
+	</script>
+</body>
+</html>

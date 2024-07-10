@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>關於甄戰-TKB甄戰學習顧問中心</title>
+<meta name="description" content="大學學測個人申請,研究推甄甄試,研究所在職專班,高職升科大書審口試輔導專家" />
+<meta name="keywords" content="推甄,大學甄選,甄試入學,申請入學,面試技巧,科大申請,備審資料,推薦入學" />
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css}" />	<!-- 電腦版 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/jquery.mCustomScrollbar.css}" />
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PCKKCNQ');</script>
+<!-- End Google Tag Manager -->
+<!-- Global site tag (gtag.js) - Google Ads: 957644279 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-957644279"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-957644279');
+</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PCKKCNQ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<!-- 置頂按鈕 -->
+<a class="btn-top" href="javascript:void(0);"><i class="fas fa-arrow-up"></i></a>
+<!-- 收納按鈕 -->
+<a class="btn-feature" href="javascript:void(0);"><i class="fas fa-ellipsis-h"></i></a>
+<!-- 展開功能 -->
+<!-- 課程諮詢按鈕 -->
+<a class="btn-course" href="https://www.daso.com.tw/common/consultation" target="_blank">課程<br />諮詢</a>
+
+<!-- 行動版 -->
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+
+<div class="wrapper">
+
+	<!-- 20190625 start -->
+	<div class="header-box">  
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+	
+        <div class="content">
+        	<h1>關於甄戰</h1>
+            <hr>
+			<div class="about_img"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/about/about_01.jpg}" ></div>
+            <h2>申請入學時代</h2>
+            <div class="article">終於，教育拋開標準答案，讓選擇權從分數回歸到學習者身上，申請入學的核心議題不是「入學」，而是「選擇適合自己的領域」學習，但選擇並不容易，甄戰希望引領每個想學習的人，在入學準備個過程中，探索自己、發展自己、成就自己。對我們而言，甄試只是一個試金石，而真正的寶藏在學生自己身上，我們的輔導就是陪伴學生探尋他自己的寶藏。</div>
+            <h2>甄戰的教育理念</h2>
+            <div class="article">"用天賦照亮未來"<br />若孩子的未來不是奠基在他的天賦之上，那是多麼可惜的事情，但發掘天賦並非易事，甄戰相信，「教育」就是一個發掘天賦並且和自己未來發展連結的過程。</div>
+            <div class="clear_float"></div>
+			<div class="about_img"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/about/about_02.jpg}" ></div>
+            <h2>願景</h2>
+            <div class="article">幫助每位學生找到自己的興趣!<br />因為我們相信:<br />興趣就會投入<br />投入就會頂尖</div>
+            <h2>使命</h2>
+            <div class="article">最真實的學習探索&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最多元的學涯發展<br />最專業的學習顧問&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最即時的升學情報</div>
+            <div class="clear_float"></div>
+			<div class="about_img"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/about/about_03.jpg}" ></div>
+            <h2>甄戰：您的甄試情報站(服務與產品)</h2>
+            <div class="article">甄戰學習顧問中心成立於2011年，正是大學入學轉型的時機，甄選入學的名額快速成長，學生與家長對於甄選制度的問題層出不窮，甄戰學習顧問中心秉持「適性揚才」的理念，提供最正確、最精緻的甄選輔導課程，並且整合TKB集團的教師資源，出版一系列甄戰大學叢書，首創高中甄選輔導課程，成為教學資源最豐富的甄試輔導業者。</div>
+			<h2>碩博士級師資</h2>
+			            <div class="article">身經百戰，輔導時數破千小時，最多高中指名甄戰老師合作輔導，堅持一對一精緻教學。</div>
+			            <h2>品質指標</h2>
+			             <div class="article-ab">書審16項、口試21項，學習顧問追蹤進度，家長放心，唯一專業考古題、
+			一點通數位課程、及時大數據落點系統、18學群專業科系選擇專業建議。</div>
+			            <div class="article-ab">在甄試的路上，學習者必須要整理分析大量的資訊情報，才能做出對自己最有利的學涯決策，甄戰不僅是升學輔導的專家，更是每個學習者的甄試情報站。甄戰博士級的師資群，會定時整理大量的甄試資訊和產業情報，再藉由適性學習探索，讓每個學生能夠將自己的天賦與升學的方向連結，讓每個孩子能夠將自己的天賦與世界的未來連結。</div>
+			            <div class="clear_float"></div>
+			            <!-- 20210312 start -->
+				        <br><br><br>
+				        <h1>關於創辦人</h1>
+				        <hr>
+				        <div class="about-boss">
+				            <div class="boss-idea">
+				                <h2>創辦人的話─丘昌其董事長</h2>
+				                <div class="article">
+				                    「貧者因書而富」、「知識就是力量」，兩者皆闡釋教育和學習的核心價值。從小就在貧窮農村成長，身為果農之子的我，更能體會「書中自有黃金屋，書中自有顏如玉，書中自有千鍾粟。」勉勵的智慧之語，使我成為知識學習的受益者，也成為傳承知識的教育家。
+				                </div>
+				                <div class="article">
+				                    為了發展教育、傳動知識、創造價值，TKB臺灣知識庫結合無數的專家、教授等知識工作者，開發出「無奇不有」的知識內容，利用圖書出版、網際網路、數位學堂等工具，傳承無限的知識、經驗、智慧予後世，開發人類最珍貴、永不枯竭的黃金腦力，提昇人類的進步與生活品質，這些困難的挑戰，就是TKB臺灣知識庫團隊努力不懈的使命與任務。
+				                </div>
+				                <div class="article">
+				                    TKB臺灣知識庫開創以數位學習中心傳承知識學習的模式，也啟動以網際網路解惑的教育，使「TKB臺灣知識庫」成為數位學習最大的「通路」與「平台」，再造「孔子周遊列國」的旋風，帶動新時代新的學習模式，TKB臺灣知識庫將以「當代孔子」自許，為文化教育、知識傳承，永無止境與無私的關愛和奉獻，實踐孔子的教育理想「有教無類」。
+				                </div>
+				            </div>
+				            <div class="boss-photo">
+				                <img th:src="${@environment.getProperty('static.url')}+@{/images/front/about/photo_boss.png}" >
+				            </div>
+				        </div><!-- about-boss -->
+				        <!-- 20210312 end -->
+			        </div><!-- content -->
+			        
+			        
+			        <section class="rellgoodhistory">     
+			        <div class="addtextbox">
+			            <div class="article">
+			                <aside>發展歷程</aside>
+			                <div class="red_word">2018年</div>
+			                <ul>
+			                    <li>瘋大學 - 大學甄選入學領航指南</li>
+			                    <li>甄戰誌 - 高中直飛頂大</li>
+			                    <li>會考特報 - 國中會考考場服務</li>
+			                    <li>高中開學特報</li>
+			                    <li>研究所甄試大補帖</li>
+			                    <li>甄戰大學誌 - 高升大甄試全方位攻略</li>
+			                </ul>
+			                 <div class="red_word">2017年</div>
+			                <ul>
+			                    <li>瘋大學 - 大學甄選入學領航指南</li>
+			                    <li>學測特報 - 學測考場服務</li>
+			                    <li>甄戰誌 - 高中不後悔</li>
+			                    <li>學習歷程手冊 - 讓高中學習為理想大學做準備</li>
+			                    <li>特殊選才特報 - 大考英聽考場服務</li>
+			                    <li>甄戰大學誌 - 甄試必備秘笈</li>
+			                </ul>
+			                 <div class="red_word">2016年</div>
+			                <ul>
+			                    <li>出版《甄戰誌-高中不後悔》，贈送高中家長</li>
+			                    <li>出版《稱霸大學一本GO：申請大學全攻略》</li>
+			                    <li>首次開發課外學習輔導</li>
+			                    <li>與大碩青年關懷基金會合作，舉辦第一屆「高中Run社團」競賽</li>
+			                </ul>
+			                 <div class="red_word">2015年</div>
+			                <ul>
+			                    <li>出版《甄戰瘋科大》，贈送全國各高職</li>
+			                    <li>出版《甄戰瘋大學》，贈送全國各高中</li>
+			                    <li>18學群口試考古題影音課程上線</li>
+			                    <li>與大碩青年關懷基金會合作，舉辦第一屆「大學不後悔」競賽</li>
+			                </ul>
+			                <div class="red_word">2014年</div>
+			                <ul>
+			                    <li>成立學習顧問事業群</li>
+			                    <li>出版《甄戰大未來》，贈送全國各高級中學</li>
+			                    <li>首次導入學習探索課程</li>
+			                    <li>出版甄戰大學叢書：「三分鐘搞懂大學甄選」</li>
+			                    <li>出版甄戰大學叢書：「口試秘笈」</li>
+			                </ul>
+			                 <div class="red_word">2013年</div>
+			                <ul>
+			                    <li>甄戰大學叢書─「類組系列」出版完成</li>
+			                    <li>第一年醫學專班 成立醫學專班，首次導入國內針對醫學科系口面試指導課程</li>
+			                    <li>受邀《商業周刊》專訪：一次搞懂大學甄試</li>
+			                    <li>出版產業叢書：「文化創意產業」</li>
+			                </ul>
+			                <div class="red_word">2012年</div>
+			                <ul>
+			                    <li>甄戰大學叢書─「18學群系列」出版完成</li>
+			                    <li>贈送18學群叢書予各高級中學輔導室</li>
+			                    <li>18學群分群介紹影音課程上線</li>
+			                    <li>開發甄試書審範本電子書</li>
+			                </ul>
+			                <div class="red_word">2011年</div>
+			                <ul>
+			                    <li>台中甄戰學習顧問中心成立</li>
+			                    <li>首創高中個人申請輔導課程</li>
+			                    <li>與大碩補習班合作，首創研究所複試專班</li>
+			                    <li>出版「甄戰大學」</li>
+			                    <li>甄戰大學叢書─「18學群系列」第一本管理學群出版</li>
+			                    <li>首次導入研究所甄試一對一指導課程</li>
+			                </ul>
+			                
+			            </div><!-- article -->  
+			        </div><!-- content -->
+			        </section> 
+			      <!--   20190226 關於甄戰內容調整 -->     
+        
+       	<div th:insert="~{front/loadForOldPage/layout :: footer}"></div>
+		<script th:src="${@environment.getProperty('static.url')}+@{/js/facebook_Adjust.js}"></script>	
+</div>
+<!-- wrapper -->
+</body>
+</html>

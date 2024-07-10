@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.tkb.realgoodTransform.dao.GroupUserDao;
@@ -73,6 +75,21 @@ public class GroupUserDaoImpl implements GroupUserDao {
 		args.add(groupUser.getGroup_id());
 		
 		return postgresqlJdbcTemplate.query(sql, new BeanPropertyRowMapper<GroupUser>(GroupUser.class), args.toArray());
+		
+	}
+
+	@Override
+	public void insertAndUpdateGroupsUser(GroupUser groupUser) {
+		
+		String sql = "INSERT INTO group_user (GROUP_ID, USER_ID, CREATE_BY, CREATE_DATE) VALUES (:group_id, :user_id, :create_by, now()) "
+				+ "	ON CONFLICT (user_id) "
+				+ " DO UPDATE SET group_id = :group_id, user_id = :user_id, create_by = :create_by, create_date = now()  ";
+		
+		SqlParameterSource sqlParameterSource = new BeanPropertySqlParameterSource(groupUser);
+		
+		KeyHolder keyHolder = new GeneratedKeyHolder();
+		
+		postgresqlJdbcNameTemplate.update(sql, sqlParameterSource, keyHolder);
 		
 	}
 

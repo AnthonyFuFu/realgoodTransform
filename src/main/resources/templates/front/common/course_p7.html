@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>TKB甄戰學習顧問中心-書審口面試輔導專家</title>
+<meta name="description" content="大學學測個人申請口面試題,考古題練習,歷屆口試試題,面試常見問題"/>
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css}" />	<!-- 電腦版 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/jquery.mCustomScrollbar.css}" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/slides.css}" />
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PCKKCNQ');</script>
+<!-- End Google Tag Manager -->
+<!-- Global site tag (gtag.js) - Google Ads: 957644279 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-957644279"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-957644279');
+</script>
+</head>
+<body>
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<div class="goTop"></div>
+<div class="wrapper">
+	<div class="header-box">
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+	 <div class="content">
+        
+        	<div class="ad">
+							<div><a href="https://www.facebook.com/tkb.learning.exploration" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/ad/FBbanner01.jpg}" /></a></div>
+							<div><a href="https://www.facebook.com/tkb.humanity" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/ad/FBbanner02.jpg}" /></a></div>
+							<div><a href="https://www.facebook.com/groups/257376967996254/?fref=ts" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/ad/FBbanner03.jpg}" /></a></div>				
+				<div class="metaBox"></div>
+            </div><!-- ad -->
+            
+            <div class="main_area">
+                <h1>研究所複試考試</h1>
+                <div class="back"><a href="/index">回上頁</a></div>
+                <hr>
+                <h2>大學升研究所複試專班</h2>
+                <div class="lecture_area">
+				<ul>
+                	<li>適用對象：欲考研究所的同學。</li>
+                    <li>課程說明：研究所一般生考試，初試考專業科目，複試繳交書審資料與面試準備。很多同學會在初試確定通過後才準備複試，但在一到兩個禮拜的時間，準備的資料根本不完善，以至於錯過上榜的機會。甄戰針對複試開設專班，針對熱門領域「企管所」、「財經所」、「生化所」、「理工所」、「心輔所」開班授課，約9月開課，讓同學提早掌握上榜關鍵！</li>
+                    <li>課程模式：依欲報考校系選擇班別，課程為小班教學，內容包含書審教學、書審修改、口試教學、專業領域口試、英文口試、全真口試模擬等。</li>
+                </ul>
+                <table>
+                    <tr>
+                        <th colspan="2" style="text-align:center">課程名稱</th>
+                        <th style="text-align:center">授課方式</th>
+                        <th style="text-align:center" width="45%">課程內容</th>
+                        <th style="text-align:center">課程次數</th>
+                    </tr>
+                    <tr>
+                        <td colspan="2">企管所複試</td>
+                        <td rowspan="5">面授</td>
+                        <td rowspan="5">針對各別系所的專業提供準備方向。</td>
+                        <td>8堂</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">財經所複試</td>
+                        <td>6堂</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">生化所複試</td>
+                        <td>6堂</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">理工所複試</td>
+                        <td>6堂</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">心輔所複試</td>
+                        <td>6堂</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">企管所複試精緻班</td>
+                        <td>企管所複試</td>
+                        <td>面授</td>
+                        <td>針對各別系所的專業提供準備方向。</td>
+                        <td>8堂</td>
+                    </tr>
+                    <tr>
+                        <td>書口輔導</td>
+                        <td>一對一</td>
+                        <td>專業師資個別指導。<br />書審、口試的堂數可依學生需求做配置。</td>
+                        <td>3堂</td>
+                    </tr>
+                    <tr>
+                        <td>全真口試模擬</td>
+                        <td>面授</td>
+                        <td>依照實際面試的進行模擬練習，以提升專業知識與臨場反應。</td>
+                        <td>2次</td>
+                    </tr>
+                </table>
+				<span>*註：「企管所複試精緻班」之「書口輔導」，每堂為30分鐘。</span><br />
+				<span>*註：以上時數僅供參考，實際時數需視課程內容與學生需求而定。</span><br />
+				<!--<span>*若想了解更多研究所複試準備要領，請至&nbsp;<a href="university.htm"><font color="#EA5F2B"><u>大學升研究所</u></font></a>&nbsp;專區。</span>-->
+				<span>*若想了解更多研究所複試準備要領，請至大學升研究所專區。</span>
+                <p><br /></p>                
+                <div class="send" style="float:left"><a style="cursor:pointer;" onclick="searchMenuCategory('44','newExam')">研究所複試考試最新考情</a></div>
+                <div class="clear_float"></div>
+                <hr>
+                <div class="apply"><a href="/courseDiscount/inside?str=741C31581DB3FF18F9B1FEE9DAEC51CB">欲諮詢課程&nbsp;&gt;</a></div>
+                </div><!-- lecture_area -->
+                
+            </div><!--main_area -->
+
+        </div><!-- content --> 
+	<div th:insert="~{front/loadForOldPage/layout :: footer}"></div>	
+	<script th:src="${@environment.getProperty('static.url')}+@{/js/facebook_Adjust.js}"></script>	
+</div><!-- wrapper -->
+</body>
+</html>

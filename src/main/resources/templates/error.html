@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>無此頁面-TKB甄戰學習顧問中心-書審口面試輔導專家</title>
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<meta name="description" content="您要找的網頁或檔案不存在，該網頁可能已經變更、移動或被刪除了。"/>
+<meta name="keywords" content="推甄,大學甄選,甄試入學,申請入學,面試技巧,科大申請,備審資料,推薦入學" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/jquery.mCustomScrollbar.css}" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/slides.css}" />
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">
+
+</head>
+<body>
+
+<!-- 行動版 -->
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<div class="wrapper">
+	<div class="header-box">
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+	<div class="content">
+	
+		<div class="ad">
+			<div class="metaBox"></div>
+		</div><!-- ad -->
+	
+		<div class="main_area">
+			<h1>無此頁面</h1>
+                <div class="back"><a th:href="@{/}">回首頁</a></div>
+                <hr>
+                <div class="conversion_logo"><a th:href="@{/}"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/logo/logo_10.png}"></a></div>
+                <div class="conversion_text">很抱歉，給您帶來不便！<br />此頁面已不存在。</div>
+                <div class="clear_float"></div>
+                <h2>您要找的網頁或檔案已不存在，該網頁網址可能已經變更、移動或被刪除了。</h2>
+                <h2>建議您可透過下列TKB各產品官網尋找其它相關網頁或內容，謝謝您！</h2>
+                <div class="clear_float"></div>
+                <p><br /></p>
+                <p><br /></p>
+    			<h3>集團品牌</h3>
+                <p><br /></p>
+                <div class="conversion_logo_list">
+                    <a href="https://www.tkb.com.tw/" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/logo/logo_01.png}"></a>
+                    <a href="https://www.tkblearning.com.tw/index" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/logo/logo_02.png}"></a>
+                    <a href="https://byone.tkb.com.tw/" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/logo/logo_03.png}"></a>
+                    <a href="https://www.long-men.com.tw/" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/logo/logo_04.png}"></a>
+                    <a href="https://www.ynso.com.tw/" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/logo/logo_05.png}"></a>
+                    <a href="https://www.reallygood.com.tw/" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/logo/logo_06.png}"></a>
+                    <a href="http://www.tingmao.com.tw/" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/logo/logo_07.png}"></a>
+                    <a href="https://www.tkbtv.com.tw/" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/logo/logo_08.png}"></a>
+                    <a href="https://www.tkbsteam.com.tw/" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/logo/logo_09.png}"></a>
+                    <a href="https://www.daso.com.tw/" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/logo/logo_10.png}"></a>
+                </div>
+		</div>
+		<div class="clear_float"></div>
+	</div>
+	<div th:insert="~{front/loadForOldPage/layout :: footer}"></div>	
+	<script th:src="${@environment.getProperty('static.url')}+@{/js/facebook_Adjust.js}"></script>
+</div>
+</body>
+</html>

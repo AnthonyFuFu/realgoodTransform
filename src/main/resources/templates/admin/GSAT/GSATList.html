@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+		<form id="mainForm" method="POST" th:object="${gSAT}">
+		<input type="hidden" id="id" th:field="*{id}"/>
+		<input type="hidden" id="deleteList" name="deleteList" />
+
+		<!-- content -->
+		<div class="content">
+			<!-- button group -->
+			<div class="btn-group">
+				<ul>
+					<li><a href="javascript:void(0)" onclick="gotoPage('add')">新增</a></li>
+					<li><a href="javascript:void(0)" onclick="checkAll()">全選</a></li>
+					<li><a href="javascript:void(0)" onclick="deleteData()">刪除</a></li>
+					<li><a href="updateNormalData">去更新正是機資料到本地</a></li>
+				</ul>
+			</div>
+			<!-- button group -->
+
+			<!-- search -->
+			<div class="search">
+				<ul>
+					<li><span class="important">【步驟一】</span>類別ID搜尋:</li>
+ 					<li><input type="text" id="gSATCategory_name" placeholder="請輸入類別名稱"  th:value="${gSATCategory.name}"></li>
+					<li><button class="search-button" onclick="searchQueryCategoryID()">搜尋</button></li>
+					
+					<li><span class="important">【步驟二】</span>類別搜尋:</li>
+ 					<li><input type="text" id="gSAT_category" placeholder="請輸入類別ID" th:field="*{category}"></li>
+					<li><button class="search-button"  onclick="searchNewQuery()">搜尋</button></li>
+					<li><button class="search-button" onclick="resetData()">清除</button></li>
+				</ul>
+			</div>
+			<!-- search -->
+
+			<!-- table -->
+			<table class="table-horizon">
+
+				<caption>
+					<h2>一點通文章設定</h2>
+				</caption>
+
+				<thead>
+					<tr>
+						<th></th>
+						<th>序號</th>
+						<th>類別</th>
+						<th class="width-lg">標題</th>
+						<th>排序</th>
+						<!-- 						<th>起迄時間</th> -->
+						<th class="width-fixed">功能</th>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:if="${#lists.isEmpty(gSATList)}">
+						<tr>
+							<td colspan="7" align="center">尚無任何資料</td>
+						</tr>
+					</th:block>	
+					
+					<th:block th:each = "dataStatus , data : ${gSATList}">
+						<tr>
+							<td><input type="checkbox" name="selectList" th:value="${dataStatus.id}" /></td>
+							<td th:text="${(pageNo-1) * pageCount + data.count}"></td>
+							<td>
+								[[${dataStatus.category_name}]]
+							</td>
+							<td>
+								[[${dataStatus.title}]]
+							</td>
+							<td>
+								[[${dataStatus.sort}]]
+							</td>
+							<td class="table-button width-fixed">
+								<a  title="瀏覽"  th:href="'/GSAT/index?str='+${dataStatus.encrypt_id}" target="_blank">
+										<i class="fa fa-eye"></i>
+								</a>
+								<a href="javascript:void(0)" title="修改" th:onclick="|javascript:changeAction('update', '${dataStatus.id}')|"><i class="fa fa-pencil"></i></a>								
+							</td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+			<!-- table -->
+			<div th:insert="~{admin/load/layout :: page}"></div>
+		</div>
+		<!-- content -->
+	</form>
+</div>
+</div>
+
+	<script>
+
+		$(function(){
+
+			changeAction = function(link, id) {
+				
+				$("#id").val(id);
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+				
+			},
+			
+			resetData = function() {
+				$("#pageNo").val('1');
+				$("#gSATCategory_name").val("");
+				$("#gSAT_category").val("");
+			},
+			
+			gotoPage = function(link) {
+				
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+// 				location.href = link;
+				
+			},
+			
+			searchQueryCategoryID = function() {
+			if($("#gSATCategory_name").val() == null || $("#gSATCategory_name").val() == ""){
+				alert("請輸入完整類別名稱");
+			}else{
+				$.ajax({
+					url: "[[${@environment.getProperty('weburl')}]]/tkbrule/gSAT/getCategoryId",
+					async: false,
+					dataType: "text",
+					type:"POST",
+					data:{
+						gSATCategory_name : $("#gSATCategory_name").val()
+					},
+					success : function(msg) {
+						alert("此類別ID為:" + msg);
+					},
+					error : function() {
+						alert("搜尋失敗!請輸入完整類別名稱");
+					}
+				});
+			}
+			}			
+
+		});
+	</script>
+</body>

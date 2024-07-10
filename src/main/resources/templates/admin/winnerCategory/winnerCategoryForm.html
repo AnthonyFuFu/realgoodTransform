@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseUtil.js}"></script>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseForm.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+			<!-- content -->
+	<div class="content">
+		<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${winnerCategory}" th:with = "btn_name = *{id == null ? '新增' : '修改'}">
+			<input type="hidden" id="id" th:field="*{id}" />
+			<input type="hidden" id="parent_id" th:field="*{parent_id}" />
+			<input type="hidden" id="layer" th:field="*{layer}" />
+			<input type="hidden" id="category_name" th:value="*{name}" />
+			<!-- table -->
+			<table class="table-vertical" cellspacing="0">
+				<caption><h2>[[${btn_name}]]頁面</h2></caption>
+				<tr>
+					<th>
+						<span class="important">*</span>名稱
+					</th>
+					<td>
+						<input type="text" id="name" th:field="*{name}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>編號
+					</th>
+					<td>
+						<input type="text" id="category_code" th:field="*{category_code}">
+						<div style="color:red;">※請填寫師資平台-課程類別對應id</div>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>排序
+					</th>
+					<td>
+						<input type="text" id="sort" th:field="*{sort}">
+					</td>
+				</tr>
+				<tr>
+					<th>功能</th>
+					<td class="table-button vertical-btn">
+						<a style="cursor:pointer;" onclick="history.back()">返回</a>
+						<a style="cursor:pointer;" onclick="checkRepeat()">[[${btn_name}]]</a>
+					</td>
+				</tr>
+			</table><!-- table -->
+		</form>
+	</div><!-- content -->
+	<script>
+	$(function(){
+
+		add = function() {
+			
+			var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+			$("#mainForm").attr("action", link);
+			$("#mainForm").submit();
+			
+		},
+		
+		checkRepeat = function() {
+			
+			$.ajax({
+				url: "[[${@environment.getProperty('weburl')}]]/tkbrule/winnerCategory/checkRepeat",
+				cache: false,
+				async: false,
+				dataType: 'text',
+				type:'POST',
+				data:{
+					name : $("#name").val(),
+					layer: $("#layer").val()
+				},
+				error: function(xhr) {
+					alert('Ajax request 發生錯誤');
+				},
+				success: function(data) {
+					if(data == "T" || ($("#category_name").val() == $("#name").val())) {
+						//姓名判斷
+						if($("#name").val() == "") {
+							alert("請輸入名稱");
+							return false;
+						}
+						//排序判斷
+						if($("#sort").val() == "") {
+							alert("請輸入排序");
+							return false;
+						}	
+						add();
+					} else {
+						alert("此類別已建立過，請重新輸入。");
+					}
+				}
+			});
+			
+		}
+		
+	});
+	</script>
+
+</body>
+</html>

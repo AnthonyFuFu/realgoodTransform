@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>[[${newExam.title}]]-TKB甄戰學習顧問中心</title>
+<meta name="description" th:content="|${newExam.content}|" />
+<meta name="keywords" content="推甄,大學甄選,甄試入學,申請入學,面試技巧,科大申請,備審資料,推薦入學" />
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css?v=20210705}" />	<!-- 電腦版 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick-theme.css}" /> 
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick.css}" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slides.css}" />
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">
+<!-- Global site tag (gtag.js) - Google Ads: 957644279 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-957644279"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-957644279');
+</script>
+</head>
+<body>
+
+<!-- 行動版 -->
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<div class="wrapper">
+	<!-- 20190625 start -->
+	<div class="header-box">  
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+	<input type="hidden" id="type_code" name="type_code" value="NEWS" />
+	<input type="hidden" id="print_id" name="print_id" value="3324" /><!-- PO版人 -->
+	<input type="hidden" id="type_id" name="type_id" th:value="${newExam.id}" />
+	<input type="hidden" id="transfer_code" th:value="${newExam.title}" />
+	
+	<div class="content">
+		<div class="ad">
+		<th:block th:if="${#lists.size(navBannerList)==3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<th:block th:if="${data.count == 1}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			<th:block th:if="${data.count == 2}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			</th:block>
+		</th:block>
+		<th:block th:if="${#lists.size(navBannerList)<3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<div><a th:href="${dataStatus.link}" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+			</th:block>
+		</th:block>
+		
+		
+		<th:block th:if="${#lists.size(navBannerList)==3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<th:block th:if="${data.count == 3}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			</th:block>
+		</th:block>
+		
+		<div class="metaBox"></div>
+		
+		
+		<th:block th:each="dataStatus , data : ${navBannerType2List}">
+			<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+		</th:block>
+		</div>
+		<!--             ad -->
+		<div class="main_area">
+		<form id="getForm" method="GET" enctype="multipart/form-data">
+			<input type="hidden" id="str" name="str" /> 
+		</form>
+		<div class="main-area-title">甄戰情報</div>
+		<div class="back"><a th:href="@{/newExam/index}">回上頁</a></div>
+		<hr/>
+		<h1 class="article-title" style="color: #036EB8" th:utext="${newExam.title}"></h1>
+		
+		<div class="community_API">
+            <a th:href="@{'https://www.facebook.com/sharer/sharer.php?u=' + @{https://daso.tkb.com.tw/lectures/inside?{str}}(str=${shareStr})}" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/fb_api.png}" /></a>
+        </div>
+        <div class="viewers">[[${newExam.click_rate}]]</div>
+		<div class="release" th:text="發佈時間：+${#dates.format(begin_date, 'yyyy/MM/dd')}"></div>
+		<div class="update"  th:text="更新時間：+${#dates.format(update_date, 'yyyy/MM/dd')}"></div>
+		<div class="poster"><img th:src="${newExam.image}" /></div>
+
+		<h1 class="lecture_title" th:utext="${newExam.title}"></h1>
+		<hr />
+		<th:block th:each="dataStatus , data : ${newExamContentList}">
+			<h2 th:class="${#strings.substring(dataStatus.icon,0,14)}">[[${dataStatus.title}]]</h2>
+			<div class="article" th:utext="${#strings.replace(dataStatus.content,'&#10;','&lt;br&gt;')}"></div>
+			
+		</th:block>
+
+		</div><!-- main_area -->
+		<div th:insert="~{front/common/consultationNewExam}"></div>
+		<th:block th:if="${#lists.size(newExamRandomList)!= 0}">
+			<div class="read_more">
+           	 延伸閱讀…
+            <ul>
+            <th:block th:each="dataStatus , data : ${newExamRandomList}">
+			  <li><a href="#" th:onclick="toInside([[${dataStatus.id}]],[[${dataStatus.product_category}]])">[[${dataStatus.title}]]</a></li>
+			</th:block>
+            </ul>
+        </div>
+		</th:block>
+	</div>
+	<div th:insert="~{front/loadForOldPage/layout :: footer}"></div>	
+	<script th:src="${@environment.getProperty('static.url')}+@{/js/facebook_Adjust.js}"></script>
+<!-- 	<script th:src="${@environment.getProperty('static.url')}+@{/js/front/advertising.js}"></script> -->
+	</div>
+<script>
+var redWordElement = document.querySelector('.red_word');
+redWordElement.textContent = '如對「本課程」有相關問題，歡迎填表洽詢，有專人為您解答　*必填';
+$(function(){
+	banner_toInside = function(id) {
+		$.ajax({
+			url: "[[${@environment.getProperty('weburl')}]]/navBanner/navBannerUpdateClickRate",
+			cache: false,
+			async: false,
+			type:"POST",
+			data:{
+				id : id
+			},
+			error: function(xhr) {
+				alert('Ajax request 發生錯誤');
+			},
+			success: function(data) {
+				
+			}
+		});
+		
+	};
+	
+	toInside = function(id,product_category) {
+		$.ajax({
+			url: "[[${@environment.getProperty('weburl')}]]/newExam/toEncrypt",
+			cache: false,
+			async: false,
+			dataType: "text",
+			type:"POST",
+			data:{
+				id : id
+			},
+			error: function(xhr) {
+				alert('Ajax request 發生錯誤');
+			},
+			success: function(data) {
+				
+				$("#str").val(data);
+				if(product_category==null||product_category==''){
+			        var url = "/newExam/inside?str="+data;
+				}else{
+		       	 	var url = "/newExam/inside?str="+ data +"&product_category="+product_category;
+				}
+	            window.location.href = url;
+			}
+		});
+
+	}
+	
+});
+</script>
+</body>
+</html>

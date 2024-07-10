@@ -1,0 +1,577 @@
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>TKB甄戰學習顧問中心-書審口面試輔導專家</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="大學學測個人申請,研究推甄甄試,研究所在職專班,高職升科大書審口試輔導專家" />
+<meta name="keywords" content="推甄,大學甄選,甄試入學,申請入學,面試技巧,科大申請,備審資料,推薦入學" />
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css?v=20210705}" />	<!-- 電腦版 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick-theme.css}" /> 
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick2.css}" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slides.css}" />
+
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PQJ4V7B');</script>
+<!-- End Google Tag Manager -->
+<!-- Global site tag (gtag.js) - Google Ads: 970517127 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-970517127"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-970517127');
+</script>
+
+</head>
+<body>
+<input type="hidden"  id="message" th:value="${message}" />
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PQJ4V7B"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- 行動版 -->
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<div class="wrapper">
+	<!-- 20190625 start -->
+	<div class="header-box">  
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+   		<!-- banner -->
+   		<section class="visual-content">
+   		<div class="banner_area">
+			<div class="banner-mobile">
+				<ul class="rslides">
+				 <th:block th:each="dataStatus, data : ${bannerList}">
+					<li><a th:href="${dataStatus.link}" th:onclick="banner_toInside([[${dataStatus.id}]])" target="_blank" ><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/banner/{image}(image=${dataStatus.image})}"></a></li>
+		          </th:block >
+				</ul>
+			</div><!-- banner-mobile -->
+			<div class="banner">
+				<ul class="rslides">
+				 <th:block th:each="dataStatus, data : ${bannerList}">
+					<li><a th:href="${dataStatus.link}" th:onclick="banner_toInside([[${dataStatus.id}]])" target="_blank" ><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/banner/{image}(image=${dataStatus.image})}"></a></li>
+		          </th:block >
+				</ul>
+			</div><!-- banner -->
+
+			<div class="consultation">
+				<div class="consultation_title">課程諮詢<em>*必填</em></div>
+				<input class="input_style name" type="text" name="name" id="name" placeholder="姓名&nbsp;*" maxlength="6"/>
+				<input class="input_style phone" type="text" name="cellphone" id="cellphone" placeholder="手機&nbsp;*" maxlength="10"/>
+				<input class="input_style email" type="text" name="email" id="email" placeholder="電子信箱&nbsp;*" maxlength="40"/>
+				<input type="hidden" name="loginEquipment" th:value="${login_equipment}"/><!-- 登入裝置 -->
+				
+				<div class="place">
+					諮詢地點&nbsp;*&nbsp;
+					<select id="toArea">
+						<option value="">請選擇</option>
+					</select>
+				</div>
+				<div class="place"><input type="checkbox" name="is_read" id="is_read">同意提供資料並瞭解<a class="consult_privacy" th:href="@{/common/personLaw}" target="_blank"><p>個資法及隱私權相關規範</p></a></div>
+				<div class="consultation_send"><a th:onclick="inputForm()" style="cursor: pointer;">送出</a></div>
+			</div><!-- consultation -->
+		</div><!-- banner_area -->
+		</section><!-- visual-content -->
+    <!-- 20190625 end -->
+
+	<div class="index-content">
+		<form id="mainForm" method="POST" enctype="multipart/form-data">
+			<input type="hidden" id="schoolBulletin_id" name="schoolBulletin.id" />
+			<input type="hidden" id="lectures_id" name="lectures.id" />
+			<input type="hidden" id="area_id" name="schoolBulletin.area_id" />
+			<input type="hidden" id="winner_id" name="winner.id" />
+			<input type="hidden" id="changeAreaId" name="area.id" value="${area.id}" />
+		</form>
+		<form id="getForm" method="GET" enctype="multipart/form-data">
+			<input type="hidden" id="str" name="str" />
+		</form>
+		
+		<hr>
+	<div class="logo_list_label logo_list_label_click">集團品牌&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+	<section class="logo_area" style="display: none;">
+	<div class="logo_area_pc">
+        <a href="https://www.tkb.com.tw/" target="_blank">
+        <div class="logo_group_main">	  
+            <div class="logo_photo"><img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_01.jpg'"></div>
+            <div class="logo_intro_main">
+                <img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_01.png'">
+                <p>TKB臺灣知識庫以「傳動知識、創造價值」為核心價值；以「傳道、授業、解惑」為使命。全方位整合實體與虛擬學習環境，提供最完整、無限制的學習方案。</p>
+            </div>
+        </div>
+        </a>
+
+        <a href="https://www.tkblearning.com.tw" target="_blank">
+        <div class="logo_group">
+            <div class="logo_photo"><img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_02.jpg'"></div>
+            <div class="logo_intro">
+                <img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_02.png'">
+                <p>全台28個據點，擷取傳統及數位學習兩者優點，光纖將課程傳輸至學堂，再透過諮詢顧問面對面服務，掌握學習進度及考試資訊，達到自主學習最佳效果。</p>
+            </div>
+        </div>
+        </a>
+
+        <a href="https://byone.tkb.com.tw" target="_blank">
+        <div class="logo_group">
+            <div class="logo_photo"><img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_03.jpg'"></div>
+            <div class="logo_intro">
+                <img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_03.png'">
+                <p>出仕為官、先進百官。禮聘大碩名師授課，搭配考生專屬的公職秘書，透過專業的投考組合分析，量身打造考生最適報考時間表，最短時間能完成考取公職夢想。</p>
+            </div>
+        </div>
+        </a>
+
+        <a href="https://www.long-men.com.tw/" target="_blank">
+        <div class="logo_group">
+            <div class="logo_photo"><img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_04.jpg'"></div>
+            <div class="logo_intro">
+                <img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_04.png'">
+                <p>轉學考領導品牌，創辦40逾年，深耕於大一課輔及大學轉學考，開辦類組完整，輔以專業師資、客服，讓同學免於重修、重考之苦即能鯉魚躍龍門，改變人生。</p>
+            </div>
+        </div>
+        </a>
+
+        <a href="https://www.ynso.com.tw" target="_blank">
+        <div class="logo_group">
+            <div class="logo_photo"><img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_05.jpg'"></div>
+            <div class="logo_intro">
+                <img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_05.png'">
+                <p>母語式教學法，透過「聽/說」建立邏輯、語感；同步強化「讀/寫」加深記憶。搭配中/外籍師資、數位/實體課程、小班/一對一教學混成學習，達到最佳效果。</p>
+            </div>
+        </div>
+        </a>
+
+        <a href="https://www.reallygood.com.tw" target="_blank">
+        <div class="logo_group">
+            <div class="logo_photo"><img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_06.jpg'"></div>
+            <div class="logo_intro">
+                <img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_06.png'">
+                <p>多元入學時代，最值得信賴的輔導團隊。透過客製化的諮詢，找出最適合你的學習領域，搭配碩、博士級專業甄試情報與書審口試輔導，讓天賦照亮你的未來。</p>
+            </div>
+        </div>
+        </a>
+
+        <a href="http://www.tingmao.com.tw/" target="_blank">
+        <div class="logo_group">
+            <div class="logo_photo"><img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_07.jpg'"></div>
+            <div class="logo_intro">
+                <img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_07.png'">
+                <p>TKB之子公司，以發行考試用書為主體，包括轉學考、研究所考試/推甄、公職/國營事業、消防、導遊領隊、餐飲、金融等考試及證照的各式參考書及題庫書。</p>
+            </div>
+        </div>
+        </a>
+
+        <a href="https://www.tkbtv.com.tw" target="_blank">
+        <div class="logo_group">
+            <div class="logo_photo"><img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_08.jpg'"></div>
+            <div class="logo_intro">
+                <img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_08.png'">
+                <p>承襲TKB集團本業，以資訊技術為根基，開拓新的學習技術及領域。提供各式雲端函授課程及創新課程、擴展及開發數位通路、研發各式技術平台及產品。</p>
+            </div>
+        </div>
+        </a>
+
+        <a href="https://www.tkbsteam.com.tw" target="_blank">
+        <div class="logo_group">
+            <div class="logo_photo"><img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_09.jpg'"></div>
+            <div class="logo_intro">
+                <img th:src="${@environment.getProperty('weburl')}+'/images/front/logo/logo_09.png'">
+                <p>創新學習、教育未來。因應12年國教及科技發展，千碩機器人透過翻轉學習，尋找孩子天賦；經由團隊合作與競賽，提升孩子思考、溝通及忍挫等各種軟實力。</p>
+            </div>
+        </div>
+        </a>
+
+</div><!-- logo_area_pc -->
+<div class="clear_float"></div>
+<div class="logo_area_mobile">
+    <ul>
+        <li><a href="https://www.tkb.com.tw" target="_blank"><img th:src="${@environment.getProperty('static.url')}+'/images/front/logo/logo_01.png'"></a></li>
+        <li><a href="https://www.tkblearning.com.tw" target="_blank"><img th:src="${@environment.getProperty('static.url')}+'/images/front/logo/logo_02.png'"></a></li>
+        <li><a href="https://byone.tkb.com.tw" target="_blank"><img th:src="${@environment.getProperty('static.url')}+'/images/front/logo/logo_03.png'"></a></li>
+        <li><a href="https://www.daso.com.tw" target="_blank"><img th:src="${@environment.getProperty('static.url')}+'/images/front/logo/logo_04.png'"></a></li>
+        <li><a href="https://www.ynso.com.tw" target="_blank"><img th:src="${@environment.getProperty('static.url')}+'/images/front/logo/logo_05.png'"></a></li>
+        <li><a href="https://www.reallygood.com.tw" target="_blank"><img th:src="${@environment.getProperty('static.url')}+'/images/front/logo/logo_06.png'"></a></li>
+        <li><a href="http://www.tingmao.com.tw" target="_blank"><img th:src="${@environment.getProperty('static.url')}+'/images/front/logo/logo_07.png'"></a></li>
+        <li><a href="https://www.tkbtv.com.tw" target="_blank"><img th:src="${@environment.getProperty('static.url')}+'/images/front/logo/logo_08.png'"></a></li>
+        <li><a href="https://www.tkbsteam.com.tw" target="_blank"><img th:src="${@environment.getProperty('static.url')}+'/images/front/logo/logo_09.png'"></a></li>
+    </ul>
+</div><!-- logo_area_mobile -->
+</section><!-- logo_area -->
+
+    		<div class="link_area">
+            	<div class="link_area_01">
+                    <ul>
+                    	<div class="link_area_01_title">高中生&nbsp;/&nbsp;家長</div>
+                    	<li><a th:href="${@environment.getProperty('weburl')}+@{/newExam/inside?str=9FB3B2CFB31D38CB0D30038022E83FF5}">大學入學管道介紹</a></li>
+                    	<li><a href="https://www.reallygood.com.tw/18groups/index">大學18學群</a></li>
+                    	<li><a th:href="${@environment.getProperty('weburl')}+@{/common/senior_exam}">個人申請考古題試閱</a></li>
+                    	<li><a th:href="${@environment.getProperty('weburl')}+@{/GSAT/index?str=363084B7B5747365249A9238BCDEDB6D}">108新課綱攻略</a></li>
+                    </ul>
+                    <img th:src="${@environment.getProperty('weburl')}+'/images/front/link_area/link_area_01.png'">
+				</div><!-- link_area_01 -->
+
+            	<div class="link_area_02">
+                    <ul>
+                    	<div class="link_area_02_title">大學生</div>
+                    	<li><a th:href="${@environment.getProperty('weburl')}+@{/newExam/inside?str=4747EA268E81B1F0FD1BB9EEFFDC4465}">研究所&nbsp;(甄試生)</a></li>
+                    	<li><a th:href="${@environment.getProperty('weburl')}+@{/common/course_p7}">研究所&nbsp;(複試考試)</a></li>
+                    	<li><a th:href="${@environment.getProperty('weburl')}+@{/newExam/inside?str=C839127A8222532F37B9B52B8B075673}">研究所甄試簡章 </a></li>
+                    	<li><a style="cursor:pointer;" onclick="searchMenuCategory('22','newExam')" >研究所書審口試準備要領</a></li>
+                    </ul>
+                    <img th:src="${@environment.getProperty('weburl')}+'/images/front/link_area/link_area_02.png'">
+				</div><!-- link_area_02 -->
+
+            	<div class="link_area_03">
+                    <ul>
+                    	<div class="link_area_03_title">在職生</div>
+                    	<li><a th:href="${@environment.getProperty('weburl')}+@{/chosenArticle/inside?str=E0D0F172D1776A8E44490493CC41231D}">在職入學管道介紹</a></li>
+                    	<li><a th:href="${@environment.getProperty('weburl')}+@{/courseDiscount/inside?str=C6E2C16A70D391E9CD0E55A8139EB279}">重返校園&nbsp;(全職學生)</a></li>
+						<li><a th:href="${@environment.getProperty('weburl')}+@{/newExam/inside?str=CD132C1EA4D5C219C5530CFB9DC9C361}">常見Q&amp;A</a></li>
+                    </ul>
+                    <img th:src="${@environment.getProperty('weburl')}+'/images/front/link_area/link_area_03.png'">
+				</div><!-- link_area_03 -->
+
+                <div class="clear_float"></div>
+            </div><!-- link_area -->
+
+		<div class="publish">
+			<div class="publish_01" id="suspend-classes"><a href="javascript:;">地震、颱風、大雨停課需知<font>＞</font></a></div>
+			<div class="publish_02" id="marquee">
+				<ul>
+				<th:block th:each="dataStatus, data : ${marqueeList}">
+					<li>
+					    <a th:class="'marquee marquee_' + ${data.count}"  th:href="${dataStatus.link}"  th:onclick="marquee_toInside([[${dataStatus.id}]])" target="_blank" >[[${dataStatus.title}]]</a>
+						<font>＞</font>
+					</li>		
+				</th:block >
+                </ul>
+			</div>
+			<div class="publish_03"><a th:href="${@environment.getProperty('weburl')}+@{/location/index}">全國甄戰服務據點<font>＞</font></a></div>
+		</div><!-- publish -->
+
+		<div class="examNews">
+			<hr>
+			<div class="examNews_label"><a th:href="${@environment.getProperty('weburl')}+@{/newExam/index}">甄戰情報&nbsp;✚</a></div>
+				<div class="variable slider">
+				<th:block th:each="dataStatus, data : ${newExamList}">
+					<div class="examNews_group ">
+						<div th:class="examNews_0+${data.count}">
+							<font><a th:href="${@environment.getProperty('weburl')}+@{/newExam/index?categoryId=}+${dataStatus.category}">[[${dataStatus.category_name}]]</a></font>
+							<div class="examNews_text">
+								<a th:if="${dataStatus.product_category != ''} and ${dataStatus.product_category != null}" th:href="@{/newExam/inside?str=}+${dataStatus.encrypturl}+'&product_category='+${dataStatus.product_category}">[[${dataStatus.title}]]</a>
+								<a th:if="${dataStatus.product_category == ''} or ${dataStatus.product_category == null}" th:href="@{/newExam/inside?str=}+${dataStatus.encrypturl}">[[${dataStatus.title}]]</a>
+							</div>
+							<a th:if="${dataStatus.product_category != ''} and ${dataStatus.product_category != null}" th:href="@{/newExam/inside?str=}+${dataStatus.encrypturl}+'&product_category='+${dataStatus.product_category}"><img th:src="${dataStatus.photo}" width="200px" height="120px"></a>
+							<a th:if="${dataStatus.product_category == ''} or ${dataStatus.product_category == null}" th:href="@{/newExam/inside?str=}+${dataStatus.encrypturl}"><img th:src="${dataStatus.photo}" width="200px" height="120px"></a>
+							
+						</div><!-- examNews_01 -->
+					</div><!-- examNews_group -->
+				</th:block >
+				</div><!-- variable slider -->
+			</div><!-- examNews -->
+
+		<div class="winner">
+			<div class="winner_group">
+                	<ul class="winner_nav">
+                        <li class="selected"><font>近期活動</font></li>
+                        <li><font>甄戰公告</font></li>
+                    </ul>
+                    <figure>
+                        <div class="winner_content">
+					<th:block th:each="dataStatus, data : ${lecturesList}">
+					<dl>
+							<dt>
+								<div class="type_widen">
+								<th:block th:if="${dataStatus.category_name.length()}> 4">
+									
+									 [[${#strings.substring(dataStatus.category_name, 0, 4)}]]
+								</th:block>
+								<th:block th:if="${dataStatus.category_name != null and dataStatus.category_name.length() <= 4}">
+									[[${dataStatus.category_name}]]
+								</th:block>
+								</div>
+								<a th:if="${dataStatus.product_category != ''} and ${dataStatus.product_category != null}" th:href="${@environment.getProperty('weburl')}+@{/lectures/inside?str=}+${dataStatus.encrypturl}+'&product_category='+${dataStatus.product_category}">[[${dataStatus.title}]]</a>
+								<a th:if="${dataStatus.product_category == ''} or ${dataStatus.product_category == null}" th:href="${@environment.getProperty('weburl')}+@{/lectures/inside?str=}+${dataStatus.encrypturl}">[[${dataStatus.title}]]</a>
+							</dt>
+							<!-- 20200710 Linda start -->
+							<th:block th:if="${dataStatus.lectures_top} == 1">
+									<img th:src="${@environment.getProperty('static.url')}+@{/images/front/listhot_png.gif}" style="height:10px;width:25px; margin: 0 5px; position: absolute;right: 42px;" />
+							</th:block>
+							<!-- 20200710 Linda end -->
+							<dd>
+								<div th:text="${#dates.format(dataStatus.begin_date, 'MM/dd')}"></div>
+							</dd>
+					</dl>
+						</th:block >
+						<div class="winner_more" style="text-align:right"><a th:href="${@environment.getProperty('weburl')}+@{/lectures/index}">More &gt;</a></div>
+                        </div><!-- winner_content -->                       
+                        <div class="winner_content">
+                        <th:block th:each="dataStatus, data : ${schoolBulletinList}">
+						<dl>
+							<dt>
+								<div class="type_widen">
+									[[${dataStatus.area_name}]]
+								</div>
+								<a th:if="${dataStatus.product_category != ''} and ${dataStatus.product_category != null}" th:href="${@environment.getProperty('weburl')}+@{/schoolBulletin/inside?str=}+${dataStatus.encrypturl}+'&product_category='+${dataStatus.product_category}">[[${dataStatus.title}]]</a>
+								<a th:if="${dataStatus.product_category == ''} or ${dataStatus.product_category == null}" th:href="${@environment.getProperty('weburl')}+@{/schoolBulletin/inside?str=}+${dataStatus.encrypturl}">[[${dataStatus.title}]]</a>
+							</dt>
+							<!-- 20200710 Linda end -->
+							<dd>
+								<div th:text="${#dates.format(dataStatus.begin_date, 'MM/dd')}"></div>
+							</dd>
+					</dl>
+						</th:block >
+						<div class="winner_more" style="text-align:right"><a th:href="${@environment.getProperty('weburl')}+@{/schoolBulletin/index}">More &gt;</a></div>
+                        </div><!-- winner_content -->
+                    </figure>
+                </div><!-- winner_group -->
+                <div class="winner_group">
+                    <ul class="winner_nav">
+                        <li class="selected"><font>考取金榜</font></li>
+                        <li><font>贏家經驗談</font></li> 
+                    </ul>
+                    <figure class="addition-height">
+                        <div class="winner_content">
+                        
+                         <th:block th:each="dataStatus, data : ${admitList}">
+							<dl>
+								<dt>
+									<div class="type_widen">
+										[[${dataStatus.category_name}]]
+									</div>
+									<a th:href="${@environment.getProperty('weburl')}+@{/admit/inside?str=}+${dataStatus.str}">[[${dataStatus.title}]]</a>
+								</dt>
+								<!-- 20200710 Linda end -->
+								<dd>
+									<div th:text="${#strings.replace(#strings.substring(dataStatus.update_date, 5, 10), '-', '/')}"></div>
+								</dd>
+						</dl>
+							</th:block >
+                         <div class="winner_more" style="text-align:right"><a th:href="${@environment.getProperty('weburl')}+@{/admit/index}">More &gt;</a></div>
+                        </div><!-- winner_content -->
+                        <div class="winner_content" id="winner_group ">
+                     	 <div id="carousel">
+                     	  <div class="winner_btn">
+			                   	<div class="winner_next"><a id="nextBtn">▶</a></div>
+			                   	<div class="winner_next"><a id="prevBtn">◀</a></div>
+			               </div>
+                        <th:block th:each="dataStatus, data : ${winnerList}" > 
+                        <div class="carousel-item" th:style = '${data.index == 0 ? "display:block" : "display:none"}'>
+						<section class="winner_title">
+						<div class="winner_name">
+						<th:block th:if="${dataStatus.product_category==null||dataStatus.product_category==''}">
+							<a th:href="${@environment.getProperty('weburl')}+@{/winner/inside?str=}+${dataStatus.encrypturl}" class="admitted" >考取：[[${dataStatus.admitted}]]</a>
+						</th:block>
+						<th:block th:unless="${dataStatus.product_category==null||dataStatus.product_category==''}">
+							<a th:href="${@environment.getProperty('weburl')}+@{/winner/inside?str=}+${dataStatus.encrypturl}+'&product_category='+${dataStatus.product_category}" class="admitted" >考取：[[${dataStatus.admitted}]]</a>
+						</th:block>
+						</div>						
+                        </section>
+                        <article class="winner_txt">
+							<div class="winner_photo">
+								<th:block th:if="${dataStatus.product_category==null||dataStatus.product_category==''}">
+									<a th:href="${@environment.getProperty('weburl')}+@{/winner/inside?str=}+${dataStatus.encrypturl}"><img th:src="${dataStatus.photo}"/></a>
+								</th:block>
+								<th:block th:unless="${dataStatus.product_category==null||dataStatus.product_category==''}">
+									<a th:href="${@environment.getProperty('weburl')}+@{/winner/inside?str=}+${dataStatus.encrypturl}+'&product_category='+${dataStatus.product_category}"><img th:src="${dataStatus.photo}"/></a>
+								</th:block>
+							</div>
+	                        <div class="winner_intro">
+	                        <div class="winner_article">[[${dataStatus.summary}]]</div>
+	                        <div class="winner_more" style="text-align:right"><a th:href="@{/winner/index}">More &gt;</a></div>
+	                        </div>
+                        </article>
+                        </div>
+						</th:block >
+						</div>
+                        </div><!-- winner_content -->
+                    </figure>
+                </div><!-- winner_group -->						
+           </div><!-- winner -->
+   		</div>
+   		
+   		
+        <div class="video-area">
+	        <section class="video-wrapper">
+	            <div class="title">
+		            <a class="btn-more" th:href="${@environment.getProperty('weburl')}+@{/winner/videoIndex}">More &gt;</a>
+		            影音專區
+	            </div><!-- title -->
+	            <div class="divine-2-box">
+					<div class="divine-left">
+					<th:block th:each="dataStatus, data : ${videoBigList}">
+						<a th:onclick="changeIndexVideo([[${dataStatus.id}]],[[${dataStatus.category}]])">
+			                    <div class="photo" th:onclick="location.href='javascript:void(0)'">
+				                    <div class="btn-play"><img th:src="${@environment.getProperty('static.url')}+'/images/front/btn_video_play.png'"/></div>
+					                    <div class="info">
+					                   		   <th:block th:if="${dataStatus.name.length()}== 2">
+							                   		 <div class="photo-name">[[${dataStatus.name[0]}]]○</div>
+							                    </th:block >
+							                    <th:block th:if="${dataStatus.name.length()}== 3">
+							                   		 <div class="photo-name">[[${dataStatus.name[0]}]]○[[${dataStatus.name[2]}]]</div>
+							                    </th:block >
+							                    <th:block th:if="${dataStatus.name.length()}== 4">
+							                   		 <div class="photo-name">[[${dataStatus.name[0]}]]○○[[${dataStatus.name[3]}]]</div>
+							                    </th:block >
+						                    <div class="photo-title">
+							                    <th:block th:if="${#strings.contains(dataStatus.admitted,'(榜首)')}">
+							                    [[${dataStatus.year}]]年考取[[${dataStatus.admitted}]]
+							                    </th:block >
+							                    <th:block th:if="${not #strings.contains(dataStatus.admitted,'(榜首)')}">
+							                    [[${dataStatus.year}]]年考取[[${dataStatus.admitted}]]
+							                    </th:block >
+											</div>
+					                    </div><!-- info -->
+				                    <img th:src="${dataStatus.video_image}"/>
+				                    
+			                    </div><!-- photo -->	
+			          	  </a>        			
+						</th:block >
+		           	</div>
+					<div class="divine-right">  
+						<th:block th:each="dataStatus, data : ${videoList}">
+							<th:block th:if="data.count!=1">
+								<div class="photo-s" th:onclick="changeIndexVideo([[${dataStatus.id}]],[[${dataStatus.category}]])">
+						        <a onclick="location.href='javascript:void(0);';">
+			                    <div class="info">
+			                    <div class="photo-title-s">
+								          [[${dataStatus.year}]]年考取[[${dataStatus.admitted}]]
+			                    </div>
+			                    </div><!-- info -->
+			                    <div class="btn-play"><img th:src="${@environment.getProperty('static.url')}+'/images/front/btn_video_play.png'"></div>
+					                    <img th:src="${dataStatus.video_image}"/>
+			                     </a>
+			                    </div><!-- photo-s -->
+							</th:block>                                                                   
+			            </th:block >
+        		   </div>
+		        </div><!-- divine-2-box -->
+	        </section>
+        </div><!-- video-area -->
+        
+   		<div class="index-content">           
+           
+           <div class="offer">
+           	<hr>
+           	<div class="offer_label"><a th:href="${@environment.getProperty('weburl')}+@{/courseDiscount/index}">課程優惠&nbsp;✚</a></div>
+           	<th:block th:each="dataStatus, data : ${courseDiscountList}">
+				<div class="offer_group">
+					<div th:class="'offer_0'+${data.count}">
+							<a th:href="${dataStatus.edm_url}"> <img th:src="${@environment.getProperty('static.url')}+@{/upload/image/courseDiscount/indexImage/{image}(image=${dataStatus.index_image})}" width="150px" height="150px"/></a>
+					</div>
+					<div class="offer_text">
+							<a th:href="${dataStatus.edm_url}">[[${dataStatus.title}]]</a>
+					</div>
+				</div>		
+				</th:block >
+           </div>
+           
+           <div class="essay">
+            <hr>
+            <div class="essay_label"><a th:href="${@environment.getProperty('weburl')}+@{/chosenArticle/index}">精選文章&nbsp;✚</a></div>
+				<th:block th:unless="${#lists.isEmpty(chosenArticlesList)}">
+	          	 	<th:block th:each="dataStatus, data : ${chosenArticlesList}">
+	                  <div class="essay_group">
+	                  <div class="essay_title">
+		                  <th:block th:if="${dataStatus.product_category==null||dataStatus.product_category==''}">
+		                  	<a th:href="${@environment.getProperty('weburl')}+@{/chosenArticle/inside?str=}+${dataStatus.encrypturl}">[[${dataStatus.title}]]</a>
+						  </th:block>
+						  <th:block th:unless="${dataStatus.product_category==null||dataStatus.product_category==''}">
+							<a th:href="${@environment.getProperty('weburl')}+@{/chosenArticle/inside?str=}+${dataStatus.encrypturl}+'&product_category='+${dataStatus.product_category}">[[${dataStatus.title}]]</a>
+						  </th:block>
+	                 </div>
+	                    <div class="essay_photo">
+		                  <th:block th:if="${dataStatus.product_category==null||dataStatus.product_category==''}">
+		                    <a th:href="${@environment.getProperty('weburl')}+@{/chosenArticle/inside?str=}+${dataStatus.encrypturl}"><img width="180px" height="110px" th:src="${dataStatus.image_url}"></a>
+						  </th:block>
+						  <th:block th:unless="${dataStatus.product_category==null||dataStatus.product_category==''}">
+						  	<a th:href="${@environment.getProperty('weburl')}+@{/chosenArticle/inside?str=}+${dataStatus.encrypturl}+'&product_category='+${dataStatus.product_category}"><img width="180px" height="110px" th:src="${dataStatus.image_url}"></a>
+						  </th:block>
+	                    </div>
+	                    <div class="essay_intro">
+	                       <div th:if="${#strings.length(dataStatus.edit_from) != 0}" class="essay_name">
+				                編輯：[[${dataStatus.edit_from}]]
+				           </div>
+	                       <div class="essay_article">[[${dataStatus.summary}]]</div>
+	                  	   <div class="winner_more" style="text-align:right"><a th:href="${@environment.getProperty('weburl')}+@{/chosenArticle/inside?str=}+${dataStatus.encrypturl}">More &gt;</a></div>
+	                    </div>
+	                    </div>
+	               </th:block>
+               </th:block>
+
+           </div>
+
+       </div><!-- content -->
+       
+       
+           <!-- 20180105 start -->
+    <!-- 影音燈箱區塊 開始 -->
+    <div class="BK-Mask video-play">
+        <div class="video-bg">
+            <a class="btn-close-video" href="javascript:void(0);" th:onclick="backIndexVideo()"></a>
+            <div class="divine-2-box">
+                <div class="divine-left" id="mainVideo">
+                </div>
+                <div class="divine-right">
+                    <aside>推薦影音</aside>
+                    <article id="recommendVideo">
+                    </article>
+                </div>
+            </div>
+        </div><!-- video-bg -->
+    </div><!-- BK-Mask video-play -->
+    <!-- 影音燈箱區塊 結束 -->
+    <!-- 20180105 end -->
+    	<div th:insert="~{front/loadForOldPage/layout :: footer}"></div>	
+    <script th:src="${@environment.getProperty('static.url')}+@{/js/front/index.js}"></script>
+        <script th:src="${@environment.getProperty('static.url')}+@{/js/front/getweblocation.js}"></script>
+        <script th:src="${@environment.getProperty('static.url')}+@{/js/des.js}"></script>
+<script th:inline="javascript">
+	$(document).ready(function() {
+		
+		var totalSlides= "[[${winnerList.size}]]"
+		
+	    var currentSlide = 1;
+	    // 綁定按鈕事件
+	    $("#prevBtn").click(function() {
+	        if (currentSlide >2) {
+	            currentSlide--;
+	            $(".carousel-item").hide();
+	            $(".carousel-item:nth-child(" + currentSlide + ")").show();
+	        }
+	    });
+
+	    $("#nextBtn").click(function() {
+	        if (currentSlide <= totalSlides) {
+	            currentSlide++;
+	            $(".carousel-item").hide();
+	            $(".carousel-item:nth-child(" + currentSlide + ")").show();
+	        }
+	    });
+		
+		
+		if($("#message").val() != ''){
+			alert($("#message").val()); 
+		}
+	});
+</script>
+	</div><!-- wrapper -->
+	
+</body>
+
+</html>

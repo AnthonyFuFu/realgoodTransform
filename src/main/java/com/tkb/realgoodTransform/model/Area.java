@@ -1,6 +1,7 @@
 package com.tkb.realgoodTransform.model;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import lombok.Data;
@@ -16,9 +17,9 @@ public class Area {
 	private String name;						//名稱
 	private String layer;						//層級
 	private String create_by;					//創建者
-	private Timestamp create_date;				//創建時間
+	private Date create_date;				//創建時間
 	private String update_by;					//編輯者
-	private Timestamp update_date;				//編輯時間
+	private Date update_date;				//編輯時間
 	private String status; 						//狀態
 	
 	private String type;

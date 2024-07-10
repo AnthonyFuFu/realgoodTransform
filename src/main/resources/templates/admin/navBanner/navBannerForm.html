@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+		
+		<!-- content -->
+		<div class="content">
+			<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${navBanner}" th:with="btn_name=${navBanner.id==null ? '新增' : '修改'}">
+				<input type="hidden" id="btn_name" th:value="${btn_name}" />
+				<input type="hidden" id="id" th:field="*{id}">
+				<input type="hidden" name="searchTitle" th:value="${searchTitle}" >
+			<input type="hidden" id="pageNo" name="pageNo" th:value="${pageNo}">
+				<input type="hidden" id="totalCount" th:field="*{count}">
+<!-- 				<input type="hidden" id="menu_id" th:field="${menu.id}"> -->
+				<input type="hidden" id="navType" th:field="*{type}">
+				<input type="hidden" id="show_page" th:value="${navBanner.show_page}">
+				
+<!-- 				<input type="hidden" id="pageNo" name="pageNo" value="${PageNo}" /> -->
+<!-- 				<input type="hidden" id="searchText" name="searchText" value="${searchText}" /> -->
+				<!-- table -->
+				<table class="table-vertical" cellspacing="0">
+					<caption><h2>側邊廣告設定-[[${btn_name}]]頁面</h2></caption>
+				<tr>
+					<th>
+						<span class="important">*</span>標題
+						
+					</th>
+					<td>
+						<input type="text" id="title" name="navBanner.title" th:field="*{title}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>連結
+					</th>
+					<td>
+						<input type="text" id="link" name="navBanner.link" th:field="*{link}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>檔案類型
+					</th>
+					<td>
+						<select id="type" onchange="changeType()">
+							<option id="type1" value="0">請選擇</option>
+							<option  value="1">300*184</option>
+							<option  value="2">300*600</option>
+						</select>
+					</td>
+				<tr>			
+					<th>
+						<span class="important">*</span>圖片
+					</th>
+					<td>
+					
+						<input type="hidden" id="imageExtension" name="imageExtension" />
+						<input type="file" id="imageFile" name="imageFile" /><font id="ruleText" style="color:red;">檔名命名規則：不可為中文，尺寸：側邊欄300*184  檔案大小不超過500KB。</font>
+						<th:block th:if="*{image} != null">
+							<img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=*{image})}" th:alt="*{image}" width="350px" height="200px" />
+							<input type="hidden" id="deleteImage" name="deleteImage" th:field="*{image}"/>
+						<th:block>
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>開始日期</th>
+					<td>
+						<input type="text" id="begin_date" name="navBanner.begin_date" placeholder="開始日期" th:field="*{begin_date}" format="yyyy-MM-dd" />
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>結束日期</th>
+					<td>
+						<input type="text" id="end_date" name="navBanner.end_date" placeholder="結束日期" th:field="*{end_date}" format="yyyy-MM-dd" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>是否顯示於前台
+					</th>
+					<td>
+						<input type="radio" id="show" name="navBanner.show" th:checked="${navBanner.show == 1}" value="1" th:field="*{show}">是
+						<input type="radio" id="show" name="navBanner.show" th:checked="${navBanner.show == 0}" value="0" th:field="*{show}">否
+					</td>
+				</tr>
+<!-- 				<tr> -->
+<!-- 					<th> -->
+<!-- 						<span class="important">*</span>顯示頁面 -->
+<!-- 					</th> -->
+<!-- 					<td> -->
+<!-- 						<label><input type="checkbox" id="showGeneral" name="showGeneral" value="1" />一般生</label> -->
+<!-- 						<label><input type="checkbox" id="showExaminee" name="showExaminee" value="2" />甄試生</label> -->
+<!-- 						<label><input type="checkbox" id="showOnJob" name="showOnJob" value="3" />在職專班</label> -->
+<!-- 					</td> -->
+<!-- 				</tr> -->
+				<tr>
+					<th>功能</th>
+					<td class="table-button vertical-btn">
+<!-- 						<a style="cursor:pointer;" onclick="backAction('index')">返回</a> -->
+						<a onclick="history.back()" style="cursor:pointer;">返回</a>
+						<a style="cursor:pointer;" th:onclick="add()">[[${btn_name}]]</a>
+					</td>
+				</tr>
+				</table>
+			</form>
+		
+		</div><!-- content -->
+		<script>
+		var selectedValues = $("#show_page").val();
+		
+		window.onload = function() {
+	        // 遍歷每個 checkbox
+	        document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
+	            // 如果 checkbox 的 value 在 selectedValues 中，則設置為選中
+	            if (selectedValues.includes(checkbox.value)) {
+	                checkbox.checked = true;
+	            }
+	        });
+	    };
+		
+		$(function(){
+     var Type="0";//紀錄一開使有無圖片
+     Type=$("#navType").val(); 
+			 
+			if($("#id").val() != 0) {
+// 				$("#category").val("<s:property value="navBanner.category"/>");
+// 				$("#category").val($("#category"));
+			}
+			if($("#navType").val()=="1")
+			{
+				$('#type').empty();
+				$('#type').append("<option value='1'>300*184</option>");
+				$('#type').append("<option value='2'>300*600</option>");
+			}
+			else if($("#navType").val()=="2")
+			{
+				$('#type').empty();
+				$('#type').append("<option value='2'>300*600</option>");
+				$('#type').append("<option value='1'>300*184</option>");
+			}			
+
+			$("#begin_date").datepicker({dateFormat: 'yy-mm-dd'});
+			$("#end_date").datepicker({dateFormat: 'yy-mm-dd'});			
+			
+// 			backAction = function(link){
+// 				$("#type").val(0);
+// 				$("#name").val("");
+// 				$("#mainForm").attr("action",link);
+// 				$("#mainForm").submit();
+// 			},
+			add = function() {	
+			//	網址的reqular expression
+			var regex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");
+				//標題判斷
+				if($("#title").val() == "") {
+					alert("請輸入標題");
+					return false;
+				}
+				
+				//連結判斷
+				if($("#link").val() == "") {
+					alert("請輸入檔案連結");
+					return false;
+				}
+					//判斷影音連結是否正確
+					else if(!regex.test($("#link").val())) {
+					   alert("請輸入有效的網址,ex：http://www.google.com");
+					   return false;
+					}	
+				
+				//排序判斷
+				if($("#type").val() == "") {
+					alert("請選擇圖片大小");
+					return false;
+				}				
+				//排序判斷
+// 				if($("#sort").val() == "") {
+// 					alert("請輸入排序");
+// 					return false;
+// 				}
+				//內容圖片判斷
+				
+				if($("#id").val() == 0){
+					if($.trim($("#imageFile").val())==""){
+						alert("請上傳圖片");
+						return false;
+					}
+				}
+				if(Type!=$("#navType").val() && $.trim($("#imageFile").val())==""){
+						alert("圖片大小不符合");
+						return false;
+					
+				}
+				var imagesize = 0;
+				
+				if($("#imageFile").val()==""){
+					$("#imageExtension").val($("#deleteImage").val().substr(($("#deleteImage").val().lastIndexOf('.')+1)));
+				}else{
+					imagesize = document.getElementById("imageFile").files.item(0).size;
+					$("#imageExtension").val($("#imageFile").val().substr(($("#imageFile").val().lastIndexOf('.')+1)));
+				}
+				
+				if($.trim($("#imageExtension").val())!="png" && $.trim($("#imageExtension").val())!="jpeg" && $.trim($("#imageExtension").val())!="jpg" && $.trim($("#imageExtension").val())!="gif"){
+					alert("上傳圖片格式必須為png、jpeg、jpg、gif");
+					return false;
+				}
+				
+ 				if(imagesize > 512000){
+ 					alert("圖片大小不可大於500KB");
+ 					return false;
+				}
+				
+// 				if ($("#image").val() == "") {
+// 					alert("必須上傳圖片");
+// 					return false;
+// 				}
+// 				if(checkURL($("#image"))) {
+// 				   alert("請輸入有效的圖片網址,ex：http://www.google.com");
+// 				   $("#image").focus();
+// 				   return false;
+// 				}
+
+				
+				//開始日期判斷
+				if($.trim($("#begin_date").val())==""){
+					$("#begin_date").focus();
+					alert("開始時間不可為空");
+					return false;
+				}
+				
+				//結束日期判斷
+				if($.trim($("#end_date").val())==""){
+					$("#end_date").focus();
+					alert("結束時間不可為空");
+					return false;
+				}
+				//日期起迄判斷
+				var beginDate = Date.parse($.datepicker.formatDate('yy/mm/dd', new Date($("#begin_date").val()))+" 00:00:00");
+				var endDate = Date.parse($.datepicker.formatDate('yy/mm/dd', new Date($("#end_date").val()))+" 00:00:00");
+				if (endDate.valueOf() <= beginDate.valueOf()){
+					$("#begin_date").focus();
+					alert("開始時間不可大於等於結束時間");
+					return false;
+				}
+				//前台是否顯示判斷
+				if($("input[name='show']:checked").size() != 1) {
+					alert("是否顯示於前台");
+					return false;
+				}
+				//顯示頁面判斷
+// 				if($("input[type='checkbox']:checked").length == 0){
+// 	                alert("廣告顯示頁面請至少選擇一個");
+// 	                return false;
+// 	            }
+				
+				if($("#totalCount").val() < 10 || $("input[name='navBanner.show']:checked").val() == "0"){
+					var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+					$("#mainForm").attr("action", link);
+					$("#mainForm").submit();
+				}else{
+					alert("廣告數量已達上限，不得再新增。");
+				}
+			}		
+		});
+		ruleText = function()
+		{
+			$("#ruleText").empty();
+
+			if($("#navType").val()=="1"){
+				$("#ruleText").text("檔名命名規則：不可為中文，尺寸：側邊欄300*184  檔案大小不超過500KB。");
+			}
+			else
+			{
+				$("#ruleText").text("檔名命名規則：不可為中文，尺寸：側邊欄300*600  檔案大小不超過500KB。");
+			}
+		},
+		changeType = function()
+		{
+		
+			$("#navType").val($("#type").val())
+			ruleText();
+
+		}
+	</script>
+</body>
+</html>

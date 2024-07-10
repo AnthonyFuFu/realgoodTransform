@@ -1,0 +1,36 @@
+$(function(){
+	
+	//手機版選單
+	$(".nav_rwd").on("click", function() {
+		$(".nav").toggle(200);
+
+		if($(".menu").is(':visible')){
+		$(".menu div").hide();
+		}	   
+	});
+	
+	init();
+	$(".nav li").on("click", function() {
+		var _id = parseInt($(this).index()) + 1;
+		$(".menu_area").show();
+			  
+		if($(".menu" + "_0" + _id ).is(':visible')){
+			$(".menu" + "_0" + _id ).slideUp();
+		}else{
+			init();
+			$(".menu" + "_0" + _id ).slideDown();
+		}	
+	});
+
+	function init(){
+		$(".nav li").each(function(){
+			var _id = parseInt($(this).index()) + 1;
+			$(".menu" + "_0" + _id).hide(); 
+		});
+	}
+
+	$(".nav li a").on('click', function(event) {
+		$(".nav li a").removeClass();
+		$(this).addClass('active');
+	});
+});

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>免責聲明-TKB甄戰學習顧問中心</title>
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css}" />	<!-- 電腦版 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/jquery.mCustomScrollbar.css}" />
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PCKKCNQ');</script>
+<!-- End Google Tag Manager -->
+<!-- Global site tag (gtag.js) - Google Ads: 957644279 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-957644279"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-957644279');
+</script>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M8MHXSJ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- 置頂按鈕 -->
+<a class="btn-top" href="javascript:void(0);"><i class="fas fa-arrow-up"></i></a>
+<!-- 收納按鈕 -->
+<a class="btn-feature" href="javascript:void(0);"><i class="fas fa-ellipsis-h"></i></a>
+<!-- 展開功能 -->
+<!-- 課程諮詢按鈕 -->
+<a class="btn-course" th:href="${@environment.getProperty('weburl')}+@{/common/consultation}">課程<br />諮詢</a>
+
+<!-- 行動版 -->
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+
+<div class="wrapper">
+
+	<!-- 20190625 start -->
+	<div class="header-box">  
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>	
+
+	 <div class="content">
+ 		<h1>免責聲明</h1>
+ 		<hr>
+ 		<p>當您成為「大碩研究所」網站（以下簡稱「本網站」）的使用者時，您已詳細閱讀及明確瞭解本『免責聲明』並同意，若屬下列情況發生時，本網站無須負擔任何責任：</p>
+ 		</br>
+ 		一、您使用本站服務之風險將由您個人承擔。
+ 		<p>用戶同意使用本網站各項服務是基於用戶的個人意願，並同意自負任何風險，例如由本網站服務中獲得之資料導致發生任何資源流失等結果。</p>
+ 		<p>&nbsp;</p>
+ 		二、本網站就各項服務，不負任何明示或默示之擔保責任。
+ 		<p>本網站以現狀、不保證無瑕疵以及提供服務時為基礎提供服務。您必須自行承擔使用本網站之任何風險，本網站並不保證、承諾或擔保所提供之服務不受干擾、能及時提供、安全或無錯誤。您必須瞭解並同意透過網路或資訊儲存技術傳輸的資料均無法保證安全，本公司不負任何明示、默示或暗示的擔保責任。</p>
+ 		<p>&nbsp;</p>
+ 		三、本網站對於您使用本網站而造成之任何直接、間接或其他損害，除基於故意行為所致者外，不負任何損害賠償責任。
+ 		<p>&nbsp;</p>
+ 		四、用戶在本網站填寫之物件資料、個人資料、上傳圖片等行為，純屬用戶個人行為，本網站對其內容之真實性或完整性不負有任何責任。
+ 		<p>&nbsp;</p>
+ 		五、任何由於電腦病毒侵入，或因政府管制而造成的暫時性關閉等因素，影響網路正常經營之不可抗力而造成的資料毀損、丟失、被盜用或被竄改等損害行為，本網站對其損害結果不負有任何責任。
+ 		<p>&nbsp;</p>
+ 		六、對於用戶透過本網站刊登或發佈虛假、違法資訊、侵害他人權益及欺騙、敲詐行為者等，皆純屬用戶個人行為，「本網站」對因此而產生的一切糾紛不負任何責任。
+ 		<p>&nbsp;</p>
+ 		七、本網站可能會修改此免責聲明，因此您應定期到訪本頁，確保已閱讀並同意本網站最新修改之版本。免責聲明如經修改，本網站將會公告於網站上。若您不同意該等變更或修改，請停止繼續使用本網站服務，並通知本公司停止蒐集、處理及使用您的個人資料。
+		<p>&nbsp;</p>
+	</div><!-- content -->   
+	    <div th:insert="~{front/loadForOldPage/layout :: footer}"></div>
+	    <script th:src="${@environment.getProperty('static.url')}+@{/js/facebook_Adjust.js}"></script>	
+	    
+</div>
+<!-- wrapper -->
+</body>
+</html>

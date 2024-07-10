@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/byone.ico}" />
+<title>外交特考專區-考取金榜-百官網公職</title>
+<meta name="description" content="TKB百官網公職，外交特考榜單，佔榜率高達8成！" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="考取金榜-外交特考專區-百官網公職" />
+<meta property="og:description" content="TKB百官網公職，外交特考榜單，佔榜率高達8成！" />
+<meta property="og:url" content="/GSAT/admit" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css}" />	<!-- 電腦版 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/jquery.mCustomScrollbar.css}" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick-exam.css}" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick-theme-exam.css}" />
+
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">	
+<!-- Global site tag (gtag.js) - Google Ads: 957644279 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-957644279"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-957644279');
+</script>
+<style>
+/* For Index & AdmitList & Exam */
+@media ( min-width : 1180px) and (max-width: 9999px) {
+	.slick-prev, .slick-next, .slick-dots {
+		display: block !important;
+	}
+}
+</style>
+</head>
+<body>
+<!-- 行動版 -->
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<a class="btn-top" href="javascript:void(0);"><i class="fas fa-arrow-up"></i></a>
+<!-- 收納按鈕 -->
+<a class="btn-feature" href="javascript:void(0);"><i class="fas fa-ellipsis-h"></i></a>
+<!-- 展開功能 -->
+<!-- 課程諮詢按鈕 -->
+<a class="btn-course" th:href="${@environment.getProperty('static.url')}+@{/common/consultation}">課程<br />諮詢</a>
+<div class="wrapper">
+	<!-- 20190625 start -->
+	<div class="header-box">  
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+		<form id="getForm" method="GET" enctype="multipart/form-data">
+					<input type="hidden" id="str" name="str" />
+		</form>
+		<input type="hidden" id="type" name="type" th:value="${gSATAdmit.sort}" />
+		<input type="hidden" id="dip_project_name" name="dip_project_name" value="" />
+		<div class="content">
+		<div class="ad">
+		<th:block th:if="${#lists.size(navBannerList)==3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<th:block th:if="${data.count == 1}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			<th:block th:if="${data.count == 2}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			</th:block>
+		</th:block>
+		<th:block th:if="${#lists.size(navBannerList)<3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<div><a th:href="${dataStatus.link}" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+			</th:block>
+		</th:block>
+		
+		<div class="metaBox"></div>
+		
+		<th:block th:if="${#lists.size(navBannerList)==3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<th:block th:if="${data.count == 3}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			</th:block>
+		</th:block>
+		<th:block th:each="dataStatus , data : ${navBannerType2List}">
+			<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+		</th:block>
+		</div>
+		<!-- ad -->
+			<div class="main_area">
+				<h1>外交特考專區</h1>
+				<hr></hr>
+
+			<div class="diplomacy_link">	
+				<ul>
+				<span>&nbsp;&nbsp;»&nbsp;快速連結</span>
+				<th:block th:each="dataStatus , data : ${gSATMenuList}">
+						<li>
+							<th:block th:if="${dataStatus.name eq '考取金榜'}">
+								<a class="diplomacy_link_now" th:href="${dataStatus.link}">
+								[[${dataStatus.name}]]
+								</a>
+							</th:block>
+							<th:block th:unless="${dataStatus.name eq '考取金榜'}">
+								<a th:href="${dataStatus.link}">
+								[[${dataStatus.name}]]
+								</a>
+							</th:block>
+						</li>
+					</th:block>
+				</ul>
+			</div><!-- 			location_link -->
+			<h2><div class="red_word">»&nbsp;考取金榜</div></h2> 
+
+     		<div class="poster">
+       		<img th:src="${@environment.getProperty('static.url')}+@{/images/front/admission/admission_01.jpg}"></img>
+       			<div class="poster_text"></div>
+        </div><!-- poster -->
+
+			<div class="tabs">
+	                <div class="slider-mask outer">
+							<th:block th:each="dataStatus , data : ${gSATAdmitList}">
+									<div class="tabItem">
+										[[${dataStatus.seo}]]
+									</div>
+							</th:block>
+	                </div> 
+			</div>
+				<th:block th:each="dataStatus , data : ${gSATAdmitList}">
+					<div class="tab_container">
+						<div class="qa">
+							<div id="qaContent">
+								<ul class="accordionPart">
+									<li>
+										<input type="hidden" class="postTitle" th:value="${dataStatus.title}"/>
+										<div class="qa_content">
+											<div class="article" th:utext="${#strings.replace(dataStatus.content,'&#10;','&lt;br&gt;')}"></div>
+										</div>
+									</li>
+								</ul>                     
+							</div><!-- qaContent -->
+						</div><!-- qa -->            
+					</div><!-- tab_container -->
+				</th:block>	
+				</div><!-- main_area -->
+				<div class="clear_float"></div>
+			      <div style="margin-top:-15%" th:insert="~{front/common/consultationGsat}"></div>
+				</div>
+
+				<!-- content -->
+	
+		
+
+		<div th:insert="~{front/loadForOldPage/layout :: footer}"></div>	
+		<script th:src="${@environment.getProperty('static.url')}+@{/js/facebook_Adjust.js}"></script>
+		<script th:src="${@environment.getProperty('static.url')}+@{/js/front/advertising.js}"></script>
+	</div>
+<!-- 登入裝置 -->
+<script>
+$(document).ready(function() {
+    $(".tab_container:first").css("display", "block");
+    $(".tabItem:first").attr("style", "background: rgb(255, 255, 255); border-bottom: 1px solid rgb(255, 255, 255); box-shadow: none;");
+	$("#dip_project_name").val($('.tabs .tabItem:first').text()+"考取金榜-外交特考專區");
+	$('.slider-mask').slick({
+		  slidesToShow: 4,
+		  slidesToScroll: 2,
+		  infinite: false,
+		  variableWidth:true,
+		  responsive: [
+			    {
+			      breakpoint: 481,
+			      settings: {
+			        slidesToShow: 2,
+			        slidesToScroll: 2,
+			      },
+			   },
+		    ]
+		});
+  });
+  
+function refreshPage() {
+    location.reload();
+}
+$(window).resize(function() {
+    refreshPage();
+});
+</script>
+</body>
+</html>

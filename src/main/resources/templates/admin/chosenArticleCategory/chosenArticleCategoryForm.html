@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseUtil.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+		<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${chosenArticleCategory}" th:with="btn_name = ${chosenArticleCategory.id == null ? '新增' : '修改'}">
+			<input type="hidden" id="id" th:field="*{id}" />
+			<input type="hidden" id="hidden_parent_id" th:field="*{parent_id}" />
+			<input type="hidden" id="hidden_layer" th:field="*{layer}" />
+			<input type="hidden" th:value="${menu_id}" />
+			<input type="hidden" id="menu_id_hidden" name="menu_id_hidden" th:value="${menu_id_hidden}" />
+			<!-- content -->
+			<div class="content">
+				<!-- table -->
+				<table class="table-vertical" cellspacing="0">
+					<caption>[[${btn_name}]]頁面</caption>
+					<tr>
+						<th><span class="important">*</span>標題</th>
+						<td>
+							<input type="text" id="name" th:field="*{name}" />
+							<div class="tips" style="color:red;">※此類別已建立過，請重新輸入。</div>
+						</td>
+					</tr>
+					<tr>
+						<th><span class="important">*</span>排序</th>
+						<td>
+							<input type="number" id="sort" th:field="*{sort}" />
+						</td>
+					</tr>
+					<tr>
+						<th>功能</th>
+						<td class="table-button vertical-btn">
+							<a id="back" style="cursor:pointer;">返回</a>
+							<a id="add" style="cursor:pointer;">[[${btn_name}]]</a>
+						</td>
+					</tr>
+				</table>
+				<!-- table -->
+			</div>
+			<!-- content -->
+		</form>
+		<script>
+			$(function(){
+				
+				$(".tips").css("display", "none");
+				
+				$("#back").click(() => {
+					history.back();
+				});
+				
+				$("#name").change(() => {
+					if($("#name").val().trim() == ""){
+						$(".tips").css("display", "none");
+					}else{
+						$.ajax({
+							url: "[[${@environment.getProperty('weburl')}]]/tkbrule/chosenArticleCategory/checkNameRepeat",
+							data: {
+								categoryName: $("#name").val(),
+							},
+							type: "POST",
+							dataType: "text",
+							async: false,
+							success: function(res, textStatus, xhr){
+								if(xhr.status === 200){
+									$(".tips").css("display", "block");
+									$("#name").focus();
+								}else{
+									$(".tips").css("display", "none");
+								}
+							},
+							error: function(xhr, textStatus, thrownError){
+								alert('Ajax request 發生錯誤');
+							}
+						});
+					}
+				});
+				
+				$("#add").click((e) => {
+					e.preventDefault();
+					if($("#name").val().trim() == "" || $("#name").val() == null){
+						alert("請輸入類別名稱");
+						return false;
+					}else if($(".tips").css("display") == "block"){
+						alert("此類別已建立過，請重新輸入。");
+						return false;
+					}
+					if($("#sort").val() <= 0){
+						alert("排序不能小於0");
+						return false;
+					}else if($("#sort").val().trim() == "" || $("#sort").val() == null){
+						alert("請輸入排序");
+						return false;
+					}
+					
+					let link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+					$("#mainForm").attr("action", link);
+					$("#mainForm").submit();
+				});
+				
+			});
+		</script>
+	</div>
+</div>
+</body>
+</html>

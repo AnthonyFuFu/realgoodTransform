@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseUtil.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+<!-- content -->
+	<div class="content">
+		<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${winner}">
+			<input type="hidden" id="id" th:field="*{id}" />
+			
+			<!-- table -->
+			<table class="table-vertical" cellspacing="0">
+			
+				<caption><h2>贏家經驗談-瀏覽頁面</h2></caption>
+				<tr>
+				    <th><span class="important">*</span>年度</th>
+					<td>[[*{year}]]</td>
+				</tr>
+				<tr>
+				    <th><span class="important">*</span>類別</th>
+					<td>[[*{parent_name}]]</td>
+				</tr>
+				<tr>
+				    <th><span class="important">*</span>應考資訊類別</th>
+					<td>[[*{category_name}]]</td>
+				</tr>
+				<tr>
+				    <th><span class="important">*</span>姓名</th>
+					<td>[[*{name}]]</td>
+				</tr>
+				<tr>
+				    <th><span class="important"></span>原就讀學校</th>
+					<td>[[*{original}]]</td>
+				</tr>
+				<tr>
+				    <th><span class="important">*</span>考取</th>
+					<td>[[*{admitted}]]</td>
+				</tr>
+				<tr>
+				    <th><span class="important">*</span>考取心得簡介</th>
+					<td>[[*{summary}]]</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>內容</th>
+					<td id="contentBox">
+						<th:block th:each="dataStatus , data  : ${winnerContentList}">
+							<div class="${#strings.substring(datdStatus.icon,0,14)}"><strong>[[${dataStatus.title}]]</strong></div>
+							<div class="article">[[${dataStatus.content}]]</div>
+						</th:block>
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>列表圖片</th>
+					<td>
+						[[*{photo}]]
+						<br>
+						<th:block th:if="*{photo}!= null">
+							<img th:src="*{photo}"th:alt="*{photo}" width="350px" height="200px" />
+						</th:block>
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>內容圖片</th>
+					<td>
+						[[*{image}]]
+						<br>
+						<th:block th:if="*{image}!= null">
+							<img th:src="*{image}" th:alt="*{image}" width="350px" height="200px" />
+						</th:block>
+					</td>
+				</tr>
+				<tr>
+					<th>影音連結</th>
+					<td>[[*{video}]]</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>是否顯示於前台</th>
+					<td>
+						<th:block th:if="*{show} == 1">是</th:block>
+						<th:block th:unless="*{show} == 1">否</th:block>
+					</td>
+				</tr>
+				<tr>
+					<th>功能</th>
+					<td class="table-button vertical-btn">
+						<a href="#" onclick="history.back()">返回</a>
+<!-- 						<a href="#" onclick="add()"><s:property value="#btn_name" /></a> -->
+					</td>
+				</tr>
+			</table><!-- table -->
+		</form>
+	</div><!-- content -->
+		</div><!-- content -->
+		</div><!-- content -->
+	
+	<script>
+		$(function(){
+			
+			add = function() {
+				
+				var link = $("#id").val() == 0 ? "index" : "update";
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+			}
+			
+		});
+	</script>
+</body>
+</html>

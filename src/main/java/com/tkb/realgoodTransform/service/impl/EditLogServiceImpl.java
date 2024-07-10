@@ -7,6 +7,8 @@ import com.tkb.realgoodTransform.dao.EditLogDao;
 import com.tkb.realgoodTransform.model.EditLog;
 import com.tkb.realgoodTransform.service.EditLogService;
 
+
+
 @Service
 public class EditLogServiceImpl implements EditLogService {
 	

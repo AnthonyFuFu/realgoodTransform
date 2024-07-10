@@ -1,12 +1,13 @@
 package com.tkb.realgoodTransform.model;
 
-import java.sql.Clob;
-import java.sql.Timestamp;
+import java.sql.Date;
 
 import lombok.Data;
 
 /**
  * 精選文章
+ * @author 
+ * @version 創建時間：2016-07-05
  */
 @Data
 public class ChosenArticle {
@@ -25,18 +26,19 @@ public class ChosenArticle {
 	private String display;					//顯示狀態
 	private String delete_status;			//是否刪除
 	private String create_by;				//創建者
-	private Timestamp create_date;			//創建時間
+	private String create_date;			//創建時間
 	private String update_by;				//編輯者
-	private Timestamp update_date;			//編輯時間
-	private Timestamp last_update;			//最後修改時間(文章系統的部分)
+	private Date update_date;			//編輯時間
+	private Date last_update;			//最後修改時間(文章系統的部分)
 	private String banner_url;				//BANNER URL
 	private String edit_from;				//編輯學堂 
-	private Clob content;					//從文章系統引用來的內容
-	private Clob quote_content;				//內容
-	
+	private String content;					//從文章系統引用來的內容
+	private String quote_content;				//內容
+	private String encrypturl;             //內頁URL
+	private String product_category;	//產品網址分類
 	//暫存
 	private String encrypt_id;				//加密id字串
-	private String encrypturl;              //內頁URL
+	
 	private String category_name;			//分類中文
 	private String parent_category_name;	//父分類中文
 	private String category_parent;			//父分類
@@ -49,4 +51,16 @@ public class ChosenArticle {
 	private ChosenArticle next_article;		//下一篇
 	private Integer rownum;					//自然編號
 	
+	
+	private Integer pageCount;			//每頁筆數
+	private Integer pageTotalCount;		//總筆數
+	private Integer totalPage;			//總頁數
+	
+	private Integer leftStartPage;		//左邊開始頁碼
+	private Integer leftEndPage;		//左邊結束頁碼
+	private Integer rightStartPage;		//右邊開始頁碼
+	private Integer rightEndPage;		//右邊結束頁碼
+	private Integer leftPageNum;		//左邊頁碼數量
+	private Integer rightPageNum;		//右邊頁碼數量
+
 }

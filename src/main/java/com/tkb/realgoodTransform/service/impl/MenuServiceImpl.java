@@ -13,6 +13,8 @@ import com.tkb.realgoodTransform.model.Menu;
 import com.tkb.realgoodTransform.model.User;
 import com.tkb.realgoodTransform.service.MenuService;
 
+
+
 /**
  * 選單Service實作類
  * @author Joshua
@@ -24,25 +26,6 @@ public class MenuServiceImpl implements MenuService {
 	@Autowired
 	MenuDao menuDao;
 
-	// ======================================== 開發用method start ========================================= 
-	@Override
-	public List<Map<String, Object>> getListForInsertData() {
-		return menuDao.getListForInsertData();
-	}
-	@Override
-	public List<Map<String, Object>> getListForChecktData() {
-		return menuDao.getListForChecktData();
-	}
-	@Override
-	public void insertForRemake(Menu menu) {
-		menuDao.insertForRemake(menu);
-	}
-	@Override
-	public void updateForRemake(Menu menu) {
-		menuDao.updateForRemake(menu);
-	}
-	// ======================================== 開發用method end =========================================
-	
 	@Override
 	public Integer getCount(Menu menu) {
 		return menuDao.getCount(menu);
@@ -107,6 +90,11 @@ public class MenuServiceImpl implements MenuService {
 		}else {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
+	}
+
+	@Override
+	public Integer getMenuId(String link) {
+		return menuDao.getMenuId(link);
 	}
 
 }

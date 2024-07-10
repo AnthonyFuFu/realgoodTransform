@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>TKB甄戰學習顧問中心-書審口面試輔導專家</title>
+<meta name="description" content="大學學測個人申請,研究推甄甄試,研究所在職專班,高職升科大書審口試輔導專家" />
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css}" />	<!-- 電腦版 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/jquery.mCustomScrollbar.css}" />
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">
+<!-- Global site tag (gtag.js) - Google Ads: 957644279 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-957644279"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-957644279');
+</script>
+</head>
+<body>
+
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<div class="wrapper">
+<!-- 20190625 start -->
+	<div class="header-box">  
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+	<div class="content">
+		<h1>甄戰服務據點</h1>
+		<div class="back"><a href="/index">回上頁</a></div>
+	<hr/>
+	<div class="sort">
+	
+		<form id="mainForm" method="post" enctype="multipart/form-data">
+			<input type="hidden" id="id" name="location.id" />
+			<input type="hidden" id="area" name="location.area"/>
+			<input type="hidden" id="pageNo" name="pageNo" value="0"/>
+			<input type="hidden" id="page_count" name="page_count" >
+		</form>
+		<form id="getForm" method="get" enctype="multipart/form-data">
+			<input type="hidden" id="str" name="str"/>
+		</form>
+		
+		<ul id="area_name">地區
+			<th:block th:each="dataStatus , data : ${areaList}">
+				<th:block th:if="${dataStatus.name} != '全區'">
+				<li><a th:id="${dataStatus.id}" th:onclick="|searchArea('${dataStatus.id}', '1')|">[[${dataStatus.name}]]</a></li>
+				</th:block>
+			</th:block>
+		</ul>
+		<span>※學習場次，依季節性做彈性調整，請以座位預約系統可預約場次為主</span>
+	</div><!-- sort -->
+	
+	<div class="bulletin_list">
+		
+		<th:block th:each="dataStatus , data : ${locationList}"value="locationList" status="branchListStatus" id="branchList">
+		<div class="location_group">
+			<div class="clear_float"></div>             
+            <hr/>
+            
+			<div class="location">
+            	<div class="location_map">
+                	<a th:href="${dataStatus.share_url}" target="_blank" width="100%" style="display: inline-block">
+            			<th:block th:if="${dataStatus.image != null}">
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/location/{image}(image=${dataStatus.image})}" width="100%"/>
+						</th:block>
+            		</a>
+                </div><!-- location_map -->
+                <div class="location_info">
+                    <div class="location_shop">[[${dataStatus.name}]]</div>
+                    <div>[[${dataStatus.address}]]</div>
+                    <div>TEL：[[${dataStatus.tel}]]</div>
+                    <th:block th:if="${dataStatus.do_business_time != null}">
+                    <h2>營業時間</h2>
+                    <div th:utext="${#strings.replace(dataStatus.do_business_time,'&#10;','&lt;br&gt;')}"></div>
+                    </th:block>
+                    <th:block th:if="${dataStatus.remark != null}">
+                    <h2>備註</h2>
+                    <div th:utext="${#strings.replace(dataStatus.remark,'&#10;','&lt;br&gt;')}"></div>
+               		</th:block>
+               		<th:block th:if="${dataStatus.file_info != null}">
+                    <h2>立案資訊</h2>
+                    <div th:utext="${#strings.replace(dataStatus.file_info,'&#10;','&lt;br&gt;')}"></div>
+               		</th:block>
+                </div><!-- location_info -->
+            </div><!-- location -->
+			
+			<div class="clear_float"></div>
+            <hr/>
+        </div><!-- location_group -->  
+		</th:block>
+		
+	</div><!-- bulletin_list -->  
+
+	</div><!-- content -->
+	<div th:insert="~{front/loadForOldPage/layout :: footer}"></div>
+</div><!-- wrapper -->
+<script>
+$(function(){
+	$("#area").val($("#area_name li:first-child a ").attr("id"));
+
+	search = function(layer) {
+
+		$.ajax({
+			url: "toSearch",
+			cache: false,
+			async: false,
+			dataType: "json",
+			type:"POST",
+			data:{
+				layer : layer,
+				area_id : $("#area").val(),
+				page_count : $("#page_count").val(),
+				page_no : $("#pageNo").val()
+			},
+			error: function(xhr) {
+				alert('Ajax request 發生錯誤');
+			},
+			success: function(data) {
+				var pageStr = "";
+
+				$(".bulletin_list").empty();
+				
+				var str = "";
+				if(data != null && data.length > 0){
+					for(i = 0 ; i < data.length; i++){
+						var branchList = data[i];
+						str += "<div class='location_group'>";
+						str += "<div class='clear_float'></div>";
+						str += "<hr>";
+						str += "<div class='location'>";
+						str += "<div class='location_map'>";
+						str += "<a href='"+branchList.share_url+"' target='_blank' style='display: inline-block'>";
+						str += "<img src='"+ branchList.image_url +"' width='100%' />";
+						str += "</a>";
+						str += "</div>";
+						str += "<div class='location_info'>";
+						str += "<div class='location_shop'>"+branchList.name+"</div>";
+						str += "<div>"+branchList.address+"</div>";
+						str += "<div>TEL："+branchList.tel+"</div>";
+						
+						var business_time = branchList.do_business_time;
+						if(business_time != null && business_time != ""){
+							business_time = business_time.replace(/\n/g,"<br>");
+							str += "<h2>營業時間</h2>";
+							str += "<div class='remark'>"+business_time+"</div>";
+						}
+						
+						var remark = branchList.remark;
+						if(remark != null && remark != ''){
+							str += "<h2>備註</h2>";
+							remark = remark.replace(/\n/g,"<br>");
+							str += "<div class='remark'>"+remark+"</div>";
+							str += "<div class='clear_float'></div>";
+						}
+						
+						var file_info = branchList.file_info;
+						if(file_info != null && file_info !="" && file_info !=" "){
+							str += "<a class='btn-case-info' href='javascript:void(0);' onclick='btn_click()'>立案資訊</a>";
+							file_info = file_info.replace(/\n/g,"<br>");
+							str += "<div class='file-info' style='display: none'>"+file_info+"</div>";
+						}
+						
+						str += "</div></div>";
+						str += "<div class='clear_float'></div>";
+						str += "</div>";
+					}
+					$(".bulletin_list").append(str);
+				}
+				
+				if(data != null && data.length > 0){
+	
+					for(var i=1; i<=parseInt(data[0].totalPage); i++) {
+						if(parseInt($("#pageNo").val()) == 0){
+							$("#pageNo").val("1"); 
+						}
+						if(i == parseInt($("#pageNo").val())) {
+							pageStr += "<option value='"+i+"' selected>"+i+"</option>";
+						} else {
+							pageStr += "<option value='"+i+"'>"+i+"</option>";
+						}
+					}
+				}
+			}
+		});
+	},
+	
+	searchArea = function(id, layer) {
+
+		if(id == "ALL") {
+			$("#area").val('');
+		} else {
+			$("#area").val(id);
+		}
+		if(id != $("#area_name li:first-child a ").attr("id")){
+			$(".sort ul li a").eq(0).css({"color":"#000"});
+		}else{
+			$(".sort ul li a").eq(0).css({"color":"#198FA4"});
+		}
+		$("#pageNo").val("1");
+		search("1");
+	},
+	
+	changePage = function(pageNo) {
+		$("#pageNo").val(pageNo);
+		search("1");
+	}
+	
+	search("1");
+	$(".sort ul li a").eq(0).css({"color":"#EA5F2B"});
+})
+$(document).on("click",".btn-case-info",function(){
+	$(this).next().toggle();
+})
+</script>
+</body>
+</html>

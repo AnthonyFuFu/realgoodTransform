@@ -48,4 +48,9 @@ public class GroupUserServiceImpl implements GroupUserService {
 		return groupData;
 	}
 
+	@Override
+	public void insertAndUpdateGroupsUser(GroupUser groupUser) {
+		groupUserDao.insertAndUpdateGroupsUser(groupUser);
+	}
+
 }

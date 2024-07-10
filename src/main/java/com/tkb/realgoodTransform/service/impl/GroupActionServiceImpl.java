@@ -9,6 +9,8 @@ import com.tkb.realgoodTransform.dao.GroupActionDao;
 import com.tkb.realgoodTransform.model.GroupAction;
 import com.tkb.realgoodTransform.service.GroupActionService;
 
+
+
 @Service
 public class GroupActionServiceImpl implements GroupActionService {
 	
@@ -28,6 +30,7 @@ public class GroupActionServiceImpl implements GroupActionService {
 	@Override
 	public void delete(GroupAction groupAction) {
 		groupActionDao.delete(groupAction);
+		
 	}
 
 	@Override

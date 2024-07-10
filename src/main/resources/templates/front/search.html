@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>站內搜尋-TKB甄戰學習顧問中心</title>
+<meta name="description" content="大學學測個人申請,研究推甄甄試,研究所在職專班,高職升科大書審口試輔導專家" />
+<meta name="keywords" content="推甄,大學甄選,甄試入學,申請入學,面試技巧,科大申請,備審資料,推薦入學" />
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css}" />	<!-- 電腦版 -->
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/slides.css}" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/jquery.mCustomScrollbar.css}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/google_search.css}"/>
+<link th:insert="~{front/loadForOldPage/js :: common}">
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PCKKCNQ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PCKKCNQ');</script>
+<!-- End Google Tag Manager -->
+<!-- Global site tag (gtag.js) - Google Ads: 957644279 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-957644279"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-957644279');
+</script>
+</head>
+<body>
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<div class="wrapper">
+	<div class="header-box">  
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+	<input id="result" type="hidden" th:value="${keyword}"/>	
+	<div class="content">
+		<div class="search_page">
+			<h1>站內搜尋</h1>
+			<hr/>
+			<div>
+				<script>
+				  (function() {
+				    var cx = '006329461928056897044:ld0ly1_a5x4';
+				    var gcse = document.createElement('script');
+				    gcse.type = 'text/javascript';
+				    gcse.async = true;
+				    gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+				    var s = document.getElementsByTagName('script')[0];
+				    s.parentNode.insertBefore(gcse, s);
+				  })();
+				  
+					$(window).load(function() {
+						if($("#result").val()!=null||!"".equals($("#result").val())){
+							$("#gsc-i-id1").val($("#result").val());
+							$(".gsc-search-button").click();
+						} 	
+					});
+
+				</script>
+				<gcse:search></gcse:search>
+			</div>
+		</div><!-- search_page -->
+	</div><!-- content -->
+	<div th:insert="~{front/loadForOldPage/layout :: footer}"></div>
+</div><!-- wrapper -->
+</body>
+</html>

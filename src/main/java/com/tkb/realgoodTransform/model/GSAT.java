@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 public class GSAT {
-
+	
 	private Integer id;						//流水號
 	private String category;				//考試類別名稱
 	private String title;					//標題(頁籤)名稱
@@ -23,10 +23,13 @@ public class GSAT {
 	private Integer click_rate;				//點擊率	
 	private String create_by;				//創建者
 	private Timestamp create_date;			//創建時間
+//	private Date create_date;				//創建時間
 	private String update_by;				//編輯者
 	private Timestamp update_date;			//編輯時間	
-	private Integer sort;               	//排序
+//	private Date update_date;				//編輯時間	
+	private Integer sort;              	 	//排序
 	private Integer show;              		//是否顯示於前台
+	private String product_category;		//產品網址分類
 	
 	private String encrypt_id;             	//加密id字串
 	private String front_url;				//前台網址

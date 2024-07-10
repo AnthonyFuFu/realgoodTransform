@@ -10,6 +10,9 @@ import com.tkb.realgoodTransform.dao.UserLoginLogDao;
 import com.tkb.realgoodTransform.model.UserLoginLog;
 import com.tkb.realgoodTransform.service.UserLoginLogService;
 
+
+
+
 @Service
 public class UserLoginLogServiceImpl implements UserLoginLogService {
 	

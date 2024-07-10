@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<meta charset="UTF-8">
+<head>
+<style>
+.btn-group button{
+	background: none;
+	color: inherit;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+}
+.btn-group li{
+	margin-top: 3px;
+}
+.btn-group b{
+	color: white;
+	font-weight: bolder;
+	font-size: 1rem;
+}
+</style>
+</head>
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+	<form id="mainForm" method="POST" th:object="${chosenArticle}">
+		<input type="hidden" id="id" th:field="*{id}" />
+		<input type="hidden" id="deleteList" name="deleteList" />
+		<input type="hidden" name="article_num" id="article_num" />
+		<input type="hidden" name="pageNoLog"  th:value="${pageNoLog}"/>
+		<!-- content -->
+		<div class="content">
+			<!-- button group -->
+			
+			<div class="btn-group">
+				<ul>
+					<li><a href="javascript:void(0)" onclick="inputArticleNum()">新增</a></li>
+					<li><a href="javascript:void(0)" onclick="checkAll()">全選</a></li>
+					<li><a href="javascript:void(0)" onclick="deleteData()">刪除</a></li>
+					<li><a href="javascript:void(0)" onclick="displayOn()">上架</a></li>
+					<li><a href="javascript:void(0)" onclick="displayOff()">下架</a></li>
+					<li><a href="javascript:void(0)" onclick="updateArticleData()">手動更新文章</a></li>
+					<li><a href="updateNormalData">去更新正是機資料到本地</a></li>
+				</ul>			
+			</div>
+			
+			<!-- search -->
+			<div class="search">
+				<ul>
+					<li>標題搜尋:</li>
+					<li><input type="text" id="name" name="courseDiscount.title" th:field="*{title}"></li>
+					<li><button class="search-button" onclick="searchQuery()">搜尋</button></li>
+					<li><button class="search-button" onclick="resetData()">清除</button></li>
+				</ul>
+			</div>
+			
+			<!-- table -->
+			<table class="table-horizon">
+				
+				<caption><h2>精選文章</h2></caption>
+				
+				<thead>
+					<tr>
+						<th></th>
+						<th>序號</th>
+						<th width="10%">文章編號</th>
+						<th width="5%">類別</th>
+						<th>前台<br>顯示</th>
+						<th>置頂</th>
+						<th width="35%">標題</th>
+						<th>點閱率</th>
+						<th>建立時間</th>
+						<th>更新</th>
+						<th class="width-fixed">功能</th>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:if="${#lists.isEmpty(chosenArticleList)}">
+						<tr>
+							<td colspan="7" align="center">尚無任何資料</td>
+						</tr>
+					</th:block>
+					<th:block th:each = "dataStatus , data : ${chosenArticleList}"  > 
+						<tr>
+							<td><input type="checkbox" name="selectList" th:value="${dataStatus.id}"></td>
+							<td th:text="${(pageNo-1) * pageCount + data.count}"></td>
+							<td th:text = "${dataStatus.article_num}"></td>
+							<td th:text = "${dataStatus.category_name}"></td>
+							<td>
+								<span th:if="${dataStatus.display} eq '1'">是</span> 
+								<span th:if="${dataStatus.display} eq '0'">否</span> 
+							</td>
+							<td>
+								<span th:if="${dataStatus.top_status} eq '1'">是</span> 
+								<span th:if="${dataStatus.top_status} eq '0'">否</span> 
+							</td>
+							<td th:text = "${dataStatus.title}"></td>
+							<td th:text = "${dataStatus.click_rate}"></td>
+							<td th:text="${#strings.substring(dataStatus.create_date, 0, dataStatus.create_date.indexOf(' '))}"></td>
+							<td class="table-button width-fixed" th:text="${dataStatus.update_date}"></td>
+							<td class="table-button width-fixed">
+								<a href="javascript:void(0)" title="修改" th:onclick="|javascript:changeAction('update', '${dataStatus.id}')|"><i class="fa fa-pencil"></i></a>
+							</td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+			<!-- table -->
+				<div th:insert="~{admin/load/layout :: page}"></div>
+		</div>
+			<!-- content -->
+		</form>
+		</div>
+		</div>
+	<script>
+	
+	function inputArticleNum(){
+		var article_num_temp=prompt("請輸入文章編號","");
+		 if (article_num_temp!=null && article_num_temp!=""){
+		    $("#article_num").val(article_num_temp);
+		    $("#mainForm").attr("action", "add");
+			$("#mainForm").submit();
+		 }else{
+			 alert("未輸入文章編號!請重新操作");
+			 return false;
+		 }
+	}
+	
+		$(function(){
+
+			changeAction = function(link, id) {
+				
+				$("#id").val(id);
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+				
+			},
+			
+			resetData = function() {
+				$("#pageNo").val('1');
+				$("#name").val('');
+			},
+			
+			gotoPage = function(link) {
+				
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+// 				location.href = link;
+				
+			},
+			
+			changeAction = function(link, id) {
+				
+				$("#id").val(id);
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+				
+			},
+			
+			changeArticleAction = function(link, id) {
+				
+				$("#chosen_article_id").val(id);
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+				
+			},
+			
+			updateDisplayShow = function() {
+				if($("input[name='selectList']:checked").length <= 0){
+					alert("請至少選擇一份資料");
+					return false;
+				}else{
+					alert("精選文章上架成功");
+					$("#mainForm").attr("action", "updateDisplayShow");
+					$("#mainForm").submit();	
+				}
+				
+			},
+			
+			updateDisplayHide = function() {
+				if($("input[name='selectList']:checked").length <= 0){
+					alert("請至少選擇一份資料");
+					return false;
+				}else{
+					alert("精選文章下架成功");
+					$("#mainForm").attr("action", "updateDisplayHide");
+					$("#mainForm").submit();
+				}
+			},
+			updateArticleData = function() {
+				if(confirm("確定要更新文章系統的資料?")){
+					alert("批次更新文章需大量時間,請耐心等候,按OK以繼續！");
+					
+					$.ajax({
+						url: "[[${@environment.getProperty('weburl')}]]/tkbrule/chosenArticle/updateAllArticle",
+						cache: false,
+						async: false,
+						dataType: "text",
+						type:"POST",
+						data:{
+							article_num : "T18002665"
+						},
+						error: function(xhr) {
+							alert('批次更新 發生錯誤');
+						},
+						success: function(data) {
+							alert(data);
+							window.location.reload();
+						}
+					});
+
+				}else{
+					return false;
+				}
+			}
+
+		});
+	</script>
+</body>

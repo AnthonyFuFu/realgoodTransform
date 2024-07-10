@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+		<!-- content -->
+	<div class="content">
+		<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${banner}" th:with="btn_name=${banner.id == null ? '新增': '修改'}">
+			<input type="hidden" id="id" th:field="*{id}" />
+			<input type="hidden" name="searchTitle" th:value="${searchTitle}" >
+			<input type="hidden" id="pageNo" name="pageNo" th:value="${pageNo}">
+			<input type="hidden" id="totalCount" th:field="*{count}"/>
+			<input type="hidden" id="deleteImage" name="deleteImage" th:field="*{image}" />
+			<input type="hidden" id="deleteImageRwd" name="deleteImageRwd" th:field="*{image_rwd}" />
+			<!-- table -->
+			<table class="table-vertical" cellspacing="0">
+				<caption><h2>廣告設定-[[${btn_name}]]頁面</h2></caption>
+				<tr>
+					<th>
+						<span class="important">*</span>標題
+						
+					</th>
+					<td>
+						<input type="text" id="title"  th:field="*{title}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>連結
+					</th>
+					<td>
+						<input type="text" id="link" th:field="*{link}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>排序
+					</th>
+					<td>
+						<input type="text" id="sort"  th:field="*{sort}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>圖片
+					</th>
+					<td>
+<!-- 						<input type="hidden" id="image" name="banner.image" th:field="*{image}"/> -->
+						<input type="hidden" id="imageExtension" name="imageExtension" />
+						<input type="file" id="uploadImage" name="uploadImage" /><font style="color:red;">上傳圖片不可超過500KB，尺寸 880*250px，<br>如上傳圖片規格不符，則需重新填寫資料!</font>
+						<br/><br/>
+						<th:block th:if="*{image} != null">
+							<img th:src="${@environment.getProperty('static.url')}+@{/upload/image/banner/{image}(image=*{image})}" th:alt="*{image}" width="350px" height="200px" />
+						</th:block>
+					</td>
+				</tr>				
+				<tr>
+					<th>
+						<span class="important">*</span>手機版圖片
+					</th>
+					<td>
+<!-- 						<input type="hidden" id="imageRwd" name="banner.image_rwd" th:field="*{image_rwd}"/> -->
+						<input type="hidden" id="imageRwdExtension" name="imageRwdExtension" />
+						<input type="file" id="uploadRwdImage" name="uploadRwdImage" onblur="checkFile()"/>
+						<br/><br/>
+						<font style="color:red;">檔名命名規則：不可為中文，尺寸：680px*700px ，檔案大小不超過500KB。</font>
+						<br/><br/>
+						<th:block th:if="*{image_rwd} != null">
+							<img th:src="${@environment.getProperty('static.url')}+@{/upload/image/banner/{image}(image=*{image_rwd})}" th:alt="*{image_rwd}" width="350px" height="200px" />
+						</th:block>
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>開始日期</th>
+					<td>
+						<input type="text" id="begin_date" name="banner.begin_date" placeholder="開始日期" th:field="*{begin_date}" format="yyyy-MM-dd" />
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>結束日期</th>
+					<td>
+						<input type="text" id="end_date" name="banner.end_date" placeholder="結束日期" th:field="*{end_date}" format="yyyy-MM-dd" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>是否顯示於前台
+					</th>
+					<td>
+						<input type="radio" id="show" name="banner.show" value="1" th:checked="${banner.show == 1}" th:field="*{show}">是
+						<input type="radio" id="show" name="banner.show" value="0" th:checked="${banner.show == 0}" th:field="*{show}">否
+					</td>
+				</tr>
+				<tr>
+					<th>功能</th>
+					<td class="table-button vertical-btn">
+						<a onclick="history.back()" style="cursor:pointer;">返回</a>
+						<a style="cursor:pointer;" onclick="add()">[[${btn_name}]]</a>
+					</td>
+				</tr>
+			</table><!-- table -->
+		</form>
+	</div><!-- content -->
+	<script>
+		$(function(){
+			
+			if($("#id").val() != 0) {
+// 				$("#category").val("<s:property value="banner.category"/>");
+			}
+			
+			$("#begin_date").datepicker({dateFormat: 'yy-mm-dd'});
+			$("#end_date").datepicker({dateFormat: 'yy-mm-dd'});			
+			
+			
+			add = function() {	
+//				網址的reqular expression
+				var regex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");	
+				//標題判斷
+				if($("#title").val() == "") {
+					alert("請輸入標題");
+					return false;
+				}
+				
+				//連結判斷
+				if($("#link").val() == "") {
+					alert("請輸入檔案連結");
+					return false;
+				}
+				else{
+					//判斷影音連結是否正確
+					if(!regex.test($("#link").val())) {
+					   alert("請輸入有效的網址,ex：http://www.google.com");
+					   return false;
+					}	
+				}
+				//排序判斷
+				if($("#sort").val() == "") {
+					alert("請輸入排序");
+					return false;
+				}
+				
+				//內容圖片判斷
+			  	var imagesize = 0;
+			
+				if ($("#uploadImage").val() != "") {
+					$("#imageExtension").val($("#uploadImage").val().substr(($("#uploadImage").val().lastIndexOf('.')+1)));
+					imagesize = document.getElementById("uploadImage").files.item(0).size; //抓取圖檔大小 
+				} else {
+					$("#imageExtension").val($("#deleteImage").val().substr(($("#deleteImage").val().lastIndexOf('.')+1)));
+				}	
+				
+// 				if ($("#image").val() == "" && $("#uploadImage").val() == "") {
+// 					alert("必須上傳內頁圖片");
+// 					$("#image").focus();
+// 					return false;
+// 				}
+				
+				if ($("#image").val() != "" || $("#uploadImage").val() != "") {
+					if ($("#imageExtension").val() != "png" && $("#imageExtension").val() != "jpeg"
+						&& $("#imageExtension").val() != "jpg" && $("#imageExtension").val() != "gif") {
+						alert("內頁上傳圖片格式必須為png、jpeg、jpg、gif");
+						$("#image").focus();
+						return false;
+					}
+				}
+				
+		  		if(imagesize > 512000 && $("#uploadImage").val() != ""){
+		  			alert("內頁圖檔大小限制500K內");
+		  			$("#image").focus();
+		  			return false;
+		  		}
+				
+				//內容圖片判斷
+			  	var imageRwdsize = 0;
+			
+				if ($("#uploadRwdImage").val() != "") {
+					$("#imageRwdExtension").val($("#uploadRwdImage").val().substr(($("#uploadRwdImage").val().lastIndexOf('.')+1)));
+					imageRwdsize = document.getElementById("uploadRwdImage").files.item(0).size; //抓取圖檔大小 
+				} else {
+					$("#imageRwdExtension").val($("#deleteImageRwd").val().substr(($("#deleteImageRwd").val().lastIndexOf('.')+1)));
+				}	
+				
+// 				if ($("#imageRwd").val() == "" && $("#uploadRwdImage").val() == "") {
+// 					alert("必須上傳內頁圖片");
+// 					$("#imageRwd").focus();
+// 					return false;
+// 				}
+				
+				if ($("#imageRwd").val() != "" || $("#uploadRwdImage").val() != "") {
+					if ($("#imageRwdExtension").val() != "png" && $("#imageRwdExtension").val() != "jpeg"
+						&& $("#imageRwdExtension").val() != "jpg" && $("#imageRwdExtension").val() != "gif") {
+						alert("內頁上傳圖片格式必須為png、jpeg、jpg、gif");
+						$("#imageRwd").focus();
+						return false;
+					}
+				}
+				
+		  		if(imageRwdsize > 512000 && $("#uploadRwdImage").val() != ""){
+		  			alert("內頁圖檔大小限制500K內");
+		  			$("#imageRwd").focus();
+		  			return false;
+		  		}
+
+		  		
+				//開始日期判斷
+				if($.trim($("#begin_date").val())==""){
+					$("#begin_date").focus();
+					alert("開始時間不可為空");
+					return false;
+				}
+				
+				//結束日期判斷
+				if($.trim($("#end_date").val())==""){
+					$("#end_date").focus();
+					alert("結束時間不可為空");
+					return false;
+				}
+				
+				//前台是否顯示判斷
+				if($("input[name='show']:checked").size() != 1) {
+					alert("是否顯示於前台");
+					return false;
+				}
+				
+				if($("#totalCount").val() < 10 || $("input[name='banner.show']:checked").val() == "0"){
+					var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+					$("#mainForm").attr("action", link);
+					$("#mainForm").submit();
+				}else{
+					alert("廣告數量已達上限，不得再新增。");
+				}
+			}		
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+		<form id="mainForm" method="POST" th:object="${gSATNews}">
+		<input type="hidden" id="id" th:field="*{id}"/>
+		<input type="hidden" id="deleteList" name="deleteList" />
+
+		<!-- content -->
+		<div class="content">
+			<!-- button group -->
+			<div class="btn-group">
+				<ul>
+					<li><a href="javascript:void(0)" onclick="gotoPage('add')">新增</a></li>
+					<li><a href="javascript:void(0)" onclick="checkAll()">全選</a></li>
+					<li><a href="javascript:void(0)" onclick="deleteData()">刪除</a></li>
+					<li><a href="updateNormalData">去更新正是機資料到本地</a></li>
+				</ul>
+			</div>
+			<!-- button group -->
+
+			<!-- search -->
+			<div class="search">
+				<ul>
+					<li><span class="important">【方法一】</span>類別搜尋:</li>
+ 					<li><input type="text" id="gSATNewsCategory" placeholder="請輸入類別名稱"  th:field="*{category}"></li>
+					<li><button class="search-button" onclick="searchQuery()">搜尋</button></li>
+					
+					<li><span class="important">【方法二】</span>標題搜尋:</li>
+ 					<li><input type="text" id="gSATNewsTitle" placeholder="請輸入標題" th:field="*{title}"></li>
+					<li><button class="search-button"  onclick="searchQuery()">搜尋</button></li>
+					<li><button class="search-button" onclick="resetData()">清除</button></li>
+				</ul>
+			</div>
+			<!-- search -->
+
+			<!-- table -->
+			<table class="table-horizon">
+
+				<caption>
+					<h2>一點通-最新消息</h2>
+				</caption>
+
+				<thead>
+					<tr>
+						<th></th>
+						<th>序號</th>
+						<th>類別</th>
+						<th class="width-lg">標題</th>
+						<th>是否顯示前台</th>
+						<th>起迄時間</th>
+						<th class="width-fixed">功能</th>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:if="${#lists.isEmpty(gSATNewsList)}">
+						<tr>
+							<td colspan="7" align="center">尚無任何資料</td>
+						</tr>
+					</th:block>	
+					<th:block th:each = "dataStatus , data : ${gSATNewsList}">
+						<tr>
+							<td><input type="checkbox" name="selectList" th:value="${dataStatus.id}" /></td>
+							<td th:text="${(pageNo-1) * pageCount + data.count}"></td>
+							<td>
+								[[${dataStatus.category}]]
+							</td>
+							<td>
+								[[${dataStatus.title}]]
+							</td>
+							<td>
+							<span th:if="${dataStatus.show} eq '1'">是</span> 
+							<span th:if="${dataStatus.show} eq '0'">否</span> 
+							</td>
+							<td>[[${dataStatus.begin_date}]] - [[${dataStatus.end_date}]]</td>
+							<td class="table-button width-fixed">
+									<a href="javascript:void(0)" title="修改" th:onclick="|javascript:changeAction('update', '${dataStatus.id}')|"><i class="fa fa-pencil"></i></a>
+							</td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+			<!-- table -->
+			<div th:insert="~{admin/load/layout :: page}"></div>
+		</div>
+		<!-- content -->
+	</form>
+</div>
+</div>
+	<script>
+
+		$(function(){
+
+			changeAction = function(link, id) {
+				
+				$("#id").val(id);
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+				
+			},
+			
+			
+			gotoPage = function(link) {
+				
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+// 				location.href = link;
+				
+			},
+			
+			resetData = function(){
+				$("#pageNo").val('1');
+				$("#gSATNewsCategory").val("");
+				$("#gSATNewsTitle").val("");
+			}
+			
+		
+
+		});
+	</script>
+</body>

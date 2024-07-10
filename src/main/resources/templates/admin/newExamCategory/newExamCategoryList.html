@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<meta charset="UTF-8">
+<head>
+<style>
+.btn-group button{
+	background: none;
+	color: inherit;
+	border: none;
+	cursor: pointer;
+	padding: 0;
+}
+.btn-group li{
+	margin-top: 3px;
+}
+.btn-group b{
+	color: white;
+	font-weight: bolder;
+	font-size: 1rem;
+}
+</style>
+</head>
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+		<form id="mainForm" method="POST" th:object="${newExamCategory}">
+			<input type="hidden" th:field="*{id}"  />
+			<input type="hidden" th:field="*{parent_id}" />
+			<input type="hidden" th:field="*{parent_name}" />
+			<input type="hidden" th:field="*{layer}" />
+			<input type="hidden" id="menu_id" name="menu_id" th:value="${menu_id}" />
+			<input type="hidden" id="menu_id_hidden" name="menu_id_hidden" th:value="${menu_id_hidden}" />
+			<input type="hidden" id="deleteList" name="deleteList" />
+			<!-- content -->
+			<div class="content">
+				<!-- button group -->
+				<div class="btn-group">
+					<ul>
+						<li><button id="gotoPage" value="add"><b>新增</b></button></li>
+						<li><button id="checkAll"><b>全選</b></button></li>
+						<li><button id="checkData"><b>刪除</b></button></li>
+						<li><button type="button" id="resetSort"><b>重新排序</b></button></li>
+						<li><a href="updateNormalData">去更新正是機資料到本地</a></li>
+					</ul>
+				</div>
+				<!-- button group -->
+				<!-- table -->
+				<table class="table-horizon">
+					<caption th:text="${newExamCategory.parent_name eq null ? '甄戰情報-類別設定' : '甄戰情報-' + newExamCategory.parent_name}"></caption>
+					<thead>
+						<tr>
+							<th width="5%"></th>
+							<th width="5%">序號</th>
+							<th class="width-lg">名稱</th>
+							<th width="5%">排序</th>
+							<th class="width-fixed">功能</th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:if="${#lists.isEmpty(newExamCategoryList)}">
+							<tr>
+								<td colspan="5" align="center">尚無任何資料</td>
+							</tr>
+						</th:block>
+						<th:block th:each="obj, iterStat : ${newExamCategoryList}" th:with="count = 0">
+							<tr>
+								<td><input type="checkbox" name="selectList" th:value="${obj.id}"></td>
+								<td th:text="${(pageNo-1) * pageCount + iterStat.count}"></td>
+								<td>
+									<a class="title-name"  style="color: #551A8B; text-decoration: underline;"  href="javascript:void(0)" th:attr="data-index=index, data-id=${obj.id}, data-layer=${obj.layer}, data-name=${obj.name}">
+										[[${obj.name}]]
+									</a>
+								</td>
+								<td th:text="${obj.sort}"></td>
+								<td class="table-button width-fixed">
+									<a href="javascript:void(0)" title="修改" class="update-change-action" th:attr="data-link=update, data-id=${obj.id}">
+										<i class="fa fa-pencil"></i>
+									</a>
+								</td>
+							</tr>
+						</th:block>
+					</tbody>
+				</table>
+				<!-- table -->
+				<div th:insert="~{admin/load/layout :: page}"></div>
+			</div>
+			<!-- content -->
+		</form>
+		<script>
+			$(function(){
+				
+				let check = false;
+				$("#checkAll").click((e) => {
+					e.preventDefault();
+					if(!check) {
+						$(":checkbox[name='selectList']").each(function() {
+							this.checked = true;
+						});
+						check = true;
+					} else {
+						$(":checkbox[name='selectList']").each(function() {
+							this.checked = false;
+						});
+						check = false;
+					}
+				});
+				
+				$(".title-name").click(function(e){
+					e.preventDefault();
+					let [link, id, layer, name] = 
+						[
+							$(this).data('index'),
+							$(this).data('id'),
+							$(this).data('layer'),
+							$(this).data('name')
+						];
+					$("#parent_id").val(id);
+					$("#name").val(name);
+					$("#parent_name").val(name);
+					$("#layer").val(parseInt(layer) + 1);
+					$("#mainForm").attr("action", link);
+					$("#mainForm").submit();
+				});
+				
+				$(".update-change-action").click(function(e){
+					let [link, id] = [
+						$(this).data('link'),
+						$(this).data('id')
+					];
+					$("#id").val(id);
+					$("#mainForm").attr('action', link);
+					$("#mainForm").submit();
+				});
+				
+				$("#gotoPage").click(function(e){
+					e.preventDefault();
+					let link = $(this).val();
+					$("#mainForm").attr("action", link);
+					$("#mainForm").submit();
+				});
+				
+				$("#checkData").click((e) => {
+					e.preventDefault();
+					if($("input[name=selectList]:checked").length <= 0){
+						alert("請選擇要刪除的資料！");
+						return false;
+					}
+					let checkArray = new Array;
+					let checkList;
+					$("input[name=selectList]:checked").each(function(i){
+						checkArray[i] = this.value;
+					});
+					checkList = checkArray.join(",");
+					
+					$.ajax({
+						url: "[[${@environment.getProperty('weburl')}]]/tkbrule/newExamCategory/checkData",
+						cache: false,
+						async: false,
+						dataType: 'text',
+						type: 'POST',
+						data: {
+							checkList: checkList
+						},
+						error: function(xhr){
+							alert('Ajax request 發生錯誤');
+						},
+						success: function(res, textStatus, xhr){
+							if(xhr.status === 204){
+								$.ajax({
+									url: 'delete',
+									cache: false,
+									async: false,
+									datatype: 'text',
+									type: 'delete',
+									data: {
+										deleteList: checkList
+									},
+									success: function(res, textStatus, xhr){
+										if(xhr.status === 200){
+											alert('刪除成功');
+											location.reload();
+										}else{
+											alert('您欲刪除的類別尚在使用');
+											location.reload();
+										}
+									},
+									error: function(xhr){
+										alert('Ajax request 發生錯誤');
+									}
+								});
+							}else{
+								alert("您欲刪除的類別尚在使用，或還有子項目未刪除，請再確認。");
+							}
+						}
+					});
+				});
+				
+				$("#resetSort").click(() => {
+					if(confirm("您是否要重新排序?")) {
+						$.ajax({
+							url: "[[${@environment.getProperty('weburl')}]]/tkbrule/newExamCategory/resetSort",
+							cache: false,
+							async: false,
+							dataType: 'text',
+							type: 'PUT',
+							data: {
+								parent_id: $("#parent_id").val()
+							},
+							error: function(xhr){
+								alert('Ajax request 發生錯誤');
+							},
+							success: function(res, textStatus, xhr){
+								alert('更新成功');
+								location.reload();
+							}
+						});
+					}
+				});
+				
+			});
+		</script>
+	</div>
+</div>
+</body>
+</html>

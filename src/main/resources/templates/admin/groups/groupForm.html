@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseForm.js}"></script>
+<meta charset="UTF-8">
+<body>
+
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+		
+		<!-- /*content*/ -->
+		<div class="content">
+			<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${groups}" th:with="btn_name = ${groups.id == null ? '新增': '修改'}">
+				<input type="hidden" id="id" th:field="*{id}" />
+					<input type="hidden" id="menu_id_hidden" th:value="${menu_id_hidden}" /><!-- /*和menuForm的id有衝突，改id名稱*/ -->
+					<input type="hidden" id="menu_list" name="menu_list" />
+			
+			
+				<!-- /*table*/ -->
+				<table class="table-vertical" cellspacing="0">
+					<caption><h2>群組-[[${btn_name}]]頁面</h2></caption>
+					<tr>
+						<th><span class="important">*</span>群組名稱</th>
+						<td><input type="text" id="title" th:field="*{name}"></td>
+					</tr>
+					<tr>
+						<th><span class="important">*</span>群組權限清單</th>
+						<td>
+							<table id="menuLayer2">
+								<tr>
+									<td>功能名稱</td>
+									<td>功能</td>
+									<td style="border:none;"></td>
+									<td style="border:none;"></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+					<tr>
+						<th>功能</th>
+						<td class="table-button vertical-btn">
+							<a href="javascript:void(0)" onclick="backAction('index')">返回</a>
+							<a href="javascript:void(0)" onclick="add()">[[${btn_name}]]</a>
+						</td>
+					</tr>
+				</table>
+				<!-- /*table*/ -->
+			</form>
+		</div>
+		<!-- /*content*/ -->
+
+		<script>
+		var textTemp;	//暫存
+		var department_unit_all;
+		var menu_all;
+		$(function(){
+			
+			add = function(){
+				//2022/03/01新增群組名稱欄位驗證
+				if(!$("#title").val().trim()){
+					alert("群組名稱不得為空!");
+					$("#title").focus();
+					return false;
+				}
+				
+				var menuArr = new Array();
+				$(".tr-menu").each(function(i, v){
+					let group_menu = {
+							title : $("#title").val().trim(),
+							menu_id : $(v).find(".menu-id").val(),
+							action_val : $(v).find("input[type=radio]:checked").val()
+					};
+					menuArr.push(group_menu);
+				});
+				
+				//功能清單
+				var actionArray = new Array();
+				var actionList;
+				$("input:checkbox:checked[name='menuList']").each(function(i){
+					actionArray[i] = this.value;
+				});
+				actionList = actionArray.join(",");
+				$("#menu_list").val(JSON.stringify(menuArr));
+				
+				
+				var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+			},
+			
+			backAction = function(link){
+				$("#title").val("");
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+			},
+			
+			getLayer2AllList = function(id){
+				$.ajax({
+					url: "getLayer2AllList",
+					cache: false,
+					async: true,
+					dataType: "json",
+					type: "POST",
+					data:{
+						id:id
+					},
+					error: function(xhr){
+						alert('Ajax request 發生錯誤');
+					},
+					success: function(data){
+						if(data != null && data.length > 0){
+							for(let i=0 ; i<data.length ; i++){
+								let menu = data[i];
+								if(menu.group_id == null){
+									$("#menuLayer2 tr:last").after(`<tr class='tr-menu'><input type='hidden' class='menu-id' value='${menu.id}'>
+									<td style='border:1px solid #f1f1f1;'>${menu.name}</td>
+									<td style='border:1px solid #f1f1f1;'><label><input type='radio' name='menu${i}' value='1'>開啟</label>
+									<label><input type='radio' name='menu${i}' value='0'  checked>關閉<label>
+									</td></tr>`);
+								}else{
+									$("#menuLayer2 tr:last").after(`<tr class='tr-menu'><input type='hidden' class='menu-id' value='${menu.id}'>
+									<td style='border:1px solid #f1f1f1;'>${menu.name}</td>
+									<td style='border:1px solid #f1f1f1;'><label><input type='radio' name='menu${i}' value='1' checked>開啟</label>
+									<label><input type='radio' name='menu${i}' value='0'>關閉</label>
+									</td></tr>`);
+								}
+							}
+						}
+					}
+				});
+			},
+			
+			getLayer2AllList($("#id").val());
+			
+		});
+		</script>
+	</div>
+
+</div>
+
+</body>
+</html>

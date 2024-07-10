@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseForm.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+		
+		<!-- content -->
+		<div class="content">
+			<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${gSAT}" th:with="btn_name=${gSAT.id==null ? '新增' : '修改'}">
+			<input type="hidden" id="id" th:field="*{id}" />
+			<!-- table -->
+			<table class="table-vertical" cellspacing="0">
+				<caption>
+					<h2>
+						一點通文章-[[${btn_name}]]頁面
+					</h2>
+				</caption>
+				<tr>
+					<th>
+						<span class="important">*</span>
+						外交特考類別名稱
+					</th>
+					<td>
+						<select id="gSATCategory" th:field="*{category}">
+							<option value="0">請選擇</option>
+							<th:block th:each="dataStatus , data : ${gSATCategoryList}">
+								<option th:value="${dataStatus.id}" th:text="${dataStatus.name}"></option>
+							</th:block>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						產品網址分類
+					</th>
+					<td>
+						<input type="text" th:field="*{product_category}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>
+						頁籤名稱
+					</th>
+					<td>
+						<input type="text" id="title" th:field="*{title}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>
+						SEO描述
+					</th>
+					<td>
+						<input type="text" id="seo" th:field="*{seo}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>
+						內容
+					</th>
+					<td>
+						<textarea class="ckeditor" cols="80" id="contentArea" th:field="*{content}" name=contentArea rows="12"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>
+						排序
+					</th>
+					<td>
+						<input type="text" id="sort" th:field="*{sort}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>是否顯示於前台
+					</th>
+					<td>
+						<input type="radio" id="show" name="gSAT.show" th:checked="${gSAT.show == 1}" value="1" th:field="*{show}">是
+						<input type="radio" id="show" name="gSAT.show" th:checked="${gSAT.show == 0}" value="0" th:field="*{show}">否
+					</td>
+				</tr>
+				<tr>
+					<th>功能</th>
+					<td class="table-button vertical-btn">
+						<a style="cursor:pointer;" href="index">返回</a>
+						<a style="cursor:pointer;" onclick="add()">[[${btn_name}]]</a>
+					</td>
+				</tr>
+			</table>
+			<!-- table -->
+		</form>
+	</div>
+	<!-- content -->
+	</div>
+	</div>
+	<script>
+		$(function(){
+			
+			//刪除
+			$(document).on("click", ".closebtn", function() {
+				if($("#contentBox").children(".addDemand").size() <= 2) {
+					$("#contentBox").find(".closebtn").hide();
+				}
+				$(this).parent(".addDemand").remove();
+			
+			});	
+			
+			add = function() {
+				
+				var check = "T";
+
+				//標題判斷
+				if($("#gSATCategory").val() == ""||$("#gSATCategory").val() == "0") {
+					alert("請選擇類別");
+					return false;
+				}				
+				
+				//標題判斷
+				if($("#title").val() == "") {
+					alert("請輸入頁籤名稱");
+					return false;
+				}
+				else {
+					if(checkByteLen($("#title").val(), "50")) {
+						alert("標題限16字，請重新輸入");
+						return false;
+					}
+				}
+				
+				//SEO判斷
+				if($("#seo").val() == "") {
+					alert("請輸入SEO描述");
+					return false;
+				}		
+				else {
+					if(checkByteLen($("#seo").val(), "300")) {
+						alert("SEO描述限100字，請重新輸入");
+						return false;
+					}
+				}
+				//內容
+				if($("#contentArea").val() == "") {
+					alert("請輸入內容");
+					return false;
+				}	
+				else {
+					if(checkByteLen($("#contentArea").val(), "12000")) {
+						alert("內容限4000字，請重新輸入");
+						return false;
+					}
+				}
+				
+				if($("#sort").val() == "") {
+					alert("請輸入排序");
+					return false;
+				}
+				//前台是否顯示判斷
+				if($("input[name='show']:checked").size() != 1) {
+					alert("是否顯示於前台");
+					return false;
+				}
+				
+ 				var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+			}
+			
+			changeArea();
+			
+		});
+	</script>
+</body>

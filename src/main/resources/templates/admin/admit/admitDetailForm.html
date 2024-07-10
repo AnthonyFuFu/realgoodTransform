@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseUtil.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+	<!-- content -->
+	<div class="content">
+			<form method="POST" id="deleteForm" name="deleteForm" >
+				<input type="hidden" id="detailId" name="detailId"/>
+				<input type="hidden" id="detailType" name="detailType"/>
+				<input type="hidden" id="detailAchievement" name="detailAchievement"/>
+				<input type="hidden" id="admitId" name="admitId"/>
+			</form>
+			<table class="table-horizon">
+			
+				<caption><h2>考取金榜-榜單修改/刪除頁面</h2><br><font style="color:red;font-size:14px;">說明：一次只能[修改/刪除]一列資料，修改完畢後，請按下[修改/刪除鈕]，<br>確定[修改/刪除]成功後，再去編輯其它列資料。</font></caption>
+				<thead>
+					<tr>
+						<th>序號</th>
+						<th>姓名</th>
+						<th>考試類別</th>
+						<th>名次</th>
+						<th>功能</th>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:each = "dataStatus , data : ${admitDetailList}" id="admitDetailList">
+						<tr>
+							<input type="hidden" id="saveAdmit" name="saveAdmit" th:value="${dataStatus.admit_id}"/>
+							<td th:text="${data.count}"></td>
+							<td>
+								<input type="text" th:id="'name'+${dataStatus.id}" th:value="${dataStatus.name}"/>
+							</td>
+							<td>
+								<input type="text" th:id="'type'+${dataStatus.id}"  th:value="${dataStatus.type}"/>
+							</td>
+							<td>
+								<input type="text" th:id="'achievement'+${dataStatus.id}" th:value="${dataStatus.achievement}"/>
+							</td>
+							<td>
+								<a style="cursor: pointer;" th:onclick="toUpdateDetail([[${dataStatus.id}]])">修改</a>&nbsp;&nbsp;&nbsp;
+								<a style="cursor: pointer;" th:onclick="toDeleteDetail([[${dataStatus.id}]])">刪除</a>
+							</td>
+						</tr>
+					</th:block>
+					<tr>
+						<td colspan="5" class="table-button vertical-btn">
+							<a href="#" onclick="changeMenuAction('/tkbrule/admit/index', 24)">返回</a>
+						</td>
+					</tr>
+				</tbody>
+			
+			</table>
+			<!-- table -->
+			</div><!-- content -->
+		</div>
+	</div>
+	<script>
+		var countList = 1;//有幾分特殊榜單
+		$(function(){
+
+			
+// 			add = function() {
+				
+// 				if(titleArray.length == summaryArray.length && titleArray.length == nameArray.length && titleArray.length == achievementArray.length){
+// 					$("#content_title").val(titleArray.join(","));
+// 					$("#content_summary").val(summaryArray.join(","));
+// 					$("#content_name").val(nameArray.join(","));
+// 					$("#content_achievement").val(achievementArray.join(","));
+
+// 					var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+// 					$("#mainForm").attr("action", "addSubmit");
+// 					$("#mainForm").submit();
+// 				}else{
+// 					alert("資料異常!");
+// 					return false;
+// 				}
+		
+// 			}
+			
+			
+		});
+		
+		function toUpdateDetail(useId){
+			console.log(useId)
+			console.log($("#name"+useId).val())
+			if($("#name"+useId).val()==""){
+				alert("姓名不可為空");
+				return false;
+			}
+			
+			if($("#type"+useId).val()==""){
+				alert("類別不可為空");
+				return false;
+			}
+			
+			if($("#achievement"+useId).val()==""){
+				alert("名次不可為空");
+				return false;
+			}
+			if(confirm("確定要修改這筆資料?")){
+				$.ajax({
+					url: "[[${@environment.getProperty('weburl')}]]/tkbrule/admit/updateDetail",
+					cache: false,
+					async: false,
+					dataType: "text",
+					type:"POST",
+					data:{
+						detailId : useId,
+						detailName : $("#name"+useId).val(),
+						detailType : $("#type"+useId).val(),
+						detailAchievement : $("#achievement"+useId).val()
+					},
+					error: function(xhr) {
+						alert('修改失敗，請重新動作');
+					},
+					success: function(data) {
+						
+						if(data=="T"){
+							alert("修改成功");
+						}else{
+							alert("修改失敗");
+						}
+		
+					}
+				});
+			}else{
+				return false;
+			}
+			
+			
+		}
+		
+		function toDeleteDetail(useId){
+			if(confirm("確定要刪除這筆資料?")){
+				alert("刪除成功");
+				$("#admitId").val($("#saveAdmit").val());
+				$("#detailId").val(useId);
+				$("#deleteForm").attr("action", "deleteDetail");
+				$("#deleteForm").submit();
+			}else{
+				return false;
+			}
+			
+		}
+		
+	</script>
+</body>

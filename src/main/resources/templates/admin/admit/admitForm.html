@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseUtil.js}"></script>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseForm.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+	<!-- content -->
+	<div class="content">
+		<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${admit}" th:with="btn_name=${admit.id == null ? '新增': '修改'}">
+			<input type="hidden" id="id" name="admit.id" th:field="*{id}"/>
+			<input type="hidden" name="title_index"  th:value="${title}" />
+			<input type="hidden" name="pageNoLog"  th:value="${pageNoLog}"/>			
+			<input type="hidden" id="deleteImage_list" name="deleteImage_list" th:field="*{image_url}"/>
+			<input type="hidden" id="deleteImage_banner" name="deleteImage_banner" th:field="*{banner_url}"/>
+			<!-- table -->
+			<table class="table-vertical" cellspacing="0">
+				<caption><h2>考取金榜-[[${btn_name}]]頁面</h2></caption>
+				<tr>
+					<th>
+						<span class="important">*</span>標題
+					</th>
+					<td>
+						<input type="text" id="title" th:field="*{title}"/>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						SEO描述
+					</th>
+					<td>
+						<input type="text" id="seo_content" th:field="*{seo_content}"/>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>年度
+					</th>
+					<td>
+						<input type="text" id="admit_year" th:field="*{admit_year}" placeholder="請輸入3位數，如:105" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>金榜類別
+					</th>
+					<td>
+						<input type="hidden" id="admit_category" th:field="*{admit_category}"/>
+						
+						<select id="categorySelect">
+							<option value="">請選擇類別</option>
+							<th:block th:each="dataStatus , data : ${admitCategoryList}" id="admitCategory">
+								<option th:value="${dataStatus.id}" th:selected="${dataStatus.id}==${admit.admit_category}">[[${dataStatus.name}]]</option>
+							</th:block>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>顯示
+					</th>
+					<td>
+						<input type="hidden" id="display"/>
+						<select id="selectDisplay" th:field="*{display}">
+								<option value="0" th:selected="*{display == 0}">不顯示</option>
+								<option value="1" th:selected="*{display == 1}">顯示</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>Banner黑色文字區域
+					</th>
+					<td>
+						<textarea name="blackContent"  th:field="*{banner_content_black}" id="blackContent">[[${banner_content_black}]]</textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>Banner紅色文字區域
+					</th>
+					<td>
+						<textarea name="redContent" id="redContent" th:field="*{banner_content_red}">[[${banner_content_red}]]</textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important"></span>總表標題
+					</th>
+					<td>
+						
+						<input type="text" id="total_title" th:field="*{total_title}"/>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important"></span>總表內容
+					</th>
+					<td>
+						<textarea name="totalContent"  th:field="*{total_content}" id="totalContent">[[${total_content}]]</textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important"></span>總表
+					</th>
+					<td>
+						<input type="hidden" id="total_list" th:field="*{total_list}"/>
+						台大:<br>
+						上榜:&nbsp;<input type="text" id="total1" value="0" style="width:80px;"/>
+						榜首:&nbsp;<input type="text" id="total2" value="0" style="width:80px;"/>
+						榜眼:&nbsp;<input type="text" id="total3" value="0" style="width:80px;"/>
+						探花:&nbsp;<input type="text" id="total4" value="0" style="width:80px;"/><br><br>
+						清大:<br>
+						上榜:&nbsp;<input type="text" id="total5" value="0" style="width:80px;"/>
+						榜首:&nbsp;<input type="text" id="total6" value="0" style="width:80px;"/>
+						榜眼:&nbsp;<input type="text" id="total7" value="0" style="width:80px;"/>
+						探花:&nbsp;<input type="text" id="total8" value="0" style="width:80px;"/><br><br>
+						交大:<br>
+						上榜:&nbsp;<input type="text" id="total9" value="0" style="width:80px;"/>
+						榜首:&nbsp;<input type="text" id="total10" value="0" style="width:80px;"/>
+						榜眼:&nbsp;<input type="text" id="total11" value="0" style="width:80px;"/>
+						探花:&nbsp;<input type="text" id="total12" value="0" style="width:80px;"/><br><br>
+						成大:<br>
+						上榜:&nbsp;<input type="text" id="total13" value="0" style="width:80px;"/>
+						榜首:&nbsp;<input type="text" id="total14" value="0" style="width:80px;"/>
+						榜眼:&nbsp;<input type="text" id="total15" value="0" style="width:80px;"/>
+						探花:&nbsp;<input type="text" id="total16" value="0" style="width:80px;"/><br><br>
+						政大:<br>
+						上榜:&nbsp;<input type="text" id="total17" value="0" style="width:80px;"/>
+						榜首:&nbsp;<input type="text" id="total18" value="0" style="width:80px;"/>
+						榜眼:&nbsp;<input type="text" id="total19" value="0" style="width:80px;"/>
+						探花:&nbsp;<input type="text" id="total20" value="0" style="width:80px;"/><br><br>
+						台科大:<br>
+						上榜:&nbsp;<input type="text" id="total21" value="0" style="width:80px;"/>
+						榜首:&nbsp;<input type="text" id="total22" value="0" style="width:80px;"/>
+						榜眼:&nbsp;<input type="text" id="total23" value="0" style="width:80px;"/>
+						探花:&nbsp;<input type="text" id="total24" value="0" style="width:80px;"/><br><br>
+						
+					</td>
+				</tr>
+				<tr>
+					<th>
+						特殊榜單
+					</th>
+					<td>
+						<input type="hidden" id="content_title" name="admit.content_title" />
+						<input type="hidden" id="content_summary" name="admit.content_summary" />
+						<input type="hidden" id="content_achievement" name="admit.content_achievement" />
+						<input type="hidden" id="content_name" name="admit.content_name" />
+						<div id="contentList">
+						<th:block th:if="*{id} == null">
+						<div class="addDemand">
+						    <img class="closebtn" th:src="${@environment.getProperty('static.url')}+@{/images/close.png}" style="display:none"/>
+						    標題<input type="text" class="contentTitle"/>
+						    簡介<input type="text" class="contentSummary"/>
+						    <div class="showOption">
+						        <div class="option">
+						            姓名：<input type="text" class="contentName" style="width:150px;"/>
+						            名次：<input type="text" class="contentAchievement" style="width:150px;"/>
+						            <a class="deleteOption" style="display:none;text-decoration:underline;cursor:pointer;">刪除選項</a>
+						        </div>
+						    </div>
+						    <br>
+						    <a class="newOption" style="text-decoration:underline;cursor:pointer;">加入新選項</a><br><br>
+						</div>
+						</th:block>
+						<th:block th:unless="*{id}== null">
+						<th:block th:if="${not #lists.isEmpty(contentOptionList)}">
+						<th:block th:each="dataStatus ,data : ${contentOptionList}">
+						<div class="addDemand">
+						    <img class="closebtn" th:src="${@environment.getProperty('static.url')}+@{/images/close.png}" style="display:none"/>
+						    標題<input type="text" class="contentTitle" th:value="${dataStatus.title}"/>
+						    簡介<input type="text" class="contentSummary" th:value="${dataStatus.summary}"/>
+						    <div class="showOption">
+						    <th:block th:each="dataStatus ,data : ${dataStatus.admitOptionList}">
+						        <div class="option">
+						            姓名：<input type="text" class="contentName"  th:value="${dataStatus.name}" style="width:150px;"/>
+						            名次：<input type="text" class="contentAchievement" th:value="${dataStatus.achievement} " style="width:150px;"/>
+						            <a class="deleteOption" style="display:none;text-decoration:underline;cursor:pointer;">刪除選項</a>
+						        </div>
+						    </th:block>	
+						    </div>
+						    <br>
+						    <a class="newOption" style="text-decoration:underline;cursor:pointer;">加入新選項</a><br><br>
+						      </div>
+						    </th:block>	
+						</th:block>	
+						<th:block th:if="${#lists.isEmpty(contentOptionList)}">
+						    <!-- 列表非空时的内容 -->
+						    <div class="addDemand">
+						    <img class="closebtn" th:src="${@environment.getProperty('static.url')}+@{/images/close.png}" style="display:none"/>
+						    標題<input type="text" class="contentTitle"/>
+						    簡介<input type="text" class="contentSummary"/>
+						    <div class="showOption">
+						        <div class="option">
+						            姓名：<input type="text" class="contentName" style="width:150px;"/>
+						            名次：<input type="text" class="contentAchievement" style="width:150px;"/>
+						            <a class="deleteOption" style="display:none;text-decoration:underline;cursor:pointer;">刪除選項</a>
+						        </div>
+						    </div>
+						    <br>
+						    <a class="newOption" style="text-decoration:underline;cursor:pointer;">加入新選項</a><br><br>
+						</div>
+						</th:block>					
+						</th:block>	
+						</div>
+						<div id="addNewList" class="table-button addDemand-btn" onclick="addContent()">
+							<i class="fa fa-plus plus-btn"></i>
+						</div>
+					</td>
+				</tr>
+				<th:block th:if="*{id} == null">
+					<tr>
+						<th>
+							<span class="important">*</span>榜單匯入
+						</th>
+						<td>
+							<input type="hidden" id="fileExtension" name="fileExtension" />
+							<input type="file" id="uploadFile" name="uploadFile" />
+							<br/><br/>
+							<font style="color:red;">請匯入xls檔(含姓名、考取類別、名次等三個欄位)，<br>匯入榜單資料需齊全，不可有空白及斷行。</font>
+						</td>
+					</tr>
+				</th:block>	
+				<tr>
+					<th>
+						<span class="important">*</span>列表頁圖片
+					</th>
+					<td>
+						<input type="hidden" id="imageExtension_list" name="imageExtension_list" />
+						<input type="file" id="uploadImage_list" name="uploadImage_list" />
+						<br/><br/>
+						<font style="color:red;">檔名命名規則：不可為中文，尺寸：300*184px，檔案大小不超過500KB。</font>
+						<br/><br/>
+						<div th:if="*{image_url} != null">
+						    <br>
+						    <img th:src="${@environment.getProperty('static.url')}+@{/upload/image/admit/{image_url}(image_url=*{image_url})}"
+						         th:alt="*{image_url}" width="350px" height="200px" />
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>內頁Banner
+					</th>
+					<td>
+						<input type="hidden" id="imageExtension_banner" name="imageExtension_banner" />
+						<input type="file" id="uploadImage_banner" name="uploadImage_banner" />
+						<br/><br/>
+						<font style="color:red;">檔名命名規則：不可為中文，尺吋：1180*581px，檔案大小不超過500KB。</font>
+						<br/><br/>
+						<div th:if="*{banner_url} != null">
+						    <br>
+						    <img th:src="${@environment.getProperty('static.url')}+@{/upload/image/admit/banner/{banner_url}(banner_url=*{banner_url})}"
+						         th:alt="*{banner_url}" width="350px" height="200px" />
+						</div>
+
+					</td>
+				</tr>
+				<tr>
+					<th>功能</th>
+					<td class="table-button vertical-btn">
+						<a onclick="history.back()" style="cursor:pointer;">返回</a>
+						<a onclick="add()" style="cursor:pointer;">[[${btn_name}]]</a>
+					</td>
+				</tr>
+			</table>
+			</form>
+	</div>
+	</div>
+	</div>
+	<script th:inline="javascript">
+		var countList = 1;//有幾分特殊榜單
+		
+		$(function(){
+			
+			firstLoading();
+
+			//刪除榜單
+			$(document).on("click", ".closebtn", function() {
+				if(countList <= 2) {
+					$("#contentList").find(".closebtn").hide();
+				}
+				
+				$(this).parent(".addDemand").remove();
+				
+				countList = $(".addDemand").size();
+			});
+			
+			//新增榜單
+			$(document).on("click", "#addNewList", function() {
+				var str="";
+				str += "<div class='addDemand'>";
+				str += "<img class='closebtn' src='/images/close.png' style='display:none'/>";
+				str += "標題<input type='text' class='contentTitle'/>";
+				str += "簡介<input type='text' class='contentSummary'/>";
+				str += "<div class='showOption'>";
+				str += "<div class='option'>姓名：<input type='text' class='contentName' style='width:150px;'/>名次：<input type='text' class='contentAchievement' style='width:150px;'/><a class='deleteOption' style='display:none;text-decoration:underline;cursor: pointer;'>刪除選項</a></div>";
+				str += "</div>";
+				str += "<br><a class='newOption' style='text-decoration:underline;cursor: pointer;'>加入新選項</a><br><br>";
+				str += "</div>";
+				
+				$("#contentList").append(str);
+				
+				countList = $(".addDemand").size();
+				if(countList > 1) {
+					$("#contentList").find(".closebtn").show();
+				}
+			});
+			
+			//刪除選項
+			$(document).on("click", ".deleteOption", function() {
+				if($(this).parents(".addDemand").find(".option").size() <= 2){
+					$(this).parents(".addDemand").find(".option").children(".deleteOption").hide();
+				}
+				
+				$(this).parent(".option").remove();
+
+			});
+			
+			//新增選項
+			$(document).on("click", ".newOption", function() {
+				var str="";
+				str += "<div class='option'>姓名：<input type='text' class='contentName' style='width:150px;'/>名次：<input type='text' class='contentAchievement' style='width:150px;'/><a class='deleteOption' style='display:none;text-decoration:underline;cursor: pointer;'>刪除選項</a></div>";
+				
+				$(this).parent(".addDemand").children(".showOption").append(str);
+				
+				if($(this).parent(".addDemand").find(".option").size() > 1){
+					$(this).parent(".addDemand").find(".option").children(".deleteOption").show();
+				}
+				
+			});
+			
+			add = function() {
+				
+				if($.trim($("#title").val()) == ""){
+					$("#title").focus();
+					alert("請填寫標題");
+					return false;
+				}
+				
+				if($.trim($("#admit_year").val()) == ""){
+					$("#admit_year").focus();
+					alert("請輸入年度，例:105");
+					return false;
+				}
+				
+				if($("#admit_year").val() < 101 || $("#admit_year").val() > 999){
+					$("#admit_year").focus();
+					alert("請輸入正確年度，例:105");
+					return false;
+				}
+				
+				if($("#categorySelect").val() == ""){
+					$("#categorySelect").focus();
+					alert("請填寫榜單分類");
+					return false;
+				}			
+				
+				$("#admit_category").val($("#categorySelect").val());
+				
+				
+				if($.trim($("#blackContent").val()) == ""){
+					alert("請填寫Banner黑色區域文字");
+					return false;
+				}
+				
+				if($.trim($("#redContent").val()) == ""){
+					alert("請填寫Banner紅色區域文字");
+					return false;
+				}
+				
+// 				$("#banner_content_black").val($("#blackContent").val());
+// 				$("#banner_content_red").val($("#redContent").val());
+				
+
+				
+				var checkTotalList = "T";
+				var totalListStr = "";
+				
+				if($.trim($("#total_title").val()) == "" && $.trim($("#totalContent").val()) == ""){
+					$("#total_list").val("0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0");
+					$("#total_content").val("");
+				}else{
+					
+					if($.trim($("#total_title").val()) == "" ){
+						$("#total_title").focus();
+						alert("請填寫總表標題");
+						return false;
+					}
+					
+					if($.trim($("#totalContent").val()) == "" ){
+						$("#totalContent").focus();
+						alert("請填寫總表內容");
+						return false;
+					}
+					
+					for(var i = 1 ; i <=24 ; i++){
+						if($.trim($("#total"+i).val()) == "" || $("#total"+i).val() < 0){
+							$("#total"+i).focus();
+							alert("請填寫正確的人數");
+							checkTotalList = "F";
+							break;
+						}else{
+							if(i == 1){
+								totalListStr = $("#total"+i).val();
+							}else{
+								totalListStr = totalListStr + "," + $("#total"+i).val();
+							}
+						}
+					}
+					$("#total_content").val($("#totalContent").val());
+					$("#total_list").val(totalListStr);
+				}
+
+				if(checkTotalList == "F"){
+					return false;
+				}
+				
+				var checkStatus = "T";
+				$(".addDemand").each(function(k){
+					var checkStatus2 = "T";
+					if($.trim($(this).find(".contentTitle").val())=="" && k == 0){
+						return false;
+					}else{
+						//標題判斷
+						if($.trim($(this).find(".contentTitle").val())==""){
+							$(this).find(".contentTitle").focus();
+							alert("特殊榜單標題不可為空");
+							checkStatus = "F";
+							return false;
+						}
+						
+						//簡介判斷
+						if($.trim($(this).find(".contentSummary").val())==""){
+							$(this).find(".contentSummary").focus();
+							alert("特殊榜單簡介不可為空");
+							checkStatus = "F";
+							return false;
+						}
+						
+						//姓名判斷
+						$(this).find(".contentName").each(function(){
+							if($.trim($(this).val())==""){
+								$(this).focus();
+								alert("姓名不可為空");
+								checkStatus = "F";
+								checkStatus2 = "F";
+								return false;
+							}
+						});
+						
+						if(checkStatus2=="F"){
+							return false;
+						}
+						
+						//名次判斷
+						$(this).find(".contentAchievement").each(function(){
+							if($.trim($(this).val())==""){
+								$(this).focus();
+								alert("名次不可為空");
+								checkStatus = "F";
+								checkStatus2 = "F";
+								return false;
+							}
+						});
+						
+						if(checkStatus2=="F"){
+							return false;
+						}
+					}
+					
+				});//addDemand end
+				if(checkStatus=="F"){
+					return false;
+				}
+				
+				if($("#id").val() == 0){
+					if($.trim($("#uploadFile").val())==""){
+						alert("請上傳匯入榜單");
+						return false;
+					}
+					
+					$("#fileExtension").val($("#uploadFile").val().substr(($("#uploadFile").val().lastIndexOf('.')+1)));
+					
+					if($.trim($("#fileExtension").val())!="xls"){
+						alert("匯入的榜單檔案格式錯誤，請匯入xls檔");
+						return false;
+					}
+				}
+				
+				//列表頁圖片判斷
+// 				if ($.trim($("#imageFile").val())=="" && $("#uploadImage_list").val()=="") {
+// 					alert("請上傳列表頁圖片");
+// 					return false;
+// 				}
+				
+				if ($("#uploadImage_list").val() != "") {
+					console.log("uploadImage_list",$("#uploadImage_list").val().substr(($("#uploadImage_list").val().lastIndexOf('.')+1)))
+					$("#imageExtension_list").val($("#uploadImage_list").val().substr(($("#uploadImage_list").val().lastIndexOf('.')+1)));
+				} else {
+					$("#imageExtension_list").val($("#deleteImage_list").val().substr(($("#deleteImage_list").val().lastIndexOf('.')+1)));
+				}
+				
+				if ($("#imageFile").val() != "" || $("#uploadImage_list").val() != "") {
+					if ($("#imageExtension_list").val() != "png" && $("#imageExtension_list").val() != "jpeg"
+						&& $("#imageExtension_list").val() != "jpg" && $("#imageExtension_list").val() != "gif") {
+						alert("列表頁上傳圖片格式必須為png、jpeg、jpg、gif");
+						return false;
+					}
+				}
+				
+				//內頁Banner圖片判斷
+// 				if($.trim($("#bannerFile").val())=="" && $("#uploadImage_banner").val()==""){
+// 					alert("請上傳內頁Banner圖片");
+// 					return false;
+// 				}
+				
+				if ($("#uploadImage_banner").val() != "") {
+					$("#imageExtension_banner").val($("#uploadImage_banner").val().substr(($("#uploadImage_banner").val().lastIndexOf('.')+1)));
+				} else {
+					$("#imageExtension_banner").val($("#deleteImage_banner").val().substr(($("#deleteImage_banner").val().lastIndexOf('.')+1)));
+				}
+				
+				if ($("#bannerFile").val() != "" || $("#uploadImage_banner").val() != "") {
+					if ($("#imageExtension_banner").val() != "png" && $("#imageExtension_banner").val() != "jpeg"
+						&& $("#imageExtension_banner").val() != "jpg" && $("#imageExtension_banner").val() != "gif") {
+						alert("內頁Banner上傳圖片格式必須為png、jpeg、jpg、gif");
+						return false;
+					}
+				}
+				
+				
+				//判斷列表頁圖片不得大於500K
+			  	var imagesize = 0;
+
+		  		if($("#uploadImage_list").val() != ""){
+		   			imagesize = document.getElementById("uploadImage_list").files.item(0).size; //抓取圖檔大小 
+		  		}		  	 
+
+		  		if(imagesize > 512000 && $("#uploadImage_list").val() != ""){
+		  			alert("列表頁圖檔大小限制500K內");
+		  			$("#imageFile").focus();
+		  			return false;
+		  		}
+		  		
+		  		//判斷內容圖片不得大於500K
+			  	var imagebannersize = 0;
+
+		  		if($("#uploadImage_banner").val() != ""){
+		   			imagesize = document.getElementById("uploadImage_banner").files.item(0).size; //抓取圖檔大小 
+		  		}		  	 
+
+		  		if(imagebannersize > 512000 && $("#uploadImage_banner").val() != ""){
+		  			alert("內頁Banner圖檔大小限制500K內");
+		  			$("#bannerFile").focus();
+		  			return false;
+		  		}
+				
+				//串連資料
+				var titleArray = new Array();
+				var summaryArray = new Array();
+				var nameArray = new Array();
+				var achievementArray = new Array();
+				
+				$(".addDemand").each(function(i){
+					var nameArrayOption = new Array();
+					var achievementArrayOption = new Array();
+					
+					titleArray[i] = $(this).find(".contentTitle").val();
+					summaryArray[i] = $(this).find(".contentSummary").val();
+					$(this).find(".contentName").each(function(j) {
+						nameArrayOption[j] = this.value;
+					});
+					nameArray[i] = nameArrayOption.join("_a_");
+					
+					$(this).find(".contentAchievement").each(function(k) {
+						achievementArrayOption[k] = this.value;
+					});
+					achievementArray[i] = achievementArrayOption.join("_a_");	
+					
+				});
+				
+				if(titleArray.length == summaryArray.length && titleArray.length == nameArray.length && titleArray.length == achievementArray.length){
+					$("#content_title").val(titleArray.join(",_,"));
+					$("#content_summary").val(summaryArray.join(",_,"));
+					$("#content_name").val(nameArray.join(",_,"));
+					$("#content_achievement").val(achievementArray.join(",_,"));
+					$("#display").val($("#selectDisplay").val());
+					
+					var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+					$("#mainForm").attr("action", link);
+					$("#mainForm").submit();
+				}else{
+					alert("資料異常!");
+					return false;
+				}
+			
+		
+			}
+			
+			
+		});
+		
+		function firstLoading(){
+			if($("#total_list").val()!=null && $("#total_list").val()!=""){
+				toatalListSplit();
+			}
+			if($("#id").val() != 0){
+				countList = $(".addDemand").size();
+				if(countList > 1) {
+					$("#contentList").find(".closebtn").show();
+				}
+				if($(".addDemand").find(".option").size() > 1){
+					$(".addDemand").find(".option").children(".deleteOption").show();
+				}
+			}
+		}
+		
+		function toatalListSplit(){
+			var totalList = $("#total_list").val().split(",");
+			
+			for(var i = 0 ; i < 24 ; i++){
+				$("#total"+(i+1)).val(totalList[i]);
+			}
+			
+		}
+		
+	</script>
+</body>

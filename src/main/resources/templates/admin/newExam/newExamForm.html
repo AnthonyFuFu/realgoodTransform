@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseUtil.js}"></script>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseForm.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+	<!-- content -->
+	<div class="content">
+		<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${newExam}" th:with="btn_name =*{id} == null ? '新增': '修改'"> 
+			<input type="hidden" id="id" th:field="*{id}" />
+			<input type="hidden" id="area" th:field="*{area}" />
+			<input type="hidden" name="searchTitle" th:value="${searchTitle}" >
+			<input type="hidden" id="pageNo" name="pageNo" th:value="${pageNo}">
+			<input type="hidden" id="iconList" name="iconList" />
+			<input type="hidden" id="contentTitleList" name="contentTitleList" />
+			<input type="hidden" id="contentContentList" name="contentContentList" />
+			<input type="hidden" id="newExamContentIdList" name="newExamContentIdList" />
+			<!-- table -->
+			<table class="table-vertical" cellspacing="0">
+				<caption><h2>甄戰情報-[[${btn_name}]]頁面</h2></caption>
+				<tr>
+					<th>
+						<span class="important">*</span>標題
+					</th>
+					<td>
+						<input type="text" id="title" th:field="*{title}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>列表簡介
+						<br/><span class="important" style="font-size:13px; opacity:0.8;">限140個字</span>
+					</th>
+					<td>
+						<textarea id="title_content" th:field="*{content}"></textarea>
+					</td>
+				</tr>				
+				<tr>
+				    <th><span class="important">*</span>類別</th>
+					<td>
+						<select id="newExamCategory" th:field="*{category}">
+							<option value="0">請選擇</option>
+							<th:block th:each="dataStatus , data : ${newExamCategoryList}">
+								<option th:value="${dataStatus.id}" th:text="${dataStatus.name}"></option>
+							</th:block>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						產品網址分類
+					</th>
+					<td>
+						<input type="text" th:field="*{product_category}">
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>內容</th>
+					<td id="contentBox">
+						<th:block th:if="*{id} == null">
+						<div class="addDemand"><img class="closebtn" th:src="${@environment.getProperty('static.url')}+@{/images/close.png}" style="display:none">
+							<input type="radio" name="icon1" class="icon" value="article_type01.png" />&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type01.png}" style="width:15px;height:20px;" />&nbsp;
+							<input type="radio" name="icon1" class="icon" value="article_type02.png" />&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type02.png}" style="width:19px;height:20px;" />&nbsp;
+							<input type="radio" name="icon1" class="icon" value="article_type03.png" />&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type03.png}" style="width:19px;height:20px;" />
+							<input type="text" name="contentTitle" placeholder="請在此行中，輸入內容標題" />
+							<textarea name="contentContent" placeholder="小提醒：如需做文字的縮排效果，請使用全形的空白鍵。"></textarea>
+						</div>
+						</th:block>
+						<th:block th:unless="*{id} == null">
+						<th:block th:each="dataStatus , data : ${newExamContentList}">
+						<div class="addDemand"><img class="closebtn" th:src="${@environment.getProperty('static.url')}+@{/images/close.png}">
+							<input type="hidden" name="newExamContentId" th:value="${dataStatus.id}" />
+							<input type="radio" th:name="icon+${data.count}" class="icon" th:value="article_type01.png" th:checked="${dataStatus.icon == 'article_type01.png'}"/>&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type01.png}" style="width:15px;height:20px;" />&nbsp;
+							<input type="radio" th:name="icon+${data.count}" class="icon" th:value="article_type02.png" th:checked="${dataStatus.icon == 'article_type02.png'}"/>&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type02.png}" style="width:19px;height:20px;" />&nbsp;
+							<input type="radio" th:name="icon+${data.count}" class="icon" th:value="article_type03.png" th:checked="${dataStatus.icon == 'article_type03.png'}"/>&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type03.png}" style="width:19px;height:20px;" />
+							<input type="text" name="contentTitle" placeholder="請在此行中，輸入內容標題" th:value="${dataStatus.title}"/>
+							<textarea name="contentContent" placeholder="小提醒：如需做文字的縮排效果，請使用全形的空白鍵。">[[${dataStatus.content}]]</textarea>
+						</div>
+						</th:block>
+						</th:block>
+						<div id="addContent" class="table-button addDemand-btn" onclick="addContent()">
+							<i class="fa fa-plus plus-btn"></i>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>列表頁圖片
+						</th>
+						<td>
+						<input type="text" id="photo" th:field="*{photo}"><font style="color:red;">請輸入圖庫平台URL，尺寸為：300*184px</font>
+						<th:block th:if="*{photo}!= null">
+							<br><img th:src="*{photo}" th:alt="*{photo}" width="350px" height="200px" />
+						</th:block>
+					</td>
+				</tr>				
+				<tr>
+					<th><span class="important">*</span>內頁圖片</th>
+					<td>
+						<input type="text" id="image" th:field="*{image}" />
+						<font style="color:red;">請輸入圖庫平台URL，尺寸為：1100*380px</font>
+						<th:block th:if="*{image}!=null and *{image}!=''">
+							<br><img th:src="*{image}" th:alt="*{image}">
+						</th:block>
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>開始日期</th>
+					<td>
+						<input type="text" id="begin_date"  placeholder="開始日期" th:field="*{begin_date}" format="yyyy-MM-dd" />
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>結束日期</th>
+					<td>
+						<input type="text" id="end_date" placeholder="結束日期" th:field="*{end_date}" format="yyyy-MM-dd"  />
+					</td>
+				</tr>
+				<tr>
+					<th>功能</th>
+					<td class="table-button vertical-btn">
+						<a onclick="history.back()" style="cursor:pointer;">返回</a>
+						<a onclick="add()" style="cursor:pointer;">[[${btn_name}]]</a>
+					</td>
+				</tr>
+			</table><!-- table -->
+		</form>
+	</div><!-- content -->
+	<script>
+		$(function(){
+			
+// 			$("#contentBox").children(".addDemand").children("input[name='icon']").attr("name", "icon1");
+			
+			if($("#id").val() != 0) {
+// 				$("#newExamCategory").val("<s:property value="newExam.category"/>");
+			}
+// 			if($("#id").val() == 0) {
+// 				$("#title").val("");
+// 			}
+			
+			$("#begin_date").datepicker({dateFormat: 'yy-mm-dd'});
+			$("#end_date").datepicker({dateFormat: 'yy-mm-dd'});
+			
+			//刪除
+			$(document).on("click", ".closebtn", function() {
+				if($("#contentBox").children(".addDemand").size() <= 2) {
+					$("#contentBox").find(".closebtn").hide();
+				}
+				$(this).parent(".addDemand").remove();
+				
+				$("#contentBox").children(".addDemand").each(function(i) {
+					$(this).children(".icon").attr("name", "icon"+(i+1));
+				})
+			});
+			
+			addContent = function() {
+				
+				var str = "<div class='addDemand'><img class='closebtn' src='/images/close.png'>";
+				str += "<input type='hidden' name='newExamContentId' value='0' />";
+				str += "<input type='radio' name='icon1' class='icon' value='article_type01.png' />&nbsp;";
+				str += "<img src='/images/front/article_type01.png' style='width:15px;height:20px;' />&nbsp;";
+				str += "<input type='radio' name='icon1' class='icon' value='article_type02.png' />&nbsp;";
+				str += "<img src='/images/front/article_type02.png' style='width:19px;height:20px;' />&nbsp;";
+				str += "<input type='radio' name='icon1' class='icon' value='article_type03.png' />&nbsp;";
+				str += "<img src='/images/front/article_type03.png' style='width:19px;height:20px;' />";
+				str += "<input type='text' name='contentTitle' placeholder='主題' />";
+				str += "<textarea name='contentContent' placeholder='小提醒：如需做文字的縮排效果，請使用全形的空白鍵。'></textarea></div>";
+				
+				$("#addContent").before(str);
+				
+				if($("#contentBox").children(".addDemand").size() > 1) {
+					$("#contentBox").find(".closebtn").show();
+				}
+				
+				$("#contentBox").children(".addDemand").each(function(i) {
+					$(this).children(".icon").attr("name", "icon"+(i+1));
+				})
+				
+			},
+			
+			add = function() {
+				
+				var check = "T";
+				
+				//標題判斷
+				if($("#title").val() == "") {
+					alert("請輸入標題");
+					return false;
+				} else {
+					if(checkByteLen($("#title").val(), "210")) {
+						alert("標題限70字，請重新輸入");
+						return false;
+					}
+				}
+				
+				//標題簡介判斷
+				if($("#title_content").val() == "") {
+					alert("請輸入列表簡介");
+					return false;
+				}				
+				
+				//類別判斷
+				if($("#newExamCategory").val() == 0) {
+					alert("請選擇類別");
+					return false;
+				}
+				
+				//內容判斷
+				$("#contentBox").children(".addDemand").each(function(i) {
+					if($(this).children(".icon:checked").size() != 1) {
+						alert("請選擇ICON");
+						check = "F";
+						return false;
+					}
+					
+					if($(this).children("input[name='contentTitle']").val() == "") {
+						alert("請輸入內容主題");
+						check = "F";
+						return false;
+					} else {
+						if(checkByteLen($(this).children("input[name='contentTitle']").val(), "210")) {
+							alert("內容標題限70字，請重新輸入");
+							check = "F";
+							return false;
+						}
+					}
+					
+					if($(this).children("textarea[name='contentContent']").val() == "") {
+						alert("請輸入內文");
+						check = "F";
+						return false;
+					} else {
+						if(checkByteLen($(this).children("textarea[name='contentContent']").val(), "3900")) {
+// 							alert("中英文字數不得超過3900個字，請重新輸入");
+							alert("內容字數限3900字，請重新輸入");
+							check = "F";
+							return false;
+						}
+					}
+				})
+				
+				if(check == "F") {
+					return false;
+				}
+				
+				//列表圖片判斷
+				if($("#photo").val() == "") {
+					alert("請輸入列表圖片連結");
+					return false;
+				}	
+				
+				//內文圖片判斷
+				if($("#image").val() == "") {
+					alert("請輸入內文圖片連結");
+					return false;
+				}					
+				
+				//開始日期判斷
+				if($.trim($("#begin_date").val())==""){
+					$("#begin_date").focus();
+					alert("開始時間不可為空");
+					return false;
+				}
+				
+				//結束日期判斷
+				if($.trim($("#end_date").val())==""){
+					$("#end_date").focus();
+					alert("結束時間不可為空");
+					return false;
+				}
+				
+				//日期起迄判斷
+				var beginDate = Date.parse($.datepicker.formatDate('yy/mm/dd', new Date($("#begin_date").val()))+" 00:00:00");
+				var endDate = Date.parse($.datepicker.formatDate('yy/mm/dd', new Date($("#end_date").val()))+" 00:00:00");
+				if (endDate.valueOf() <= beginDate.valueOf()){
+					$("#begin_date").focus();
+					alert("開始時間不可大於等於結束時間");
+					return false;
+				}
+				
+				//ICON串接
+				var iconArray = new Array();
+				var iconList;
+				$(".icon:checked").each(function(i) {
+					iconArray[i] = this.value;
+				});
+				iconList = iconArray.join(",;,");
+				$("#iconList").val(iconList);
+				
+				//標題串接
+				var contentTitleArray = new Array();
+				var contentTitleList;
+				$("input[name='contentTitle']").each(function(i) {
+					contentTitleArray[i] = this.value;
+				});
+				contentTitleList = contentTitleArray.join(",;,");
+				$("#contentTitleList").val(contentTitleList);
+				
+				//內容串接
+				var contentContentArray = new Array();
+				var contentContentList;
+				$("textarea[name='contentContent']").each(function(i) {
+					contentContentArray[i] = this.value;
+				});
+				contentContentList = contentContentArray.join(",;,");
+				$("#contentContentList").val(contentContentList);
+				
+				//內容ID串接
+				var newExamContentIdArray = new Array();
+				var newExamContentIdList;
+				$("input[name='newExamContentId']").each(function(i) {
+					newExamContentIdArray[i] = this.value;
+				});
+				newExamContentIdList = newExamContentIdArray.join(",;,");
+				$("#newExamContentIdList").val(newExamContentIdList);
+				
+// 				var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+				var link;
+				
+				if($("#id").val() == 0) {
+					link = "addSubmit";
+// 					alert("新增成功");
+				} else {
+					link = "updateSubmit";
+// 					alert("修改成功");
+				}
+				
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+			}
+			
+// 			changeArea();
+			
+		});
+	</script>	
+		
+		
+		
+</div>
+</div>
+</body>
+</html>

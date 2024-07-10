@@ -1,12 +1,252 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseUtil.js}"></script>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
 <meta charset="UTF-8">
 </head>
 <body>
 
-	<th:block th:each="dataStatus, data : ${userAccountList}">
-		<td th:text="${dataStatus.chinese_name}"></td>
-	</th:block>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+		
+		
+		<form id="mainForm" method="POST" th:object="${userAccount}">
+			<input type="hidden" th:field="*{id}" />
+			<input type="hidden" id="action" name="action" />
+			<input type="hidden" id="department_no_hidden" th:value="${userAccount.department_no}" />
+			<input type="hidden" id="unit_no_hidden" th:value="${userAccount.unit_no}" />
+			
+			<!-- /*content*/ -->
+			<div class="content">
+				<!-- /*button group*/ -->
+				<div class="btn-group">
+					<ul>
+<!-- 						<li><a href="javascript:void(0)" onclick="checkAll()">全選</a></li> -->
+<!-- 						<li><a href="javascript:void(0)" onclick="actionControl('enable', 'accountSet')">啟用</a></li> -->
+<!-- 					<li><a href="javascript:void(0)" onclick="actionControl('disable', 'accountSet')">停用</a></li> -->
+<!-- 					<li><a href="javascript:void(0)" id="importEmployees">更新員工</a> -->
+					</ul>
+				</div>
+				<!-- /*button group*/ -->
+				
+				<!-- /*search*/ -->
+				<div class="search">
+					<ul>
+						<li>
+							<select id="company" onchange="changeCompany()">
+								<option value="TKB">TKB</option>
+								<option value="TPC">TPC</option>
+							</select>
+						</li>
+						<li>
+							<select id="department_no" th:field="*{department_no}" onchange="changeDepartment()"></select>
+						</li>
+						<li>
+							<select id="unit_no" th:field="*{unit_no}"></select>
+						</li>
+						<li><button class="search-button" onclick="searchQuery()">搜尋</button></li>
+						<li><button class="search-button" onclick="resetData()">清除</button></li>
+					</ul>
+				</div>
+				<!-- /*search*/ -->		
+				
+				<!-- /*table*/ -->
+				<table class="table-horizon">
+					
+					<caption><h2>帳號設定</h2></caption>
+					
+					<thead>
+						<tr>
+							<th></th>
+							<th>序號</th>
+							<th>帳號</th>
+							<th>姓名</th>
+							<th>所屬群組名稱</th>
+							<th>所屬區域</th>
+							<th>啟用/停用</th>
+							<th class="width-fixed">功能</th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:block th:if="${#lists.isEmpty(userAccountList)}">
+							<tr>
+								<td colspan="7" align="center">尚無任何資料</td>
+							</tr>
+						</th:block>
+						<!-- /*<s:set name="count" value="0"/>*/ -->
+						<th:block th:each="dataStatus, data : ${userAccountList}">
+							<tr>
+								<td><input type="checkbox" name="selectList" th:value="${dataStatus.id}" /></td>
+								<td th:text="${(pageNo-1) * pageCount + data.count}"></td>
+								<td th:text="${dataStatus.account}"></td>
+								<td th:text="${dataStatus.chinese_name}"></td>
+								<td>
+									<th:block th:if='${dataStatus.groups_name == null || dataStatus.groups_name == ""}'>
+										無
+									</th:block>
+									<th:block th:unless='${dataStatus.groups_name == null || dataStatus.groups_name == ""}'>
+										[[${dataStatus.groups_name}]]
+									</th:block>
+								</td>
+								<td>
+									<th:block th:if='${dataStatus.area_name == null || dataStatus.area_name == ""}'>
+										無
+									</th:block>
+									<th:block th:unless='${dataStatus.area_name == null || dataStatus.area_name == ""}'>
+										[[${dataStatus.area_name}]]
+									</th:block>
+								</td>
+								<td>
+									<th:block th:if="${dataStatus.status == '1'}">啟用</th:block>
+									<th:block th:unless="${dataStatus.status == '1'}"><font color="red">停用</font></th:block>
+								</td>
+								<td class="table-button width-fixed">
+									<a href="javascript:void(0)" title="修改" th:attr="onclick=|changeAction('update', ${dataStatus.id})|"><i class="fa fa-pencil"></i></a>
+								</td>
+							</tr>
+						</th:block>
+					</tbody>
+				</table>
+				<!-- /*table*/ -->
+				<div th:insert="~{admin/load/layout :: page}"></div>
+			</div>
+			<!-- /*content*/ -->
+		</form>
+		<script>
+			$(function(){
+				
+				changeAction = function(link, id){
+					$("#id").val(id);
+					$("#mainForm").attr("action", link);
+					$("#mainForm").submit();
+				},
+				
+				resetData = function(){
+					$("#company").val("TKB");
+					$("#department_no").val("N");
+					$("#unit_no").val("N");
+					displayControl($("#unit_no"), "hide");
+				},
+				
+				gotoPage = function(link){
+					location.href = link;
+				},
+				
+				changeCompany = function(){
+					$.ajax({
+						url: "getDepartment",
+						cache: false,
+						async: false,
+						dataType: "json",
+						type: "POST",
+						data:{
+							company : $("#company").val()
+						},
+						error: function(xhr){
+							alert('Ajax request 發生錯誤 in changeCompany');
+						},
+						success: function(data){
+							$("#department_no").empty();
+							$("#unit_no").empty();
+							displayControl($("#unit_no"), "hide");
+							if(data != null && data.length > 0){
+								$("#department_no").append(`<option value='N'>請選擇</option>`);
+								for(i = 0 ; i < data.length ; i++){
+									var dept = data[i];
+									if(dept.DEPARTMENT_NO == $("#department_no_hidden").val()){
+										$("#department_no").append(`<option value='${dept.DEPARTMENT_NO}' selected>${dept.DEPT_NAME}</option>`);
+									} else{
+										$("#department_no").append(`<option value='${dept.DEPARTMENT_NO}'>${dept.DEPT_NAME}</option>`);
+									}
+								}
+							}
+						}
+					});
+				},
+				
+				changeDepartment = function(){
+					$.ajax({
+						url: "getUnit",
+						cache: false,
+						async: false,
+						dataType: "json",
+						type: "POST",
+						data:{
+							company : $("#company").val(),
+							department : $("#department_no").val()
+						},
+						error: function(xhr){
+							alert('Ajax request 發生錯誤 in changeDepartment');
+						},
+						success: function(data){
+							$("#unit_no").empty();
+							
+							displayControl($("#unit_no"), "hide");
+							if(data != null && data.length > 0){
+								displayControl($("#unit_no"), "show");
+								$("#unit_no").append(`<option value='N'>請選擇</option>`);
+								for(i = 0 ; i < data.length ; i++){
+									var unit = data[i];
+// 									if(unit.UNIT_NO == '<th:text="${userAccount.unit_no}" />'){
+									if(unit.UNIT_NO == $("#unit_no_hidden").val()){
+										$("#unit_no").append(`<option value='${unit.UNIT_NO}' selected>${unit.UNIT_NAME}</option>`);
+									} else{
+										$("#unit_no").append(`<option value='${unit.UNIT_NO}'>${unit.UNIT_NAME}</option>`);
+									}
+								}
+							}
+						}
+					});
+				},
+				
+				accountSet = function(action){
+					$.ajax({
+						url: "accountSet",
+						cache: false,
+						async: false,
+						type: "POST",
+						data:{
+							action : action
+						},
+						error: function(xhr){
+							alert('Ajax request 發生錯誤');
+						},
+						success: function(data){
+							
+						}
+					});
+				},
+				
+				$("#importEmployees").on('click', function(){
+					$.ajax({
+						url: "/tkbrule/tkbAPI/userMasterList",
+						cache: false,
+						async: false,
+						type: "GET",
+						error: function(xhr){
+							alert('Ajax request 發生錯誤');
+						},
+						success: function(data, statusText, xhr){
+							if(xhr.status == 201){
+								alert(data.message);
+								location.reload();
+							}
+						}
+					});
+				});
+					
+				//自動載入函數
+				changeCompany();
+				changeDepartment();
+				
+			});
+		</script>
+	</div>
+</div>
 
 </body>
 </html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/js :: layout}"></head>
+<body>
+	<form id="main_form" method="POST">
+		<input type="hidden" id="parent_id" name="parent_id" th:value="${parent_id}" />
+		<input type="hidden" id="message" th:value="${message}" />
+		<input type="hidden" id="link" th:value="${link}" />
+		<input type="hidden" id="layer" name="layer" th:value="${layer}" />
+	</form>
+	<script>
+		$(function(){
+			if($("#message").val()){
+				alert($("#message").val());
+			}
+			$("#main_form").attr('action', $("#link").val());
+			$("#main_form").submit();
+		})
+	</script>
+</body>
+</html>

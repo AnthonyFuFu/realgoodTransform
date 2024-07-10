@@ -32,5 +32,19 @@ public class Edm {
 	private String device;							//google廣告參數
 	private String campaignid;						//google廣告參數
 	private String is_google_ad;					//google廣告參數
-	
+	private String web;		//google廣告參數
+	@Override
+	public String toString() {
+		return "{"
+				+ "\"name\":\"" + name + "\","
+				+ "\"e_mail\":\"" + e_mail + "\","
+				+ "\"memo\":\"" + memo+ "\","
+				+ "\"create_date\":\"" + create_date + "\","
+				+ "\"type_id\":\"" + type_id + "\", "
+				+ "\"contact_time\":\"" + contact_time+ "\","
+				+ "\"type_code\":\"" + type_code + "\", "
+				+ "\"anatomic\":\"" + anatomic + "\","
+				+ "\"phone\":\"" + phone + "\""
+				+ "}";
+	}
 }

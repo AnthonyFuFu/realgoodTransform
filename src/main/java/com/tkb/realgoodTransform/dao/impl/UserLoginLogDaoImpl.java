@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 import com.tkb.realgoodTransform.dao.UserLoginLogDao;
 import com.tkb.realgoodTransform.model.UserLoginLog;
 
+
+
+
 @Repository
 public class UserLoginLogDaoImpl implements UserLoginLogDao {
 	@Autowired

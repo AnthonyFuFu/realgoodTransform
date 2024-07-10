@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="common">
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/jquery-2.2.4.min.js}"></script>
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/goTop.js}"></script>
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/menu.js}"></script>
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/footer.js}"></script>
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/layer.js}"></script>
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/layer_msg.js}"></script>
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/sort.js}"></script>
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/jquery.cookie.js}"></script>
+<!-- 	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/FBMessage.js}"></script> -->
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/tabs.js}"></script>
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/qa.js}"></script>
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/logo_list.js}"></script>
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/slick.js}"></script>
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/responsiveslides.js}"></script>
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/marquee.js}"></script>
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/des.js}"></script>
+	<!-- 20190625 start -->	
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/jquery.mCustomScrollbar.concat.min.js}"></script>
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/jquery.transit.min.js}"></script>
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/front/nav_mobile.js}"></script>
+	<!-- 20190625 end -->
+<!-- 	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/menu.js}"></script> -->
+	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/scroll-react.js}"></script>
+<!-- 	<script type="text/javascript" th:src="${@environment.getProperty('static.url')}+@{/js/layer_msg.js}"></script> -->
+
+	<!-- FB Conversion API -->
+	<script>
+	$(function(){
+// 		$.ajax({
+// 			url: "/apiPage/view",
+// 			cache: false,
+// 			type: "POST"
+// 		});
+	});
+	
+	function showObject(button) {
+	    var index = button.getAttribute("data-index");
+	    var objectDivs = document.querySelectorAll("[data-object]");
+	    for (var i = 0; i < objectDivs.length; i++) {
+	        if (objectDivs[i].getAttribute("data-object") == index) {
+	            objectDivs[i].style.display = "block";
+	        } else {
+	            objectDivs[i].style.display = "none";
+	        }
+	    }
+	}
+	
+	</script>
+	<!-- FB Conversion API -->
+</th:block>
+</html>

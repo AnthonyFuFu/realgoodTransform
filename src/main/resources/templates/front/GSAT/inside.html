@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<title>108課綱學測攻略數位學習專區-[[${gSAT.title}]]--甄戰學習顧問</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css}" />	<!-- 電腦版 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/jquery.mCustomScrollbar.css}" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick-exam.css}" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick-theme-exam.css}" />
+
+
+
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">	
+<!-- Global site tag (gtag.js) - Google Ads: 957644279 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-957644279"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-957644279');
+</script>
+</head>
+<body>
+<!-- 行動版 -->
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<a class="btn-top" href="javascript:void(0);"><i class="fas fa-arrow-up"></i></a>
+<!-- 收納按鈕 -->
+<a class="btn-feature" href="javascript:void(0);"><i class="fas fa-ellipsis-h"></i></a>
+<!-- 展開功能 -->
+<!-- 課程諮詢按鈕 -->
+<a class="btn-course" th:href="${@environment.getProperty('static.url')}+@{/common/consultation}">課程<br />諮詢</a>
+<div class="wrapper">
+	<!-- 20190625 start -->
+	<div class="header-box">  
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+		<form id="getForm" method="GET" enctype="multipart/form-data">
+					<input type="hidden" id="str" name="str" />
+		</form>
+			<input type="hidden" id="type" name="type" th:value="${gSAT.sort}" />
+		<div class="content">
+		<div class="ad">
+		<th:block th:if="${#lists.size(navBannerList)==3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<th:block th:if="${data.count == 1}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			<th:block th:if="${data.count == 2}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			</th:block>
+		</th:block>
+		<th:block th:if="${#lists.size(navBannerList)<3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<div><a th:href="${dataStatus.link}" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+			</th:block>
+		</th:block>
+		
+		<div class="metaBox"></div>
+		
+		<th:block th:if="${#lists.size(navBannerList)==3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<th:block th:if="${data.count == 3}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			</th:block>
+		</th:block>
+		<th:block th:each="dataStatus , data : ${navBannerType2List}">
+			<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+		</th:block>
+		</div>
+		<!-- ad -->
+			<div class="main_area">
+				<h1>108課綱學測攻略數位學習專區</h1>
+				<div class="back"><a href="/index">回上頁</a></div>
+				<hr>
+			<div class="gsat_link">
+				<span>&nbsp;&nbsp;»&nbsp;快速連結</span>
+				
+				<ul>
+					<th:block th:each="dataStatus , data : ${gSATMenuList}">
+						<li class="fast_link_li">
+							<th:block th:if="${dataStatus.name eq gSAT.category_name}">
+								<a class="gsat_link_now" th:href="${dataStatus.link}">
+								[[${dataStatus.name}]]
+								</a>
+							</th:block>
+							<th:block th:unless="${dataStatus.name eq gSAT.category_name}">
+								<a th:href="${dataStatus.link}">
+								[[${dataStatus.name}]]
+								</a>
+							</th:block>
+						</li>
+					</th:block>
+				</ul>
+			</div><!-- diplomacy_link -->
+			
+			<th:block th:if="${gSAT.category_name eq '考試科目'}">
+			 	<th:block th:with="title='考試科目'">
+			 		<h2><div class="red_word">»&nbsp;[[${title}]]</div></h2> 
+				</th:block>
+			</th:block>
+			<th:block th:if="${gSAT.category_name eq '關於外特'}">
+			 	<th:block th:with="title='關於外特'">
+			 		<h2><div class="red_word">»&nbsp;[[${title}]]</div></h2> 
+				</th:block>
+			</th:block>
+			<th:block th:if="${gSAT.category_name eq '最新課表'}">
+			 	<th:block th:with="title='最新課表'">
+			 		<h2><div class="red_word">»&nbsp;[[${title}]]</div></h2> 
+				</th:block>
+			</th:block>
+			<th:block th:if="${gSAT.category_name eq '學習歷程'}">
+			 	<th:block th:with="title='學習歷程'">
+			 		<h2><div class="red_word">»&nbsp;[[${title}]]</div></h2> 
+				</th:block>
+			</th:block>
+			<!--  20201117 Linda start -->
+			<div class="tabs">
+<!-- 				<button class="slick-prev slick-arrow" style="background: url(../images/front/btn_slider_prev.svg) center center no-repeat;"></button> -->
+<!-- 				<button class="slick-next slick-arrow"></button> -->
+					<div class="slider-mask outer">
+					
+							<th:block th:each="dataStatus , data : ${gSATArticleList}">
+								<a style="cursor: pointer;" th:href="'index?str='+${dataStatus.encrypt_id}">
+									<div class="tabItem">
+											[[${dataStatus.title}]]
+									</div>
+								</a>
+							</th:block>
+					</div>
+			</div>
+			
+<!-- 			<div class="tabs"> -->
+<!-- 	                <div class="slider-mask outer"> -->
+<!-- 							<th:block th:each="dataStatus , data : ${gSATArticleList}"> -->
+<!-- 									<div class="tabItem"> -->
+										
+<!-- 									</div> -->
+<!-- 							</th:block> -->
+<!-- 	                </div>  -->
+<!-- 			</div> -->
+			<!--  20201117 Linda end -->
+						<div th:utext="${gSAT.content}"></div>
+			      
+				</div>
+				<!-- main_area -->
+				
+				</div>
+				<!-- content -->
+				  <div class="clear_float"></div>
+			      <div style="margin-top:-15%" th:insert="~{front/common/consultationGsat}"></div>
+	
+		
+	</div>
+		<div th:insert="~{front/loadForOldPage/layout :: footer}"></div>	
+		<script th:src="${@environment.getProperty('static.url')}+@{/js/facebook_Adjust.js}"></script>
+		
+<!-- 		<script th:src="${@environment.getProperty('static.url')}+@{/js/front/advertising.js}"></script> -->
+<!-- 登入裝置 -->
+<script>
+// $('.slider-mask').slick({
+// 	  slidesToShow: 4,
+// 	  slidesToScroll: 2,
+// 	  infinite: false,
+// 	  variableWidth:true,
+// 	  responsive: [
+// 		    {
+// 		      breakpoint: 481,
+// 		      settings: {
+// 		        slidesToShow: 2,
+// 		        slidesToScroll: 2,
+// 		      },
+// 		   },
+// 	    ]
+// 	});
+	
+	
+$(".tab_container:first").css("display", "block");
+// $(".tabItem:first").attr("style", "background: rgb(255, 255, 255); border-bottom: 1px solid rgb(255, 255, 255); box-shadow: none;");
+$("#dip_project_name").val($('.tabs .tabItem:first').text()+"考取金榜-外交特考專區");
+$('.slider-mask').slick({
+	  slidesToShow: 4,
+	  slidesToScroll: 2,
+	  infinite: false,
+	  variableWidth:true,
+	  responsive: [
+		    {
+		      breakpoint: 481,
+		      settings: {
+		        slidesToShow: 2,
+		        slidesToScroll: 2,
+		      },
+		   },
+	    ]
+	});
+	
+function refreshPage() {
+    location.reload();
+}
+$(window).resize(function() {
+    refreshPage();
+});
+	
+</script>
+</body>
+</html>

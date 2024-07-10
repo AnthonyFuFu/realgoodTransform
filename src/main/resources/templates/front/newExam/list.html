@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>TKB甄戰學習顧問中心-書審口面試輔導專家</title>
+<meta name="description" content="大學學測個人申請,研究推甄甄試,研究所在職專班,高職升科大書審口試輔導專家"/>
+<meta name="keywords" content="推甄,大學甄選,甄試入學,申請入學,面試技巧,科大申請,備審資料,推薦入學"/>
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css?v=20210705}" />	<!-- 電腦版 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick-theme.css}" /> 
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick.css}" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slides.css}" />
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">
+<!-- Global site tag (gtag.js) - Google Ads: 957644279 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-957644279"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-957644279');
+</script>
+</head>
+<body>
+
+<!-- 行動版 -->
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<div class="wrapper">
+	<!-- 20190625 start -->
+	<div class="header-box">  
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+<div class="content">
+<h1>甄戰情報</h1>
+<hr>
+	<div class="sort">
+		<form id="mainForm" method="post" enctype="multipart/form-data">
+			<input type="hidden" id="id" name="newExam.id" />
+			<input type="hidden" id="newExamCategory_id" name="newExam.category" th:value="${category}"/>
+			<input type="hidden" id="sort" />
+			<input type="hidden" id="page_count" />
+			<input type="hidden" id="date" />
+		</form>
+		<ul>分類
+		
+			<th:block th:if="${category}== null">
+				<li class="sort_click"><a th:onclick="|searchCategory('ALL', '1')|">全部</a></li>
+			</th:block>
+			<th:block th:unless="${category}== null">
+				<li><a th:onclick="|searchCategory('ALL', '1')|">全部</a></li>
+			</th:block>
+			<th:block th:each="dataStatus , data : ${newExamCategoryList}">
+					<th:block th:if="${category}== ${dataStatus.id}">
+						<li class="sort_click"><a th:onclick="|searchCategory('${dataStatus.id}','1')|">[[${dataStatus.name}]]</a></li>
+					</th:block>
+					<th:block th:unless="${category} == ${dataStatus.id}">
+						<li><a th:onclick="|searchCategory('${dataStatus.id}','1')|">[[${dataStatus.name}]]</a></li>
+					</th:block>
+			</th:block>
+		</ul>
+		<ul>時間
+			<li th:onclick="|searchDate('ALL')|" class="sort_click">全部</li>
+			<li th:onclick="|searchDate('week')|">本周</li>
+			<li th:onclick="|searchDate('month')|">本月</li>
+		</ul>
+		
+		<select id="searchSort" th:onchange="|searchSort('1')|">
+			<option value="new">最新考情</option>
+			<option value="hot">熱門考情</option>
+		</select>
+		
+		<select id="searchPageCount" th:onchange="|searchPageCount('1')|">
+			<option value="8">每頁8則</option>
+			<option value="12">每頁12則</option>
+		</select>
+		
+		<th:block th:insert="~{front/loadForOldPage/layout :: page}"></th:block>
+		跳至第
+		<select id="changePage" th:onchange="|changePage(this.value)|" th:value="${pageNo}">
+			<option >[[${pageNo}]]</option>
+		</select>頁
+	</div>
+	<div class="bulletin_list"></div>
+	
+</div><!-- content -->
+	<div th:insert="~{front/loadForOldPage/layout :: footer}"></div>	
+</div>
+<script>
+
+$(function(){
+	
+	search = function(layer) {
+		$.ajax({
+			url: "[[${@environment.getProperty('weburl')}]]/newExam/toSearch",
+			cache: false,
+			async: false,
+			dataType: "json",
+			type:"POST",
+			data:{
+				layer : layer,
+				category_id : $("#newExamCategory_id").val(),
+				searchSort : $("#searchSort").val(),
+				page_count : $("#page_count").val(),
+				page_no : $("#pageNo").val(),
+				date : $("#date").val()
+				
+			},
+			error: function(xhr) {
+				alert('Ajax request 發生錯誤');
+			},
+			success: function(data) {
+				
+				var str = "";
+				var pageStr = "";
+
+				if(data.length>0){
+					$("#pageTotalCount").val(data[0].pageTotalCount);
+					$("#pageCount").val(data[0].pageCount);
+					$("#totalPage").val(data[0].totalPage);
+					
+					$("#leftStartPage").val(data[0].leftStartPage);
+					$("#leftEndPage").val(data[0].leftEndPage);
+					$("#rightStartPage").val(data[0].rightStartPage);
+					$("#rightEndPage").val(data[0].rightEndPage);
+					$("#leftPageNum").val(data[0].leftPageNum);
+					$("#rightPageNum").val(data[0].rightPageNum);
+					if(parseInt($("#pageTotalCount").val()) > parseInt($("#pageCount").val())) {
+						if(parseInt($("#totalPage").val()) > 1) {
+							if(parseInt($("#pageNo").val()) == 1) {
+								
+							} else {
+								str += "<input type='button' onclick='pageChangeToAjax("+(parseInt($("#pageNo").val())-1)+")' value='<<'>&nbsp;";
+							}
+							
+							if(parseInt($("#leftPageNum").val()) > 0) {
+								for(var i=parseInt($("#leftStartPage").val()); i<=parseInt($("#leftEndPage").val()); i++) {
+									str += "<input type='button' onclick='pageChangeToAjax("+i+")' value='"+i+"'>&nbsp;";
+								}
+							}
+							
+							str += "<input type='button' class='sort_input_click' value='"+parseInt($("#pageNo").val())+"'>&nbsp;";
+							
+							if($("#rightPageNum").val() > 0) {
+								for(var i=parseInt($("#rightStartPage").val()); i<=parseInt($("#rightEndPage").val()); i++) {
+									str += "<input type='button' onclick='pageChangeToAjax("+i+")' value='"+i+"'>&nbsp;";
+								}
+							}
+							
+							if(parseInt($("#pageNo").val()) == parseInt($("#totalPage").val())) {
+								
+							} else {
+								str += "<input type='button' onclick='pageChangeToAjax("+(parseInt($("#pageNo").val())+1)+")' value='>>'>&nbsp;";
+							}
+
+						}else{
+							str += "<input type='button' value='1'>";
+						}
+						
+					} else {
+						str += "<input type='button' value='1'>";
+					}
+					
+					for(var i=1; i<=parseInt($("#totalPage").val()); i++) {
+						if(i == parseInt($("#pageNo").val())) {
+							pageStr += "<option value='"+i+"' selected>"+i+"</option>";
+						} else {
+							pageStr += "<option value='"+i+"'>"+i+"</option>";
+						}
+					}
+					
+				}
+				
+				$("#pageBox").empty();
+				$("#pageBox").append(str);
+				
+				$("#changePage").empty();
+				$("#changePage").append(pageStr);
+				
+				
+				$(".bulletin_list").empty();
+				var str = "";
+				if(data != null && data.length > 0){
+					for(i = 0 ; i < data.length; i++){
+						var newExam = data[i];
+
+						str += "<div class='examInfo' >";
+						str += "<div class='bulletin_img'>";
+						if(newExam.product_category==null||newExam.product_category==''){
+						str += "<a href=/newExam/inside?str="+newExam.encrypturl+"><img src='"+newExam.photo+"' width='180px' height='110px' /></a>";
+						}else{
+							str += "<a href=/newExam/inside?str="+newExam.encrypturl+"&product_category="+newExam.product_category+"><img src='"+newExam.photo+"' width='180px' height='110px' /></a>";
+						}
+						str += "</div>";
+						str += "<div class='bulletin_info'>";
+						if(newExam.product_category==null||newExam.product_category==''){
+							str += "<div class='examInfo_title'><a href=/newExam/inside?str="+newExam.encrypturl+">"+newExam.title+"</a></div>";
+						}else{
+							str += "<div class='examInfo_title'><a href=/newExam/inside?str="+newExam.encrypturl+"&product_category="+newExam.product_category+">"+newExam.title+"</a></div>";
+						}
+						
+						str += "<div class='bulletin_text'>"+newExam.content+"</div>";
+						str += "</div>";
+						str += "</div>";
+						
+					}
+					$(".bulletin_list").append(str);
+
+				}
+			}
+		});
+	},
+	
+
+	searchCategory = function(id, layer) {
+		if(id == "ALL") {
+			$("#newExamCategory_id").val('');
+		} else {
+			$("#newExamCategory_id").val(id);
+		}
+		$("#pageNo").val("1");
+		search(layer);
+	},
+	
+	searchSort = function(layer) {
+		$("#sort").val($("#searchSort").val());
+		$("#pageNo").val("1");
+		search(layer);
+	},
+	
+	searchPageCount = function(layer) {
+		$("#page_count").val($("#searchPageCount").val());
+		$("#pageNo").val("1");
+		search(layer);
+	},
+	
+	searchDate = function(date) {
+		$("#date").val(date);
+		$("#pageNo").val("1");
+		search("1");
+	},
+	
+	changePage = function(pageNo) {
+		$("#pageNo").val(pageNo);
+		search("1");
+	}
+	
+	search("1");
+	
+})
+
+function pageChangeToAjax(pageNo){
+	$("#pageNo").val(pageNo);
+	search("1");
+}
+
+</script>
+</body>
+</html>

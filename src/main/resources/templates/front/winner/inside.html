@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>[[${winner.admitted}]]-TKB甄戰學習顧問中心</title>
+<meta name="description" th:content="|${winner.summary}|" />
+<meta name="keywords" content="推甄,大學甄選,甄試入學,申請入學,面試技巧,科大申請,備審資料,推薦入學"/>
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css?v=20210705}" />	<!-- 電腦版 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick-theme.css}" /> 
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick.css}" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slides.css}" />
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">
+<!-- Global site tag (gtag.js) - Google Ads: 957644279 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-957644279"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-957644279');
+</script>
+</head>
+<body>
+
+<!-- 行動版 -->
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<div class="wrapper"> 
+	<!-- 20190625 start -->
+	<div class="header-box">  
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+	
+	<input type="hidden" id="type_code" name="type_code" value="EXAM" />
+	<input type="hidden" id="print_id" name="print_id" value="6486" /><!-- PO版人 -->
+	<input type="hidden" id="type_id" name="type_id" value="0" />
+	<input type="hidden" id="transfer_code" th:value="${winner.admitted}+'-'+${winner.name}" />
+	
+	<div class="content">
+		<div class="ad">
+		<th:block th:if="${#lists.size(navBannerList)==3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<th:block th:if="${data.count == 1}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			<th:block th:if="${data.count == 2}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			</th:block>
+		</th:block>
+		<th:block th:if="${#lists.size(navBannerList)<3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<div><a th:href="${dataStatus.link}" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+			</th:block>
+		</th:block>
+		
+		<div class="metaBox"></div>
+		
+		<th:block th:if="${#lists.size(navBannerList)==3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<th:block th:if="${data.count == 3}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			</th:block>
+		</th:block>
+		<th:block th:each="dataStatus , data : ${navBannerType2List}">
+			<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+		</th:block>
+		</div>
+		<!--             ad -->
+		<div class="main_area">
+			<form id="getForm" method="GET" enctype="multipart/form-data">
+				<input type="hidden" id="str" name="str"/>
+			</form>
+		
+			<h1>贏家經驗談</h1>
+			<input type="hidden" id="name" name="winner.name" th:value="${winner.name}" />
+			 <th:block th:if="${winner.video}!= null and ${winner.video}!= ''">
+				<div class="back"><a th:href="@{/winner/videoIndex}">回上頁</a></div>
+			</th:block >
+			 <th:block th:unless="${winner.video}!= null and ${winner.video}!= ''">
+				<div class="back"><a th:href="@{/winner/index}">回上頁</a></div>
+			</th:block >
+			<hr>
+			
+			<h1 class="article-title">
+			 <th:block th:if="${winner.name.length()}== 2">
+				<div class="photo-name">[[${winner.name[0]}]]○</div>
+			</th:block >
+			<th:block th:if="${winner.name.length()}== 3">
+				<div class="photo-name">[[${winner.name[0]}]]○[[${winner.name[2]}]]</div>
+			</th:block >
+			<th:block th:if="${winner.name.length()}== 4">
+				<div class="photo-name">[[${winner.name[0]}]]○○[[${winner.name[3]}]]</div>
+			</th:block >
+			<th:block th:if="${#strings.isEmpty(#strings.trim(winner.name))}">
+				<div class="photo-name">○○○○○</div>
+			</th:block >
+			</h1>
+			<h3>考取：[[${winner.admitted}]]</h3>
+			<div class="community_API">
+	           <a th:href="@{'https://www.facebook.com/sharer/sharer.php?u=' + @{https://daso.tkb.com.tw/lectures/inside?{str}}(str=${shareStr})}" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/fb_api.png}" /></a>
+	        </div>				
+			<div class="viewers">[[${winner.click_rate}]]</div>
+			<div class="release" th:text="發佈時間：+${#strings.replace(#strings.substring(begin_date, 0, 10), '-', '/')}"></div>
+			<div class="update" th:text="更新時間：+${#dates.format(update_date, 'yyyy/MM/dd')}"></div>
+			<th:block th:if="${winner.video}!=null and ${winner.video}!= ''">
+					<div>
+						<iframe width="100%" height="500px" th:src="${winner.video}" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+					</div>
+					<div class="lecture_title">考取：[[${winner.admitted}]]</div>
+			</th:block>
+			<th:block th:if="${winner.video}==null or ${winner.video}== ''">
+			<div class="poster"><img th:src="${winner.image}"></div>
+			<div class="lecture_title">考取：[[${winner.admitted}]]</div>
+			</th:block>
+			<hr>
+			<th:block th:each="dataStatus , data : ${winnerContentList}">
+				<div th:class="${#strings.substring(dataStatus.icon,0,14)}">[[${dataStatus.title}]]</div>
+				<div class="article" th:utext="${#strings.replace(dataStatus.content,'&#10;','&lt;br&gt;')}"></div>
+			</th:block>
+		
+			<div style="margin-top:-100px" th:insert="~{front/common/consultation}"></div>
+		</div><!-- main_area -->
+		
+		<div class="clear_float"></div>
+		
+		<div class="extend">
+			<th:block th:if="${!#lists.isEmpty(prevList)}" th:each="dataStatus , data : ${prevList}">
+				<div class="previous">
+					<th:block th:if="${dataStatus.product_category==null||dataStatus.product_category==''}">
+							<a id="name1" th:href="@{'/winner/inside?str='+${dataStatus.encrypturl}}">
+						</th:block>
+						<th:block th:unless="${dataStatus.product_category==null||dataStatus.product_category==''}">
+							<a id="name1" th:href="@{'/winner/inside?str='+${dataStatus.encrypturl}+'&product_category='+${dataStatus.product_category}}">
+						</th:block>
+				<img th:src="${@environment.getProperty('static.url')}+@{/images/front/previous.png}">上一篇：[[${dataStatus.cate_name}]]-
+						 <th:block th:if="${dataStatus.name.length()}== 2">
+							[[${dataStatus.name[0]}]]○
+						 </th:block >
+						 <th:block th:if="${dataStatus.name.length()}== 3">
+							[[${dataStatus.name[0]}]]○[[${dataStatus.name[2]}]]
+						 </th:block >
+						 <th:block th:if="${dataStatus.name.length()}== 4">
+							 [[${dataStatus.name[0]}]]○○[[${dataStatus.name[3]}]]
+						</th:block >
+						<th:block th:if="${#strings.isEmpty(#strings.trim(winner.name))}">
+							○○○○○
+						</th:block >
+				</a></div>
+			</th:block>
+			<th:block th:if="${!#lists.isEmpty(nextList)}" th:each="dataStatus , data : ${nextList}">
+				<div class="next">
+						<th:block th:if="${dataStatus.product_category==null||dataStatus.product_category==''}">
+							<a id="name2" th:href="@{'/winner/inside?str='+${dataStatus.encrypturl}}">
+						</th:block>
+						<th:block th:unless="${dataStatus.product_category==null||dataStatus.product_category==''}">
+							<a id="name2" th:href="@{'/winner/inside?str='+${dataStatus.encrypturl}+'&product_category='+${dataStatus.product_category}}">
+						</th:block>
+				<img th:src="${@environment.getProperty('static.url')}+@{/images/front/next.png}">下一篇：[[${dataStatus.cate_name}]]-
+				 		<th:block th:if="${dataStatus.name.length()}== 2">
+							[[${dataStatus.name[0]}]]○
+						 </th:block >
+						 <th:block th:if="${dataStatus.name.length()}== 3">
+							[[${dataStatus.name[0]}]]○[[${dataStatus.name[2]}]]
+						 </th:block >
+						 <th:block th:if="${dataStatus.name.length()}== 4">
+							 [[${dataStatus.name[0]}]]○○[[${dataStatus.name[3]}]]
+						</th:block >
+						<th:block th:if="${#strings.isEmpty(#strings.trim(winner.name))}">
+							○○○○○
+						</th:block >
+				</a></div>
+			</th:block>
+		</div><!-- extend -->
+	</div><!-- content -->
+	<div th:insert="~{front/loadForOldPage/layout :: footer}"></div>
+	<script th:src="${@environment.getProperty('static.url')}+@{/js/facebook_Adjust.js}"></script>
+	<script th:src="${@environment.getProperty('static.url')}+@{/js/front/advertising.js}"></script>	
+</div><!-- wrapper -->
+<script>
+var redWordElement = document.querySelector('.red_word');
+redWordElement.textContent = '如對本講座有相關問題，歡迎填表洽詢，有專人為您解答　*必填';
+
+
+
+var toAreaSelect = document.getElementById("toArea");
+//修改 <select> 元素的标签文本
+toAreaSelect.parentElement.previousElementSibling.innerHTML = "諮詢地點<span>*</span>";
+
+$(function(){
+	banner_toInside = function(id) {
+		$.ajax({
+			url: "[[${@environment.getProperty('weburl')}]]/navBannerUpdateClickRate",
+			cache: false,
+			async: false,
+			type:"POST",
+			data:{
+				id : id
+			},
+			success: function(data) {
+			}
+		});
+		
+	};
+});
+</script>
+</body>
+</html>

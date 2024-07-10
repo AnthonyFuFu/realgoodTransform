@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseUtil.js}"></script>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/tinymce/tinymce.min.js}"></script>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/tinymce/tinymce.setup.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+		
+		<!-- content -->
+		<div class="content">
+		<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${chosenArticle}" th:with="btn_name=${chosenArticle.id==null ? '新增' : '修改'}">
+			<input type="hidden" id="id" th:field="*{id}" />
+			<input type="hidden" name="pageNoLog"  th:value="${pageNoLog}"/>
+			<input type="hidden" name="titleIndex"  th:value="${titleIndex}" />
+			<!-- table -->
+			<table class="table-vertical" cellspacing="0">
+				<caption><h2>精選文章-[[${btn_name}]]頁面</h2></caption>
+				<tr>
+					<th>
+						文章編號
+					</th>
+					<td>
+						<input type="hidden" id="articleNum" th:field="*{article_num}" th:text="*{article_num}" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						文章作者
+					</th>
+					<td>
+						<input type="hidden" id="articleAuthor" th:field="*{article_author}" th:text="*{article_author}"/>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>文章分類
+					</th>
+					<td>
+						<input type="hidden" id="article_category" name="chosenArticle.article_category" th:value="${chosenArticle.article_category}"/>
+						<select id="categorySelect" onChange="changeCategory()" th:field="*{category_parent}" >
+							<option value="">請選擇類別</option>
+								<th:block th:each ="dataStatus , data : ${chosenArticleCategoryList}" id="chosenArticleCategory">
+									<option th:value="${dataStatus.id}" >[[${dataStatus.name}]]</option>								
+								</th:block>
+						</select>
+						<select id="categoryChildSelect" th:field="*{article_category}">
+							<option value="">請選擇類別</option>
+						</select>
+					</td>
+				</tr>
+<!-- 				<tr> -->
+<!-- 					<th> -->
+<!-- 						產品網址分類 -->
+<!-- 					</th> -->
+<!-- 					<td> -->
+<!-- 						<input type="text" th:field="*{product_category}"> -->
+<!-- 					</td> -->
+<!-- 				</tr> -->
+				<tr>
+					<th>
+						<span class="important">*</span>標題
+					</th>
+					<td>
+						<input type="text" id="title" th:field="*{title}"/>
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>編輯</th>
+					<td>
+						<input type="text" id="edit_from" th:field="*{edit_from}" maxlength="15"/>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>簡介
+					</th>
+					<td>
+						<textarea id="summaryArea" th:field="*{summary}"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						引用文章內容
+					</th>
+					<td>
+						<input type="hidden" id="quote_content" th:field=*{quote_content_string} th:utext=*{quote_content_string} />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						內容
+					</th>
+					<td>
+						<textarea class="ckeditor" cols="80" id="contentArea" rows="12" th:field=*{content}></textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>列表頁圖片
+					</th>
+					<td>
+						<input type="text" id="image_url" th:field="*{image_url}"/>
+						<font style="color:red;">請輸入圖庫平台URL，尺寸為：300*184px</font>
+						<th:block  th:if="*{image_url}!=null">
+					 	<img th:src="*{image_url}" th:alt="*{image_url}" width="350px" height="200px" />
+						<th:block>		
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>內頁Banner
+					</th>
+					<td>
+						<input type="text" id="banner_url" th:field="*{banner_url}"/>
+						<font style="color:red;">請輸入圖庫平台URL，尺寸為：1100*380px</font>
+						<th:block  th:if="*{banner_url}!=null">
+					 	<img th:src="*{banner_url}" th:alt="*{banner_url}" width="350px" height="200px" />
+						<th:block>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>是否置頂
+					</th>
+					<td>
+						<select id="topChose" th:field="*{top_status}">
+							<option value="0" th:selected="*{top_status == 0}">否</option>
+							<option value="1" th:selected="*{top_status == 1}">是</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>顯示於前台
+					</th>
+					<td>
+							<select id="displayChose" th:field="*{display}">
+								<option value="1" th:selected="*{display == 1}">顯示</option>
+								<option value="0" th:selected="*{display == 0}">隱藏</option>
+							</select>
+					</td>
+				</tr>
+				<tr>
+					<th>功能</th>
+					<td class="table-button vertical-btn">
+						<a onclick="history.back()" style="cursor:pointer;">返回</a>
+						<a onclick="add()" style="cursor:pointer;">[[${btn_name}]]</a>
+					</td>
+				</tr>
+			</table><!-- table -->
+		</form>
+	</div><!-- content -->
+	</div>
+	</div>
+	<script>
+		
+		$(function(){
+			
+			tinymceSetup("contentArea");
+			
+			if($("#id").val() != 0){
+				firstLoading();
+			}
+			
+			add = function() {
+				
+				if($("#categorySelect").val() == "" || $("#categoryChildSelect").val() ==""){
+					$("#categorySelect").focus();
+					alert("請選擇文章分類");
+					return false;
+				}
+				
+				if($.trim($("#title").val()) == ""){
+					$("#title").focus();
+					alert("請輸入標題");
+					return false;
+				}
+				
+				if($.trim($("#edit_from").val()) == ""){
+					$("#edit_from").focus();
+					alert("請輸入編輯");
+					return false;
+				}
+				
+				if($.trim($("#edit_from").val()).length > 15){
+					$("#edit_from").focus();
+					alert("編輯欄位字數上限為15字，請重新確認");
+					return false;
+				}
+				
+				if($.trim($("#summaryArea").val()) == ""){
+					$("#summaryArea").focus();
+					alert("請輸入簡介");
+					return false;
+				}
+
+				if($.trim($("#summaryArea").val()).length > 140){
+					$("#summaryArea").focus();
+					alert("簡介字數上限為140(含HTML標籤)，目前為"+$("#summaryArea").val().length+"字");
+					return false;
+				}
+				
+				if($.trim($("#image_url").val()) == ""){
+					$("#image_url").focus();
+					alert("請輸入列表頁圖片");
+					return false;
+				}
+				
+				if($.trim($("#banner_url").val()) == ""){
+					$("#banner_url").focus();
+					alert("請輸入內頁Banner");
+					return false;
+				}
+				
+				var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+		
+			}
+			
+			
+		});
+		
+		function changeCategory(){
+			var str = "";
+			$("#categoryChildSelect").empty();
+			str += "<option value=''>請選擇類別</option>";
+			
+			if($("#categorySelect").val() != ""){
+				
+				$.ajax({
+					url: "[[${@environment.getProperty('weburl')}]]/tkbrule/chosenArticle/changeCategory",
+					cache: false,
+					async: false,
+					dataType: "json",
+					type:"POST",
+					data:{
+						category_id : $("#categorySelect").val()
+					},
+					error: function(xhr) {
+						alert('Ajax request 發生錯誤');
+					},
+					success: function(data) {
+
+						if(data != null && data.length > 0){
+							for(i = 0 ; i < data.length; i++){
+								var category2 = data[i];
+								str +="<option value='"+category2.id+"'>"+category2.name+"</option>";
+							}
+						}
+					}
+				});
+			}
+			
+			$("#categoryChildSelect").append(str);
+
+		}
+		
+		function firstLoading(){
+			
+			var str = "";
+			$("#categoryChildSelect").empty();
+			str += "<option value=''>請選擇類別</option>";
+			
+			$.ajax({
+				url: "[[${@environment.getProperty('weburl')}]]/tkbrule/chosenArticle/changeCategory",
+				cache: false,
+				async: false,
+				dataType: "json",
+				type:"POST",
+				data:{
+					category_id : $("#categorySelect").val()
+				},
+				error: function(xhr) {
+					alert('Ajax request 發生錯誤');
+				},
+				success: function(data) {
+
+					if(data != null && data.length > 0){
+						for(i = 0 ; i < data.length; i++){
+							var category2 = data[i];
+							
+							if(category2.id == $("#article_category").val()){
+								str +="<option value='"+category2.id+"' selected>"+category2.name+"</option>";
+							}else{
+								str +="<option value='"+category2.id+"'>"+category2.name+"</option>";	
+							}
+
+						}
+					}
+				}
+			});
+			
+			$("#categoryChildSelect").append(str);
+
+		}
+		
+// 		function checkTopCount(){
+// 			var articleId = $("#id").val() == 0 ? 0 : $("#id").val();
+// 			var resultStatus = false;//false為不超過2筆
+// 			$.ajax({
+// 				url: "checkTopCount",
+// 				cache: false,
+// 				async: false,
+// 				dataType: "text",
+// 				type:"POST",
+// 				data:{
+// 					article_id : articleId
+// 				},
+// 				error: function(xhr) {
+// 					alert('Ajax request 發生錯誤');
+// 				},
+// 				success: function(data) {
+// 					if(data == "T"){
+// 						resultStatus = true;
+// 					}
+// 				}
+// 			});
+// 			return resultStatus;
+// 		}
+		
+		
+	</script>
+</body>

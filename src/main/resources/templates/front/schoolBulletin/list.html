@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>TKB甄戰學習顧問中心</title>
+<meta name="keywords" content="大學學測個人申請,研究推甄甄試,研究所在職專班,高職升科大書審口試輔導專家"/>
+<meta name="description" content="推甄,大學甄選,甄試入學,申請入學,面試技巧,科大申請,備審資料,推薦入學"/>
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css?v=20210705}" />	<!-- 電腦版 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick-theme.css}" /> 
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick.css}" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slides.css}" />
+<!-- 20190625 start -->
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PCKKCNQ');</script>
+<!-- End Google Tag Manager -->
+<!-- Global site tag (gtag.js) - Google Ads: 957644279 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-957644279"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-957644279');
+</script>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PCKKCNQ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<div class="wrapper">
+	<!-- 20190625 start -->
+	<div class="header-box">  
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+	<div class="content">
+		<h1>甄戰公告</h1>
+		<div class="back">
+			<a th:href="@{/index}">回上頁</a>
+		</div>
+		<hr>
+		<div class="sort">
+			<form id="mainForm" method="post" enctype="multipart/form-data">
+				<input type="hidden" id="id" name="schoolBulletin.id" />
+				<input type="hidden" id="area" name="schoolBulletin.area" />
+				<input type="hidden" id="schoolBulletinCategory_id" name="schoolBulletin.category" th:value="${category}"/>
+				<input type="hidden" id="sort" />
+				<input type="hidden" id="page_count" />
+				<input type="hidden" id="date" />
+			</form>
+			<form id="getForm" method="get" enctype="multipart/form-data">
+				<input type="hidden" id="str" name="str" />
+			</form>
+			<ul id="sort_region_menu">
+				地區
+				<li class="sort_click">
+					<a th:onclick="|searchArea('ALL', '1')|">全部</a>
+				</li>
+				<th:block th:each="dataStatus , data : ${areaList}">
+					<li>
+						<a th:onclick="|searchArea('${dataStatus.id}', '1')|">
+							[[${dataStatus.name}]]
+						</a>
+					</li>
+				</th:block>
+			</ul>
+
+			<div class="sort_region">
+				<th:block th:each="dataStatus , data : ${areaInnerList}">
+					<ul>
+						<th:block th:each="list : ${dataStatus.locationInnerList}">
+							<li>
+								<a th:onclick="|searchArea('${list.id}', '2')|">
+									[[${list.name}]]
+								</a>
+							</li>
+						</th:block>
+					</ul>
+				</th:block>
+			</div>
+			<!-- sort_region -->
+			<ul>
+				分類
+				<th:block th:if="${category}== null">
+					<li class="sort_click"><a th:onclick="|searchCategory('ALL', '1')|">全部</a></li>
+				</th:block>
+				<th:block th:unless="${category}== null">
+					<li><a th:onclick="|searchCategory('ALL', '1')|">全部</a></li>
+				</th:block>
+				
+				<th:block th:each="dataStatus , data : ${schoolBulletinCategoryList}">
+					<th:block th:if="${category}== ${dataStatus.id}">
+						<li class="sort_click"><a th:onclick="|searchCategory('${dataStatus.id}','1')|">[[${dataStatus.name}]]</a></li>
+					</th:block>
+					<th:block th:unless="${category} == ${dataStatus.id}">
+						<li><a th:onclick="|searchCategory('${dataStatus.id}','1')|">[[${dataStatus.name}]]</a></li>
+					</th:block>
+				</th:block>
+			</ul>
+
+			<ul>
+				時間
+				<li class="sort_click" th:onclick="|searchDate('ALL')|">全部</li>
+				<li th:onclick="|searchDate('week')|">本周</li>
+				<li th:onclick="|searchDate('month')|">本月</li>
+			</ul>
+
+			<select id="searchSort" th:onchange="|searchSort('1')|">
+				<option value="new">最新公告</option>
+				<option value="hot">熱門公告</option>
+			</select>
+
+			<select id="searchPageCount" th:onchange="|searchPageCount('1')|">
+				<option value="8">每頁8則</option>
+				<option value="12">每頁12則</option>
+			</select>
+
+			<th:block th:insert="~{front/loadForOldPage/layout :: page}"></th:block>
+
+			跳至第
+		<select id="changePage" th:onchange="|changePage(this.value)|" th:value="${pageNo}">
+			<option >[[${pageNo}]]</option>
+		</select>頁
+		</div><!-- sort -->
+		
+		<h2>如對本專案有相關問題，歡迎填表洽詢，有專人為您解答　*必填</h2> 
+		
+		<div class="bulletin_list"></div>
+	</div><!-- content -->
+<div th:insert="~{front/loadForOldPage/layout :: footer}"></div>	
+</div><!-- wrapper -->
+<script>
+$(function(){
+	
+	search = function(layer) {
+
+		$.ajax({
+			url: "[[${@environment.getProperty('weburl')}]]/schoolBulletin/toSearch",
+			cache: false,
+			async: false,
+			dataType: "json",
+			type:"POST",
+			data:{
+				layer : layer,
+				area_idajax : $("#area").val(),
+				category_id : $("#schoolBulletinCategory_id").val(),
+				searchSort : $("#sort").val(),
+				page_count : $("#page_count").val(),
+				page_no : $("#pageNo").val(),
+				date : $("#date").val()
+			},
+			error: function(xhr) {
+				alert('Ajax request 發生錯誤');
+			},
+			success: function(data) {
+				var str = "";
+				var pageStr = "";
+
+				if(data.length>0){
+					$("#pageTotalCount").val(data[0].pageTotalCount);
+					$("#pageCount").val(data[0].pageCount);
+					$("#totalPage").val(data[0].totalPage);
+					
+					$("#leftStartPage").val(data[0].leftStartPage);
+					$("#leftEndPage").val(data[0].leftEndPage);
+					$("#rightStartPage").val(data[0].rightStartPage);
+					$("#rightEndPage").val(data[0].rightEndPage);
+					$("#leftPageNum").val(data[0].leftPageNum);
+					$("#rightPageNum").val(data[0].rightPageNum);
+					
+					if(parseInt($("#pageTotalCount").val()) > parseInt($("#pageCount").val())) {
+						if(parseInt($("#totalPage").val()) > 1) {
+							if(parseInt($("#pageNo").val()) == 1) {
+								
+							} else {
+								str += "<input type='button' onclick='pageChangeToAjax("+(parseInt($("#pageNo").val())-1)+")' value='<<'>&nbsp;";
+							}
+							
+							if(parseInt($("#leftPageNum").val()) > 0) {
+								for(var i=parseInt($("#leftStartPage").val()); i<=parseInt($("#leftEndPage").val()); i++) {
+									str += "<input type='button' onclick='pageChangeToAjax("+i+")' value='"+i+"'>&nbsp;";
+								}
+							}
+							
+							str += "<input type='button' class='sort_input_click' value='"+parseInt($("#pageNo").val())+"'>&nbsp;";
+							
+							if($("#rightPageNum").val() > 0) {
+								for(var i=parseInt($("#rightStartPage").val()); i<=parseInt($("#rightEndPage").val()); i++) {
+									str += "<input type='button' onclick='pageChangeToAjax("+i+")' value='"+i+"'>&nbsp;";
+								}
+							}
+							
+							if(parseInt($("#pageNo").val()) == parseInt($("#totalPage").val())) {
+								
+							} else {
+								str += "<input type='button' onclick='pageChangeToAjax("+(parseInt($("#pageNo").val())+1)+")' value='>>'>&nbsp;";
+							}
+
+						}else{
+							str += "<input type='button' value='1'>";
+						}
+						
+					} else {
+						str += "<input type='button' value='1'>";
+					}
+					
+					for(var i=1; i<=parseInt($("#totalPage").val()); i++) {
+						if(i == parseInt($("#pageNo").val())) {
+							pageStr += "<option value='"+i+"' selected>"+i+"</option>";
+						} else {
+							pageStr += "<option value='"+i+"'>"+i+"</option>";
+						}
+					}
+					
+				}
+				
+				$("#pageBox").empty();
+				$("#pageBox").append(str);
+				
+				$("#changePage").empty();
+				$("#changePage").append(pageStr);
+				
+				
+				$(".bulletin_list").empty();
+				var str = "";
+				if(data != null && data.length > 0){
+					for(i = 0 ; i < data.length; i++){
+						var schoolBulletin = data[i];
+						
+						str += "<div class='bulletin'>";
+						str += "<div class='bulletin_img'>";
+						if(schoolBulletin.product_category==null||schoolBulletin.product_category==''){
+							str += "<a href='/schoolBulletin/inside?str="+schoolBulletin.encrypturl+"'><img src='"+schoolBulletin.image+"' width='180px' height='110px' /></a>";
+						}else{
+							str += "<a href='/schoolBulletin/inside?str="+schoolBulletin.encrypturl+"&product_category="+schoolBulletin.product_category+"'><img src='"+schoolBulletin.image+"' width='180px' height='110px' /></a>";
+						}
+						str += "</div>";
+						str += "<div class='bulletin_info'>";
+						
+						if(schoolBulletin.product_category==null||schoolBulletin.product_category==''){
+							if(schoolBulletin.category_name == "系統公告"){
+								str += "<div class='bulletin_title'><a style='color:red;' href='/schoolBulletin/inside?str="+schoolBulletin.encrypturl+"'>"+schoolBulletin.title+"</a></div>";
+						    }else{
+						    	str += "<div class='bulletin_title'><a href='/schoolBulletin/inside?str="+schoolBulletin.encrypturl+"'>"+schoolBulletin.title+"</a></div>";
+						    }
+						}else{
+							if(schoolBulletin.category_name == "系統公告"){
+								str += "<div class='bulletin_title'><a style='color:red;' href='/schoolBulletin/inside?str="+schoolBulletin.encrypturl+"&product_category="+schoolBulletin.product_category+"'>"+schoolBulletin.title+"</a></div>";
+						    }else{
+						    	str += "<div class='bulletin_title'><a href='/schoolBulletin/inside?str="+schoolBulletin.encrypturl+"&product_category="+schoolBulletin.product_category+"'>"+schoolBulletin.title+"</a></div>";
+						    }
+						}
+						
+						
+
+						
+						
+						
+
+						str += "<div class='bulletin_date'>"+schoolBulletin.begin_date+"</div>"
+						str += "<div class='bulletin_type'>"+schoolBulletin.category_name+"</div>";
+						str += "<div class='bulletin_view'>"+schoolBulletin.click_rate+"</div>";
+						str += "</div></div>";
+					}
+					$(".bulletin_list").append(str);
+				}
+			}
+		});
+	},
+	
+	searchArea = function(id, layer) {
+		if(id == "ALL") {
+			$("#area").val('');
+		} else {
+			$("#area").val(id);
+		}
+
+		$("#pageNo").val("1");
+		search(layer);
+	},
+	
+	searchCategory = function(id, layer) {
+		if(id == "ALL") {
+			$("#schoolBulletinCategory_id").val('');
+		} else {
+			$("#schoolBulletinCategory_id").val(id);
+		}
+		$("#pageNo").val("1");
+		search(layer);
+	},
+	
+	searchSort = function(layer) {
+		$("#sort").val($("#searchSort").val());
+		$("#pageNo").val("1");
+		search(layer);
+	},
+	
+	searchPageCount = function(layer) {
+		$("#page_count").val($("#searchPageCount").val());
+		$("#pageNo").val("1");
+		search(layer);
+	},
+	
+	searchDate = function(date) {
+		$("#date").val(date);
+		$("#pageNo").val("1");
+		search("1");
+	},
+	
+	changePage = function(pageNo) {
+		$("#pageNo").val(pageNo);
+		search("1");
+	}
+	
+// 	toInside = function(id) {
+
+// 		$.ajax({
+// 			url: "toEncrypt",
+// 			cache: false,
+// 			async: false,
+// 			dataType: "text",
+// 			type:"POST",
+// 			data:{
+// 				id : id
+// 			},
+// 			error: function(xhr) {
+// 				alert('Ajax request 發生錯誤');
+// 			},
+// 			success: function(data) {
+// 				$("#str").val(data);
+// 				$("#getForm").attr("action", "inside");
+// 				$("#getForm").submit();
+// 			}
+// 		});
+		
+// 	}
+	
+	search("1");
+	
+})
+
+function pageChangeToAjax(pageNo){
+	$("#pageNo").val(pageNo);
+	search("1");
+}
+</script>
+</body>
+</html>

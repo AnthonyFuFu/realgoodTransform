@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>TKB甄戰學習顧問中心-書審口面試輔導專家</title>
+<meta name="description" content="大學學測個人申請口面試題,考古題練習,歷屆口試試題,面試常見問題"/>
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css}" />	<!-- 電腦版 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/jquery.mCustomScrollbar.css}" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/slides.css}" />
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">
+</head>
+<body>
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<div class="goTop"></div>
+<div class="wrapper">
+	<div class="header-box">
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+        <div class="content">
+        
+			<div class="ad">
+			
+				<div><a href="https://www.facebook.com/tkb.learning.exploration" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/ad/FBbanner01.jpg}" /></a></div>
+				<div><a href="https://www.facebook.com/tkb.humanity" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/ad/FBbanner02.jpg}" /></a></div>
+				<div><a href="https://www.facebook.com/groups/257376967996254/?fref=ts" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/ad/FBbanner03.jpg}" /></a></div>				
+				<div><iframe src="https://www.facebook.com/plugins/likebox.php?href=https://www.facebook.com/reallygood.com.tw/;width&amp;height=558&amp;colorscheme=light&amp;show_faces=true&amp;header=false&amp;stream=true&amp;show_border=false&amp;appId=570708622978728" scrolling="no" frameborder="0" allowtransparency="true" style="border:none;overflow:hidden;height:558px;" data-reactid="872"></iframe></div>
+
+            </div><!-- ad -->
+        
+            <div class="main_area">
+                <div class="back"><a href="javascript:;">回上頁</a></div>
+                <h1>科大21類群介紹</h1>
+                <hr>
+                    
+                <div class="qa">
+                    <div id="qaContent">
+                        <div id="btn_show"><a href="#" class="qa_showall">全部展開</a>︱<a href="#" class="qa_hideall">全部隱藏</a></div>          
+                        <ul class="accordionPart">
+                            <!--qa_01-->
+                            <li>
+                                <div class="qa_title">機械群</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_01.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>
+                            <!--qa_02-->
+                            <li>
+                                <div class="qa_title">動力機械群</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_02.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>
+                            <!--qa_03-->
+                            <li>
+                                <div class="qa_title">電機與電子群-資電類</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_03.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>
+                            <!--qa_04-->
+                            <li>
+                                <div class="qa_title">電機與電子群-電機類</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_04.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>
+                            <!--qa_05-->
+                            <li>
+                                <div class="qa_title">化工群</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_05.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>  
+                            <!--qa_06-->
+                            <li>
+                                <div class="qa_title">土木與建築群</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_06.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>  
+                            <!--qa_07-->
+                            <li>
+                                <div class="qa_title">工程與管理類</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_07.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>  
+                            <!--qa_08-->
+                            <li>
+                                <div class="qa_title">家政群－生活應用類</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_08.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>  
+                            <!--qa_09-->
+                            <li>
+                                <div class="qa_title">家政群－幼保類</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_09.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>  
+                            <!--qa_10-->
+                            <li>
+                                <div class="qa_title">資管類</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_10.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>  
+                            <!--qa_11-->
+                            <li>
+                                <div class="qa_title">商業與管理類</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_11.jpg}">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_11_2.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>  
+                            <!--qa_12-->
+                            <li>
+                                <div class="qa_title">外語學群－英語類</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_12.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>  
+                            <!--qa_13-->
+                            <li>
+                                <div class="qa_title">外語學群－日語類</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_13.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>  
+                            <!--qa_14-->
+                            <li>
+                                <div class="qa_title">藝術學群－影視類</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_14.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>  
+                            <!--qa_15-->
+                            <li>
+                                <div class="qa_title">衛生與護理類</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_15.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>  
+                            <!--qa_16-->
+                            <li>
+                                <div class="qa_title">食品群</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_16.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>  
+                            <!--qa_17-->
+                            <li>
+                                <div class="qa_title">農業群</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_17.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>  
+                            <!--qa_18-->
+                            <li>
+                                <div class="qa_title">海事群 / 水產群</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_18.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>                             
+                            <!--qa_19-->
+                            <li>
+                                <div class="qa_title">餐旅群</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_19.jpg}">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_19_2.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li> 
+                            <!--qa_20-->
+                            <li>
+                                <div class="qa_title">設計群</div>
+                                <div class="qa_content">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_20.jpg}">
+									<img style="margin:0" th:src="${@environment.getProperty('static.url')}+@{/images/front/technology_intro/technology_20_2.jpg}">
+                                    <div class="qa_close">關閉</div>
+                                </div>
+                            </li>     
+                        </ul>
+                    </div><!-- qaContent -->
+                </div><!-- qa -->
+                
+         		<span>備註：以上科系數量（甄選名額/分發名額）數據僅供參考，實際數據請依照當年簡章為主。</span><br />     
+         		<span>資料來源：2016瘋科大－甄選入學領航指南</span>
+                <p><br /></p>
+                    
+            </div><!-- main_area -->   
+    </div><!-- content --> 
+	<div th:insert="~{front/loadForOldPage/layout :: footer}"></div>	
+	<script th:src="${@environment.getProperty('static.url')}+@{/js/facebook_Adjust.js}"></script>	 
+    </div><!-- wrapper -->
+</body>
+</html>
+        

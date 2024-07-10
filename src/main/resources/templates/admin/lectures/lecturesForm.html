@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseUtil.js}"></script>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseForm.js}"></script>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/jquery-ui-timepicker-addon.js}" type="text/javascript"></script>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/jquery-ui-sliderAccess.js}" type="text/javascript"></script>
+<link th:href="${@environment.getProperty('static.url')}+@{/css/admin/jquery-ui-timepicker-addon.css}" rel="stylesheet"></link>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+<!-- content -->
+	<div class="content">
+		<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${lectures}" th:with="btn_name = *{id} == null ? '新增': '修改'">
+			<input type="hidden" id="id" th:field="*{id}" />
+			<input type="hidden" id="hidden_category" th:value="${lecturesCategory.id}"/>
+			<input type="hidden" id="deletePhoto" th:field="*{photo}" />
+			
+			
+			<input type="hidden" id="iconList" name="iconList" />
+			<input type="hidden" id="contentTitleList" name="contentTitleList" />
+			<input type="hidden" id="contentContentList" name="contentContentList" />
+			<input type="hidden" id="lecturesContentIdList" name="lecturesContentIdList" />
+			
+			<input type="hidden" id="placeNameList" name="placeNameList" />
+			<input type="hidden" id="placeEventList" name="placeEventList" />
+			<input type="hidden" id="placeDayList" name="placeDayList" />
+			<input type="hidden" id="lecturesPlaceIdList" name="lecturesPlaceIdList" />
+
+			<input type="hidden" id="checkTop" th:value="${lectures.lectures_top}" >
+			<input type="hidden" name="searchTitle" th:value="${searchTitle}" >
+			<input type="hidden" name="searchtype" th:value="${searchtype}" >
+			<input type="hidden" id="pageNo" name="pageNo" th:value="${pageNo}">
+			<input type="hidden" name="searchCategory" th:value="${searchCategory}" >
+			
+
+			<!-- table -->
+			<table class="table-vertical" cellspacing="0">
+				<caption><h2>近期活動-[[${btn_name}]]頁面</h2></caption>
+				<tr>
+					<th>
+						<span class="important">*</span>置頂
+					</th>
+					<td>
+						<input type="radio" id="lectures_top" value="1" th:checked="*{lectures_top == 1}" th:field="*{lectures_top}" onchange="checkTopCount()"/>是
+						<input type="radio" id="lectures_top" value="0" th:checked="*{lectures_top == 0}" th:field="*{lectures_top}" onclick="hide()"/>否
+						<div class="tips" style="color:red;">※置頂活動數目已達四則</div>
+					</td>
+				</tr>				
+				<tr>
+					<th>
+						<span class="important">*</span>標題
+					</th>
+					<td>
+						<input type="text" id="title" th:field="*{title}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						SEO描述
+					</th>
+					<td>
+						<input type="text" th:field="*{seo_content}">
+					</td>
+				</tr>
+				<tr>
+				    <th><span class="important">*</span>類別</th>
+					<td>
+						<select id="categoryLayerOne" name="categoryLayerOne" th:field=*{category}>
+						<option value="0">請選擇</option>
+						<th:block th:each="dataStatus , data : ${lecturesCategoryList}">
+							<option th:value="${dataStatus.id}" th:text="${dataStatus.name}"></option>
+						</th:block>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						產品網址分類
+					</th>
+					<td>
+						<input type="text" id="title" th:field="*{product_category}">
+					</td>
+				</tr>
+				<tr>
+				      <th>
+				       <span class="important">*</span>講座資訊
+				      </th>
+				      <td id="placeBox">
+				      <th:block th:if="*{id} == null">
+						<div class="addDemand"><img class="closebtn" id="closebtn1" th:src="${@environment.getProperty('static.url')}+@{/images/close.png}" style="display:none" />
+						講座場次：<input type="text" name="placeEvent" style="width: 11%" placeholder="第一場" />    
+       					講座地點：<input type="text" name="placeName" style="width: 18%" placeholder="台北" />
+					           講座時間：<input type="text" name="placeDay" style="width: 26%" placeholder="2016/01/01 00:00" id="datetimepicker1" class='datetimepicker' />
+				        </div>
+				        </th:block>
+					    <th:block th:unless="*{id} == null">
+					    <th:block th:each="dataStatus , data : ${lecturesPlaceList}">
+						<div class="addDemand"><img class="closebtn" id="closebtn1" th:src="${@environment.getProperty('static.url')}+@{/images/close.png}" />
+						<input type="hidden" name="lecturesPlaceId" th:value="${dataStatus.id}" />
+						講座場次：<input type="text" name="placeEvent" style="width: 11%" placeholder="第一場" th:value="${dataStatus.placeEvent}" />    
+       					講座地點：<input type="text" name="placeName" style="width: 18%" placeholder="台北" th:value="${dataStatus.placeName}"/>
+					           講座時間：<input type="text" name="placeDay" style="width: 26%" placeholder="2016/01/01 00:00" id="datetimepicker+${data.count}" class='datetimepicker' th:value="${dataStatus.placeDay}" />
+						</div>
+						</th:block>
+						</th:block>		      
+				        <div id="addPlace" class="table-button addDemand-btn" onclick="addPlace()">
+				        <i class="fa fa-plus plus-btn"></i>
+				       </div>
+				      </td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>票價
+					</th>
+					<td>
+						<select id="fare" th:field="*{fare}">
+								<option value="0">請選擇</option>
+								<option value="1" th:selected="*{fare == 1}">免費</option>
+								<option value="2" th:selected="*{fare == 2}">付費</option>
+						</select>
+						<span id="fare_money_"> <input type="text" style="width: 26%" id="fare_money"  th:field="*{fare_money}" /></span>
+					</td>
+				</tr>											
+				<tr>
+					<th><span class="important">*</span>內容</th>
+					<td id="contentBox"> 
+						<th:block th:if="*{id} == null">
+						<div class="addDemand"><img class="closebtn" id="closebtn" th:src="${@environment.getProperty('static.url')}+@{/images/close.png}" style="display:none">
+							<input type="radio" name="icon1" class="icon" value="article_type01.png" />&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type01.png}" style="width:15px;height:20px;" />&nbsp;
+							<input type="radio" name="icon1" class="icon" value="article_type02.png" />&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type02.png}" style="width:19px;height:20px;" />&nbsp;
+							<input type="radio" name="icon1" class="icon" value="article_type03.png" />&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type03.png}" style="width:19px;height:20px;" />
+							<input type="text" name="contentTitle" placeholder="請在此行中，輸入主題" maxlength="70" />
+							<textarea name="contentContent"  placeholder="小提醒：如需做文字的縮排效果，請使用全形的空白鍵。"></textarea>
+						</div>
+						</th:block>
+						<th:block th:unless="*{id} == null">
+						<th:block th:each="dataStatus ,data : ${lecturesContentList}">
+						<div class="addDemand"><img class="closebtn" id="closebtn" th:src="${@environment.getProperty('static.url')}+@{/images/close.png}">
+							<input type="hidden" name="lecturesContentId" th:value="${dataStatus.id}" />
+							<input type="radio" th:name="icon+${data.count}" class="icon" th:value="article_type01.png" th:checked="${dataStatus.icon == 'article_type01.png'}"/>&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type01.png}" style="width:15px;height:20px;" />&nbsp;
+							<input type="radio" th:name="icon+${data.count}" class="icon" th:value="article_type02.png" th:checked="${dataStatus.icon == 'article_type02.png'}"/>&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type02.png}" style="width:19px;height:20px;" />&nbsp;
+							<input type="radio" th:name="icon+${data.count}" class="icon" th:value="article_type03.png" th:checked="${dataStatus.icon == 'article_type03.png'}"/>&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type03.png}" style="width:19px;height:20px;" />
+							<input type="text" name="contentTitle" placeholder="請在此行中，輸入主題" maxlength="70" th:value="${dataStatus.title}"/>
+							<textarea name="contentContent" placeholder="小提醒：如需做文字的縮排效果，請使用全形的空白鍵。">[[${dataStatus.content}]]</textarea>
+						</div>
+						</th:block>
+						</th:block>
+						<div id="addContent" class="table-button addDemand-btn" onclick="addContent()">
+							<i class="fa fa-plus plus-btn"></i>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>圖片</th>
+					<td>
+						<input type="text" id="image" th:field="*{image}" />
+						<font style="color:red;">請輸入圖庫平台URL，尺寸1100*380px</font>					
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>開始日期</th>
+					<td>
+						<input type="text" id="begin_date" name="lectures.begin_date" placeholder="開始日期" th:field="*{begin_date}" format="yyyy-MM-dd" />
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>結束日期</th>
+					<td>
+						<input type="text" id="end_date" name="lectures.end_date" placeholder="結束日期" th:field="*{end_date}" format="yyyy-MM-dd"/>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>講座編號
+					</th>
+					<td>
+						<input type="text" id="lecture_type_id" th:field="*{lecture_type_id}">
+						<div style="color:red;">※若無講座編號，請輸入37</div>
+					</td>
+				</tr>					
+				<tr>
+					<th>功能</th>
+					<td class="table-button vertical-btn">
+						<a onclick="history.back()" style="cursor: pointer;">返回</a>
+						<a onclick="add()" style="cursor: pointer;">[[${btn_name}]]</a>
+					</td>
+				</tr>
+			</table><!-- table -->
+		</form>
+	</div><!-- content -->
+	<script>
+		$(function(){
+		if($("#id").val() != 0) {
+			$("#categoryLayerOne").val();
+		}
+			hide = function(){
+				$(".tips").css("display", "none");	
+			}
+			
+		$(".tips").css("display", "none");	
+			
+		if($("#fare").val() != "2"){
+			$("#fare_money").hide();
+			$("#fare_money_").hide();
+			}
+			
+		//設置日期&時間選擇器
+		 $(document).ready(function(){ 
+		      var opt={dateFormat: 'yy-mm-dd',
+		                 showSecond: false,
+		                 timeFormat: 'HH:mm:ss',
+		                 controlType:"select" 
+		                 };			 
+			      $('#datetimepicker1').datetimepicker(opt);
+			      
+			$("#placeBox").children(".addDemand").each(function(i) {
+				$(this).children(".datetimepicker").attr("id", "datetimepicker"+(i+1));
+				var opt={dateFormat: 'yy-mm-dd',
+		                 showSecond: false,
+		                 timeFormat: 'HH:mm:ss',
+		                 controlType:"select" 
+		                 };			 
+			    $('#datetimepicker'+(i+1)).datetimepicker(opt);
+			})
+			 
+			//置頂次數判斷
+				checkTopCount = function(){
+				//標籤使用中不可更改publish
+					$.ajax({
+						url: "[[${@environment.getProperty('weburl')}]]/tkbrule/lectures/checkTopCount",
+						data : {
+						},
+						type : "GET",
+						dataType : 'text',
+						async:false,
+
+						success : function(data, statusText, xhr) {
+							if(xhr.status == 200){
+								$(".tips").css("display", "none");
+							}
+						},
+						error : function(xhr, ajaxOptions, thrownError) {
+							if(xhr.status == 400){
+								$(".tips").css("display", "block");
+								$("[name='lectures_top']").focus();
+							}else{
+								alert(ajaxOptions);
+								alert(xhr.status);
+								alert(thrownError);
+							}
+						}
+					});
+// 				}
+			};	
+			
+			});
+
+			//搜尋控制
+			$("#fare").change(function(){
+				if($("#fare").val()==2){
+					$("#fare_money_").show();
+					$("#fare_money").show();
+				}else{
+					$("#fare_money_").val('').hide();
+					$("#fare_money").val('').hide();
+				}
+			});		
+			
+			$("#begin_date").datepicker({dateFormat: 'yy-mm-dd'});
+			$("#end_date").datepicker({dateFormat: 'yy-mm-dd'});
+			
+			//刪除
+			$(document).on("click", "#closebtn1", function() {
+				if($("#placeBox").children(".addDemand").size() <= 2) {
+					$("#placeBox").find("#closebtn1").hide();
+				}
+				$(this).parent(".addDemand").remove();
+				
+			});
+			
+			//刪除
+			$(document).on("click", "#closebtn", function() {
+				if($("#contentBox").children(".addDemand").size() <= 2) {
+					$("#contentBox").find("#closebtn").hide();
+				}
+				$(this).parent(".addDemand").remove();
+				
+				$("#contentBox").children(".addDemand").each(function(i) {
+					$(this).children(".icon").attr("name", "icon"+(i+1));
+				})
+			});			
+			
+			
+			addContent = function() {
+				
+				var str = "<div class='addDemand'><img class='closebtn' id='closebtn' src='/images/close.png'>";
+				str += "<input type='hidden' name='lecturesContentId' value='0' />";
+				str += "<input type='radio' name='icon1' class='icon' value='article_type01.png' />&nbsp;";
+				str += "<img src='/images/front/article_type01.png' style='width:15px;height:20px;' />&nbsp;";
+				str += "<input type='radio' name='icon1' class='icon' value='article_type02.png' />&nbsp;";
+				str += "<img src='/images/front/article_type02.png' style='width:19px;height:20px;' />&nbsp;";
+				str += "<input type='radio' name='icon1' class='icon' value='article_type03.png' />&nbsp;";
+				str += "<img src='/images/front/article_type03.png' style='width:19px;height:20px;' />";
+				str += "<input type='text' name='contentTitle' placeholder='請在此行中，輸入主題' maxlength='70' />";
+				str += "<textarea name='contentContent'  placeholder='小提醒：如需做文字的縮排效果，請使用全形的空白鍵。'></textarea></div>";
+				
+				$("#addContent").before(str);
+				
+				if($("#contentBox").children(".addDemand").size() > 1) {
+					$("#contentBox").find("#closebtn").show();
+				}
+				
+				$("#contentBox").children(".addDemand").each(function(i) {
+					$(this).children(".icon").attr("name", "icon"+(i+1));
+				})
+				
+			},
+			
+			addPlace = function() {
+				
+				var str = "<div class='addDemand'><img class='closebtn' id='closebtn1' src='/images/close.png'>";
+				str += "<input type='hidden' name='lecturesPlaceId' value='0' />";
+				str += "活動場次：<input type='text' name='placeEvent' style='width: 11%' placeholder='第一場' /> ";
+				str += "活動地點：<input type='text' name='placeName' style='width: 18%' placeholder='台北'> ";
+				str += "活動時間：<input type='text' name='placeDay' style='width: 26%' placeholder='2016/01/01 00:00' id='datetimepicker1' class='datetimepicker' />";
+				
+				$("#addPlace").before(str);
+				
+				if($("#placeBox").children(".addDemand").size() > 1) {
+					$("#placeBox").find("#closebtn1").show();
+				}
+				
+				$("#placeBox").children(".addDemand").each(function(i) {
+					$(this).children(".datetimepicker").attr("id", "datetimepicker"+(i+1));
+					var opt={dateFormat: 'yy-mm-dd',
+							 showSecond: false,
+			                 timeFormat: 'HH:mm:ss',
+			                 controlType:"select" 
+			                 };			 
+				      $('#datetimepicker'+(i+1)).datetimepicker(opt);
+				})
+				
+			},			
+			
+			add = function() {
+				
+				var check = "T";
+			
+				if($(".tips").css("display") == "block") {
+					alert("置頂活動數目已達四則");
+					return false;
+				}				
+				
+				if($("#title").val() == "") {
+					alert("請輸入標題");
+					return false;
+				}
+				
+				if(checkByteLen($("#title").val(), "210")) {
+					alert("標題長度不得超過70個字，請重新輸入");
+					check = "F";
+					return false;
+				}				
+				
+				
+				//類別判斷
+				if($("#categoryLayerOne").val() == 0) {
+					alert("請選擇類別");
+					return false;
+				}
+				
+				
+				//活動地點判斷
+				$("#placeBox").children(".addDemand").each(function(i) {
+					if($(this).children("input[name='placeEvent']").val() == "") {
+						alert("請輸入活動場次");
+						check = "F";
+						return false;
+					}
+					
+					if($(this).children("input[name='placeName']").val() == "") {
+						alert("請輸入活動地點");
+						check = "F";
+						return false;
+					}
+					
+					if($(this).children("input[name='placeDay']").val() == "") {
+						alert("請輸入活動日期與時間");
+						check = "F";
+						return false;
+					}
+				})					
+				
+				if(check == "F") {
+					return false;
+				}	
+				
+				//票價判斷
+				if($("#fare").val() == 0) {
+					alert("請選擇票價");
+					return false;
+				}
+				
+				if($("#fare").val() == 2 && $("#fare_money").val() == "") {
+					alert("請填寫金額");
+					return false;
+				}
+				//內容判斷
+				$("#contentBox").children(".addDemand").each(function(i) {
+					if($(this).children(".icon:checked").size() != 1) {
+						alert("請選擇ICON");
+						check = "F";
+						return false;
+					}
+					
+					if($(this).children("input[name='contentTitle']").val() == "") {
+						alert("請輸入內容主題");
+						check = "F";
+						return false;
+					} else {
+						if(checkByteLen($(this).children("input[name='contentTitle']").val(), "210")) {
+							alert("內容標題長度不得超過70個字，請重新輸入");
+							check = "F";
+							return false;
+						}
+					}
+					
+					if($(this).children("textarea[name='contentContent']").val() == "") {
+						alert("請輸入內文");
+						check = "F";
+						return false;
+					} 
+					else {
+						if(checkByteLen($(this).children("textarea[name='contentContent']").val(), "3900")) {
+// 							alert("中英文字數不得超過3900個字，請重新輸入");
+							alert("字數太長，請重新輸入");
+							check = "F";
+							return false;
+						}
+					}
+				})
+				
+				if(check == "F") {
+					return false;
+				}			
+				
+				//內文圖片判斷
+				if($("#image").val() == "") {
+					alert("請輸入內文圖片連結");
+					return false;
+				}
+				
+				
+				//開始日期判斷
+				if($.trim($("#begin_date").val())==""){
+					$("#begin_date").focus();
+					alert("開始時間不可為空");
+					return false;
+				}
+				
+				//結束日期判斷
+				if($.trim($("#end_date").val())==""){
+					$("#end_date").focus();
+					alert("結束時間不可為空");
+					return false;
+				}
+				
+				//日期起迄判斷
+				var beginDate = Date.parse($.datepicker.formatDate('yy/mm/dd', new Date($("#begin_date").val()))+" 00:00:00");
+				var endDate = Date.parse($.datepicker.formatDate('yy/mm/dd', new Date($("#end_date").val()))+" 00:00:00");
+				if (endDate.valueOf() <= beginDate.valueOf()){
+					$("#begin_date").focus();
+					alert("開始時間不可大於等於結束時間");
+					return false;
+				}
+				
+				if($("#lecture_type_id").val() == "" || $("#lecture_type_id").val() == 0) {
+					alert("請輸入講座編號，若未取得編號，請輸入37");
+					return false;
+				}				
+				
+				//ICON串接
+				var iconArray = new Array();
+				var iconList;
+				$(".icon:checked").each(function(i) {
+					iconArray[i] = this.value;
+				});
+				iconList = iconArray.join(",:;,");
+				$("#iconList").val(iconList);
+				
+				//標題串接
+				var contentTitleArray = new Array();
+				var contentTitleList;
+				$("input[name='contentTitle']").each(function(i) {
+					contentTitleArray[i] = this.value;
+				});
+				contentTitleList = contentTitleArray.join(",:;,");
+				$("#contentTitleList").val(contentTitleList);
+				
+				//內容串接
+				var contentContentArray = new Array();
+				var contentContentList;
+				$("textarea[name='contentContent']").each(function(i) {
+					contentContentArray[i] = this.value;
+				});
+				contentContentList = contentContentArray.join(",:;,");
+				$("#contentContentList").val(contentContentList);
+				
+				//內容ID串接
+				var lecturesContentIdArray = new Array();
+				var lecturesContentIdList;
+				$("input[name='lecturesContentId']").each(function(i) {
+					lecturesContentIdArray[i] = this.value;
+				});
+				lecturesContentIdList = lecturesContentIdArray.join(",:;,");
+				$("#lecturesContentIdList").val(lecturesContentIdList);
+				
+				//活動地點串接
+				var placeNameArray = new Array();
+				var placeNameList;
+				$("input[name='placeName']").each(function(i) {
+					placeNameArray[i] = this.value;
+				});
+				placeNameList = placeNameArray.join(",:;,");
+				$("#placeNameList").val(placeNameList);
+				
+				//活動場次串接
+				var placeEventArray = new Array();
+				var placeEventList;
+				$("input[name='placeEvent']").each(function(i) {
+					placeEventArray[i] = this.value;
+				});
+				placeEventList = placeEventArray.join(",:;,");
+				$("#placeEventList").val(placeEventList);
+				
+				//活動時間串接
+				var placeDayArray = new Array();
+				var placeDayList;
+				$("input[name='placeDay']").each(function(i) {
+					placeDayArray[i] = this.value;
+				});
+				placeDayList = placeDayArray.join(",:;,");
+				$("#placeDayList").val(placeDayList);				
+				
+				//活動ID串接
+				var lecturesPlaceIdArray = new Array();
+				var lecturesPlaceIdList;
+				$("input[name='lecturesPlaceId']").each(function(i) {
+					lecturesPlaceIdArray[i] = this.value;
+				});
+				lecturesPlaceIdList = lecturesPlaceIdArray.join(",:;,");
+				$("#lecturesPlaceIdList").val(lecturesPlaceIdList);				
+				
+				
+// 				var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+				var link;
+				if($("#id").val() == 0) {
+					link = "addSubmit";
+// 					alert("新增成功");
+				} else {
+					link = "updateSubmit";
+// 					alert("修改成功");
+				}
+
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+			},
+			
+			backAction = function(link) {
+				
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+				
+			}
+			
+			
+		});
+	</script>
+
+</div>
+</div>
+</body>
+</html>

@@ -2,6 +2,7 @@ package com.tkb.realgoodTransform.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Repository;
 
 import com.tkb.realgoodTransform.dao.GroupsDao;
 import com.tkb.realgoodTransform.model.Groups;
+import com.tkb.realgoodTransform.model.User;
+
+
 
 @Repository
 public class GroupsDaoImpl implements GroupsDao {
@@ -28,10 +32,6 @@ public class GroupsDaoImpl implements GroupsDao {
     @Qualifier("postgresqlJdbcTemplate2")
 	private NamedParameterJdbcTemplate postgresqlJdbcNameTemplate;
 
-	@Autowired
-    @Qualifier("fifthJdbcTemplate")
-	private JdbcTemplate fifthJdbcTemplate;
-	
 	@Override
 	public Integer getCount(Groups groups) {
 		
@@ -137,6 +137,35 @@ public class GroupsDaoImpl implements GroupsDao {
 		args.add(groups.getUpdate_by());
 		args.add(groups.getId());
 		postgresqlJdbcTemplate.update(sql, args.toArray());
+	}
+
+	@Override
+	public Integer getGroupId(String group_name) {
+		
+		List<Object> args = new ArrayList<>();
+		
+		String sql = "Select id from groups where name = ?";
+		
+		args.add(group_name);
+		
+		return postgresqlJdbcTemplate.queryForObject(sql,Integer.class,args.toArray());
+	}
+
+	@Override
+	public List<Map<String, Object>> judegeRepeat(String group_name) {
+		List<Object> args = new ArrayList<>();
+		String sql = "select * from groups where name = ?";
+		args.add(group_name);
+		
+		return postgresqlJdbcTemplate.queryForList(sql,args.toArray());
+	}
+	
+	@Override
+	public Integer getGroupId(User user) {
+		List<Object>args = new ArrayList<>();
+		String sql = "SELECT GROUP_ID FROM GROUP_USER WHERE USER_ID=?";
+		args.add(user.getId());
+		return postgresqlJdbcTemplate.queryForObject(sql, Integer.class, args.toArray());
 	}
 
 }

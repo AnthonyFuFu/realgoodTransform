@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+	<form id="mainForm" method="POST" th:object="${lectures}">
+		<input type="hidden" id="id" th:field="*{id}" />
+		<input type="hidden" id="hidden_category" th:value="${lecturesCategory.id}"/>
+		<input type="hidden" id="deleteList" name="deleteList" />
+		
+		<!-- content -->
+		<div class="content">
+			<!-- button group -->
+			<div class="btn-group">
+				<ul>
+					<li><a href="javascript:void(0)" onclick="gotoPage('add')">新增</a></li>
+					<li><a href="javascript:void(0)" onclick="checkAll()">全選</a></li>
+					<li><a href="javascript:void(0)" onclick="deleteData()">刪除</a></li>
+					<li><a href="updateNormalData">去更新正是機資料到本地</a></li>
+				</ul>
+			</div>
+			<!-- button group -->
+			<!-- search -->
+			<div class="search">
+				<ul>
+					<li>
+					<select id="searchtype" name="searchtype">
+					    <option value="" th:selected="${searchtype eq ''}">全部</option>
+					    <option value="1" th:selected="${searchtype eq '1'}">標題</option>
+					    <option value="2" th:selected="${searchtype eq '2'}">類別</option>
+					</select>
+					</li>
+					<li>
+					<input type="text" id="saveTitle" th:field="*{title}">
+
+					<select id="saveCategory" name="searchCategory">
+					    <option value="">請選擇</option>
+					    <th:block th:each="dataStatus, data : ${lecturesCategoryList}">
+					        <option th:value="${dataStatus.id}" th:selected="${dataStatus.id == searchCategory}">[[${dataStatus.name}]]</option>
+					    </th:block>
+					</select>
+					
+					</li>
+					<li><button class="search-button" onclick="searchLectures()">搜尋</button></li>
+					<li><button class="search-button" onclick="resetData()">清除</button></li>
+				</ul>
+			</div>
+			<!-- search -->
+			
+			<!-- table -->
+			<table class="table-horizon">
+				
+				<caption><h2>近期活動</h2></caption>
+				
+				<thead>
+					<tr>
+						<th></th>
+						<th>序號</th>
+						<th>類別</th>
+						<th width="10%">置頂</th>
+						<th>標題</th>
+						<th>起迄時間</th>
+						<th>點擊率</th>						
+						<th class="width-fixed">功能</th>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:if="${#lists.isEmpty(lecturesList)}">
+						<tr>
+							<td colspan="9" align="center">尚無任何資料</td>
+						</tr>
+					</th:block>
+					<th:block th:each="dataStatus , data : ${lecturesList}" th:with="show = ${dataStatus.lectures_top} == 1 ? '置頂' : ''">
+						<tr>
+							<td><input type="checkbox" name="selectList" th:value="${dataStatus.id}" /></td>
+							<td th:text="${(pageNo-1) * pageCount + data.count}"></td>
+							<td th:text="${dataStatus.category_name}"></td>
+							<td>[[${show}]]</td>
+							<td th:text="${dataStatus.title}"></td>
+							<td>[[${dataStatus.begin_date}]]-[[${dataStatus.end_date}]]</td>
+							<td th:text="${dataStatus.click_rate}"></td>							
+							<td class="table-button width-fixed">
+								<a href="javascript:void(0)" title="修改" th:onclick="|javascript:changeAction('update', '${dataStatus.id}')|"><i class="fa fa-pencil"></i></a>
+							</td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+			<!-- table -->
+			<div th:insert="~{admin/load/layout :: page}"></div>
+		</div>
+		<!-- content -->
+ 	</form>
+			<script>
+		
+	$(function(){
+			$(document).ready(function(){
+				
+				if($("#searchtype").val() == "") {
+					$("#saveTitle").val('').hide();
+					$("#saveCategory").val('').hide();
+					$("#saveTitle").hide();
+					$("#saveCategory").hide();
+					
+				}if($("#searchtype").val() == "1"){
+					
+					$("#saveCategory").hide();
+				}else{
+					$("#saveTitle").hide();
+				}
+			});
+		 	
+			//搜尋控制
+			$("#searchtype").change(function(){
+				if($("#searchtype").val() == "") {
+					$("#saveTitle").val('').hide();
+					$("#saveCategory").val('').hide();
+					$("#saveTitle").hide();
+					$("#saveCategory").hide();
+				}
+				if($("#searchtype").val()==1){
+					$("#saveTitle").show();
+					$("#saveCategory").val('').hide();
+				}else if($("#searchtype").val()==2){
+					$("#saveCategory").show();
+					$("#saveTitle").val('').hide();
+				}
+			});
+	
+			
+			changeAction = function(link, id) {
+				
+				$("#id").val(id);
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+				
+			},
+			
+			resetData = function() {
+				
+				$("#searchtype").val('');
+				$("#saveTitle").val('');
+				$("#saveCategory").val('');
+				$("#pageNo").val('1');
+				$("#name").val('');
+				
+			},
+			
+			gotoPage = function(link) {
+				
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+// 				location.href = link;
+				
+			},
+			
+			searchLectures = function() {
+				$("#title").val($("#saveTitle").val());
+				$("#searchCategory").val($("#saveCategory").val());
+				$("#mainForm").submit();
+				
+			}
+
+		});
+	</script>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<div class="re-wrapper">  
+		<div class="logo-area">
+            <a href="https://www.tkb.com.tw/" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/common/logo_tkb_hd.png}"/></a>
+            <a href="${BASE_PATH}index" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/common/logo_daso_hd.png}"/></a>
+        </div>
+		<div class="menu-area-pc">
+		<form id="mainForm" method="POST" enctype="multipart/form-data">
+			<input type="hidden" id="id" name="id">
+			<input type="hidden" id="category_schoolBulletin" name="schoolBulletin.category" >
+			<input type="hidden" id="category_lectures" name="lectures.category" >
+			<input type="hidden" id="category_newExam" name="newExam.category" >
+			<input type="hidden" id="layer" name="schoolBulletin.layer">
+			<input type="hidden" id="action_name" name="action_name" >
+		</form>
+			<nav class="re-nav">
+                <a style="cursor:pointer;" onclick="schoolBulletinMenu()">大碩公告</a>
+                <a href="javascript:void(0);">系所介紹</a>
+                <a th:href="${@environment.getProperty('weburl')}">課程總覽</a>
+                <a style="cursor:pointer;" onclick="newExamMenu()">最新考情</a>
+<!--                 <a href="${BASE_PATH}courseDiscount/index">優惠訊息</a> -->
+                <a th:href="${@environment.getProperty('weburl')}+@{/common/consultation}">線上報名</a>
+                <a th:href="${@environment.getProperty('weburl')}+@{/schedule/index}">課表查詢</a>
+                <!-- 20211227 start -->
+                <a href="http://bookseat.tkblearning.com.tw/book-seat/student/bookSeat/index">數位課程預約</a>
+                <a th:href="${@environment.getProperty('weburl')}+@{/location/index}">服務據點</a>
+                <!-- 20211227 end -->
+            </nav>
+			<div class="re-search-box">
+                <input type="text" id="google_search" placeholder="請輸入關鍵字" onfocus="this.placeholder = ''" onblur="this.placeholder = '請輸入關鍵字'"/>
+                <a class="btn-search-go" href="javascript:void(0);" onclick="google_search()">
+                    <i class="fas fa-search"></i>
+                </a>
+            </div>
+		</div><!-- nav -->
+	            
+		<div class="menu_area">
+			<div class="menu">
+				<div class="menu_01"> 
+				</div>
+				<!-- menu_01 -->
+				       
+	 			<div class="menu_02">
+            	<main>
+					<dl>
+						<dt><i class="fas fa-caret-right"></i>理工類研究所</dt>
+						<dd>
+                            <ul>
+			                    <li><a th:href="${@environment.getProperty('weburl')}+@{/exam/index?str=25E6C3D26FAD944742271077E7F94D7B}">電子電機所</a></li>
+			                    <li><a th:href="${@environment.getProperty('weburl')}+@{/exam/index?str=198A3FEE4457FAC2DC0C3A03680B86AE}">機械所</a></li>
+			                    <li><a th:href="${@environment.getProperty('weburl')}+@{/exam/index?str=7FB8C1F03B04B66F5C85B6C20CAF36E7}">航太所</a></li>
+			                    <li><a th:href="${@environment.getProperty('weburl')}+@{/exam/index?str=CF3219310A10AA58FFE1EDCAB5AC7BDA}">化工所</a></li>
+			                    <li><a th:href="${@environment.getProperty('weburl')}+@{/exam/index?str=FD075EBF10438FE68435AC08D4909EFA}">環工所</a></li>
+			                    <li><a th:href="${@environment.getProperty('weburl')}+@{/exam/index?str=6CDF5506DF34F2037E02CE1C0FECE1B4}">資工所</a></li>
+			                    <li><a th:href="${@environment.getProperty('weburl')}+@{/exam/index?str=3EB9A7D0B92BAD93BAD44AD872A14CB5}">材料所</a></li>
+			                    <li><a th:href="${@environment.getProperty('weburl')}+@{/exam/index?str=C8E49EE56069A9A3CB117755AD6B7EC4}">土木所</a></li>
+                            </ul>
+						</dd>    
+					</dl>
+
+					<dl>
+						<dt><i class="fas fa-caret-right"></i>商管類研究所</dt>
+						<dd>
+                            <ul>
+			                    <li><a th:href="${@environment.getProperty('weburl')}+@{/exam/index?str=BA2F4774FB02B5CECFE375A9C0A9BF9A}">財金所</a></li>
+			                    <li><a th:href="${@environment.getProperty('weburl')}+@{/exam/index?str=C4DCEDD5D20CBF6BA76858914780C19C}">統計所</a></li>
+			                    <li><a th:href="${@environment.getProperty('weburl')}+@{/exam/index?str=86E119B22FCBCAC2D7A236146FF4B6BC}">企研所</a></li>
+			                    <li><a th:href="${@environment.getProperty('weburl')}+@{/exam/index?str=B60D17352F339B7C550E7C440C1AD044}">資管所</a></li>
+			                    <li><a th:href="${@environment.getProperty('weburl')}+@{/exam/index?str=0D99DECA960AA1A486563EC7FD9A6B9B}">經研所</a></li>
+			                    <li><a th:href="${@environment.getProperty('weburl')}+@{/exam/index?str=60021127B8B5F7AECA403578E0D69293}">工管所</a></li>
+			                </ul>
+						</dd>    
+					</dl>
+					
+					<dl>
+						<dt><i class="fas fa-caret-right"></i>人文類研究所</dt>
+						<dd>
+                            <ul>
+			                    <li><a th:href="${@environment.getProperty('weburl')}+@{/exam/index?str=0058FDC011295ECF47A5C3F5C0FED04F}">傳播所</a></li>
+			                </ul>
+						</dd>    
+					</dl>
+				</main>
+	 			</div>
+	 			<!-- menu_02 -->
+			
+				<div class="menu_03">
+				</div>
+				<!-- menu_03 -->
+				
+				<div class="menu_04">
+				</div>
+				<!-- menu_04 -->
+				
+				<div class="menu_05">
+				</div>
+				<!-- menu_05 -->
+				
+				<div class="menu_06">
+				</div>
+				<!-- menu_06 -->
+				
+				<div class="menu_07">
+				</div>
+				<!-- menu_07 -->
+				
+				<div class="menu_08">
+				</div>
+				<!-- menu_08 -->
+					
+			</div><!-- menu -->
+		</div><!-- menu_area -->
+		
+        <div class="menu-area-mb">
+            <a class="btn-re-nav" href="javascript:void(0);">
+                <i class="fas fa-bars"></i>
+            </a>
+            <a class="btn-search-go" href="javascript:void(0);">
+                <i class="fas fa-search"></i>
+            </a>
+        </div>
+	</div><!-- nav_area -->
+	<form method="POST" id="searchForm_article" name="searchForm_article">
+		<input type="hidden" id="page_no_2" name="page_no" />
+		<input type="hidden" id="article_category_2" name="chosenArticle.article_category" />
+		<input type="hidden" id="category_layer_2" name="chosenArticle.category_layer" />
+		<input type="hidden" id="page_count_2" name="page_count" />
+	</form>
+	<input type="hidden" name="jsGetModel" id="jsGetModel" th:value="${#httpSession.getAttribute('dasoIdentity')}">
+	<script>
+
+	var DasoPath = "[[${@environment.getProperty('weburl')}]]" ;
+	
+	function google_search() {
+		location.href = DasoPath+"/search?keyword=" + $("#google_search").val();
+	}
+
+	function google_search_rwd() {
+		location.href = DasoPath+"/search?keyword=" + $("#google_search_rwd").val();
+	}
+	
+	function searchMenuCategory(id, action_name) {
+		$("#category_schoolBulletin").val(id);
+		$("#category_lectures").val(id);
+		$("#category_newExam").val(id);
+		$("#layer").val("1");
+		$("#mainForm").attr("action", DasoPath+"/"+action_name+"/index");
+		$("#mainForm").submit();
+	}
+		
+	//電腦版
+	function newExamMenu() {
+		$.ajax({
+			url: "[[${@environment.getProperty('weburl')}]]//newExam/newExamMenu",
+			cache: false,
+			async: false,
+			dataType: "json",
+			type:"POST",
+			data:{
+			},
+			error: function(xhr) {
+				alert('Ajax request 發生錯誤');
+			},
+			success: function(data) {
+				var str = "";
+				$(".menu_04").empty();
+				if(data != null && data.length > 0){
+					str += "<nav>";
+					for(i = 0 ; i < data.length; i++){
+						var newExamCategory = data[i];
+						str +=  "<a style='cursor:pointer;' onclick='searchMenuCategory(\""+newExamCategory.id+"\",\"newExam\")'><i class='fas fa-caret-right'></i>"+newExamCategory.name+"</a>";
+					}
+					str +=  "</nav>";
+
+					$(".menu_04").append(str);
+				}
+			}
+		});
+	}
+	
+	//電腦版
+	function schoolBulletinMenu() {
+			$.ajax({
+				url: "[[${@environment.getProperty('weburl')}]]//schoolBulletin/schoolBulletinMenu",
+				cache: false,
+				async: false,
+				dataType: "json",
+				type:"POST",
+				data:{
+				},
+				error: function(xhr) {
+					alert('aaaaaaaAjax request 發生錯誤');
+				},
+				success: function(data) {
+					
+					var str = "";
+					$(".menu_01").empty();
+					if(data != null && data.length > 0){
+						str += "<nav>";
+						for(i = 0 ; i < data.length; i++){
+							var schoolBulletinCategory = data[i];
+							str +=  "<a style='cursor:pointer;' onclick='searchMenuCategory(\""+schoolBulletinCategory.id+"\",\"schoolBulletin\")'><i class='fas fa-caret-right'></i>"+schoolBulletinCategory.name+"</a>";
+						}
+						str +=  "</nav>";
+						$(".menu_01").append(str);
+					}
+				}
+			});
+		}
+	
+	function toChosenArticle(){
+		$("#searchForm_article").children("#article_category_2").val(21);
+		$("#searchForm_article").children("#category_layer_2").val(1);
+		$("#searchForm_article").children("#page_no_2").val(1);
+		$("#searchForm_article").children("#page_count_2").val(4);
+		$("#searchForm_article").attr("action", "${BASE_PATH}chosenArticle/index");
+		$("#searchForm_article").submit();
+	}
+</script>
+</html>

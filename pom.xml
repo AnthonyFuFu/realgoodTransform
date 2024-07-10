@@ -11,7 +11,7 @@
 	<groupId>com.tkb</groupId>
 	<artifactId>realgoodTransform</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>realgoodTransform</name>
 	<description>realgoodTransform</description>
 	<properties>
@@ -108,6 +108,12 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<!-- JXL -->
+		<dependency>
+			<groupId>net.sourceforge.jexcelapi</groupId>
+			<artifactId>jxl</artifactId>
+			<version>2.6.12</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
@@ -123,9 +129,16 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.facebook.business.sdk/facebook-java-business-sdk -->
+		<dependency>
+			<groupId>com.facebook.business.sdk</groupId>
+			<artifactId>facebook-java-business-sdk</artifactId>
+			<version>12.0.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
+		<finalName>realgood</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

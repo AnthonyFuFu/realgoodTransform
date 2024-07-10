@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+	<form id="mainForm" method="POST" th:object="${admit}">
+		<input type="hidden" id="id" name="admitDetail.admit_id" />
+		<input type="hidden" id="admit_id" name="admit.id" />
+		<input type="hidden" id="deleteList" name="deleteList" />
+		<input type="hidden" name="pageNoLog"  th:value="${pageNoLog}"/>
+		
+		<!-- content -->
+		<div class="content">
+			<!-- button group -->
+			<div class="btn-group">
+				<ul>
+					<li><a href="javascript:void(0)" onclick="gotoPage('add')">新增</a></li>
+					<li><a href="javascript:void(0)" onclick="checkAll()">全選</a></li>
+					<li><a href="javascript:void(0)" onclick="deleteData()">刪除</a></li>
+					<li><a href="#" onclick="displayOn()">上架</a></li>
+					<li><a href="#" onclick="displayOff()">下架</a></li>
+					<li><a href="updateNormalData">去更新正是機資料到本地</a></li>
+				</ul>
+			</div>
+			<!-- button groupadmit -->
+			
+			<!-- search -->
+			<div class="search">
+				<ul>
+					<li>標題搜尋:</li>
+					<li><input type="text" id="title" th:field="*{title}"></li>
+					<li><button class="search-button" onclick="searchQuery()">搜尋</button></li>
+					<li><button class="search-button" onclick="resetData()">清除</button></li>
+				</ul>
+			</div>
+			<!-- search -->
+			
+			<!-- table -->
+			<table class="table-horizon">
+				
+				<caption><h2>考取金榜</h2></caption>
+				
+				<thead>
+					<tr>
+						<th></th>
+						<th width="5%">序號</th>
+						<th width="5%">年度</th>
+						<th>類別</th>
+						<th>前台<br>顯示</th>
+						<th width="35%">標題</th>
+						<th>點閱率</th>
+						<th>修改時間</th>
+						<th class="width-fixed">榜單</th>
+						<th class="width-fixed">功能</th>
+					</tr>
+				</thead>
+				<tbody>
+					
+					<th:block th:if="${#lists.isEmpty(admitList)}">
+						<tr>
+							<td colspan="7" align="center">尚無任何資料</td>
+						</tr>
+					</th:block>	
+					
+					<th:block th:each="dataStatus, data : ${admitList}">
+						<tr>
+							<td><input type="checkbox" name="selectList" th:value="${dataStatus.id}" /></td>
+							<td th:text="${(pageNo-1) * pageCount + data.count}"></td>
+							<td>[[${dataStatus.admit_year}]]</td>
+							<td>[[${dataStatus.category_name}]]</td>
+							<td>[[${dataStatus.display}== 0 ? '否': '是']]</td>
+							<td>[[${dataStatus.title}]]</td>
+							<td>[[${dataStatus.click_rate}]]</td>
+<!-- 							<td th:text="${dataStatus.update_date}"></td> -->
+							
+							<td th:if="${dataStatus.update_date.contains('.')}">
+							<span th:text="${dataStatus.update_date.substring(0, dataStatus.update_date.indexOf('.'))}"></span>
+							
+							</td>
+							<td th:unless="${dataStatus.update_date.contains('.')}">
+							  <span th:text="${dataStatus.update_date}"></span>
+							</td>
+							
+							
+							<td class="table-button width-fixed">
+								<a href="javascript:void(0)" title="修改" th:onclick="|javascript:changeAction('toDetail', '${dataStatus.id}')|"><i class="fa fa-pencil"></i></a>
+							</td>
+							<td class="table-button width-fixed">
+								<a href="javascript:void(0)" title="修改" th:onclick="|javascript:changeAction('update', '${dataStatus.id}')|"><i class="fa fa-pencil"></i></a>
+							</td>
+						</tr>
+				</th:block>
+					
+				</tbody>
+			</table>
+			<div th:insert="~{admin/load/layout :: page}"></div>
+		</div>
+		<!-- content -->
+ 	</form>
+ 	</div>
+ 	</div>
+		
+	<script>
+
+		$(function(){
+
+			changeAction = function(link, id) {
+				
+				$("#id").val(id);
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+				
+			},
+			
+			resetData = function() {
+				
+				$("#pageNo").val('1');
+				$("#title").val('');
+				
+			},
+			
+			gotoPage = function(link) {
+				
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+// 				location.href = link;
+				
+			},
+			
+			changeAction = function(link, id) {
+				
+				$("#id").val(id);
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+				
+			},
+			
+			changeAdmitAction = function(link, id) {
+				
+				$("#admit_id").val(id);
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+				
+			}
+
+		});
+	</script>
+</body>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+<th:block th:if="${examSchedule.year!=null}">
+[[${examSchedule.year}]]年-簡章下載-考試日程表-百官網公職
+</th:block>
+<th:block th:unless="${examSchedule.year!=null}">
+考試日程表-百官網公職
+</th:block>
+</title>
+<meta name="description" content="提供最新公職、國營、技師證照，第一手招考資訊及放榜消息，還有最實用的考試準備密技講座，隨時關注百官網公職，給您最快最實用的考試情報。"/>
+<meta name="keywords" content="TKB百官網"/>
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css?v=20210705}" />	<!-- 電腦版 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick-theme.css}" /> 
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick.css}" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slides.css}" />
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">
+<!-- Global site tag (gtag.js) - Google Ads: 957644279 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-957644279"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-957644279');
+</script>
+</head>
+<body>
+<!-- 行動版 -->
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<div class="wrapper">
+	<!-- 20190625 start -->
+	<div class="header-box">  
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+<div class="content">
+		<input type="hidden" id="year" name="examSchedule.year" value="${examSchedule.year}"/>
+			<div class="content">
+				<div class="ad">
+		<th:block th:if="${#lists.size(navBannerList)==3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<th:block th:if="${data.count == 1}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			<th:block th:if="${data.count == 2}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			</th:block>
+		</th:block>
+		<th:block th:if="${#lists.size(navBannerList)<3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<div><a th:href="${dataStatus.link}" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+			</th:block>
+		</th:block>
+		
+		<div class="metaBox"></div>
+		
+		<th:block th:if="${#lists.size(navBannerList)==3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<th:block th:if="${data.count == 3}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			</th:block>
+		</th:block>
+		<th:block th:each="dataStatus , data : ${navBannerType2List}">
+			<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+		</th:block>
+		</div>
+			<div class="main_area">
+				<h1>考試日程表 / 簡章下載</h1>
+				<hr></hr>
+				<div class="sort">
+					<ul>年度
+						<th:block th:each = "dataStatus , data : ${examScheduleYearList}"  > 
+						<li><a th:data-year="${dataStatus.year}" th:data-encryptId="${dataStatus.encryptId}" th:data-login_msg="${login_msg}" th:onclick="checkLogin(this)" th:text="${dataStatus.year}"></a></li>
+						</th:block>
+					</ul>
+					<ul>分類
+		         		<li class="sort_click"><a style="cursor: pointer;" href="#公職">公職</a></li>
+		         		<li class="sort_click"><a style="cursor: pointer;" href="#國營">國營</a></li>
+		         		<li class="sort_click"><a style="cursor: pointer;" href="#銀行">銀行</a></li>
+					</ul> 
+				</div>
+				<th:block th:each = "dataStatus , data : ${examScheduleTypeList}" > 
+					<span th:if="${dataStatus.type} eq '1'"><div id="公職" class="article_type02">公職</div> </span> 
+					<span th:if="${dataStatus.type} eq '2'"><div id="國營" class="article_type02">國營</div> </span> 
+					<span th:if="${dataStatus.type} eq '3'"><div id="銀行" class="article_type02">銀行</div> </span> 
+				<div class="table_style2">
+      			<table>
+   						<tr>
+         				<th>等級</th>
+           		<th>考試資訊名稱</th>
+								<th>錄取資訊</th>
+								<th>報名日期</th>
+								<th>考試日期</th>
+								<th>簡章下載</th>
+       				</tr>
+       						<th:block th:each = "dataStatus , data : ${dataStatus.examSchedule}" > 
+		  						<tr>
+		       					<td style="width:12%;"/>[[${dataStatus.step}]]</td>
+		         				<th:block th:if="${dataStatus.link!=null && dataStatus.link!=''}">
+		         					<td style="text-align:left !important;"><a style="text-decoration:underline;" th:href="${dataStatus.link}">[[${dataStatus.title}]]</a></td>
+								</th:block>
+								<th:block th:unless="${dataStatus.link!=null && dataStatus.link!=''}">
+		         					<td style="text-align:left !important;">[[${dataStatus.title}]]</td>
+								</th:block>
+										<td style="width:13%;">[[${dataStatus.admission}]]</td>
+										<td style="width:13%;">
+										[[${dataStatus.tw_begin_date}]]<br/>|<br/>
+										[[${dataStatus.tw_end_date}]]
+										</td>
+										<th:block th:if="${dataStatus.tw_exam_date eq dataStatus.tw_finish_date}">
+											<td style="width:13%;">
+											[[${dataStatus.tw_exam_date}]]
+											</td>
+										</th:block>
+										<th:block th:unless="${dataStatus.tw_exam_date eq dataStatus.tw_finish_date}">
+											<td style="width:13%;">
+											[[${dataStatus.tw_exam_date}]]<br/>|<br/>
+											[[${dataStatus.tw_finish_date}]]
+											
+											</td>
+										</th:block>
+										<th:block th:if="${dataStatus.file_name!=null}" >
+											<th:block th:if="${dataStatus.time_file_name!=null}">
+												<td style="width:13%;"><a th:href="${@environment.getProperty('static.url')}+@{/file/examList/{file}(file=${dataStatus.time_file_name})}" target="_blank">
+												<img th:src="${@environment.getProperty('static.url')}+@{/images/front/download_test.png}" th:title="${dataStatus.title + '簡章下載'}" /></a>
+												</td>
+											</th:block>
+											<th:block th:unless="${dataStatus.time_file_name!=null}">
+												<td style="width:13%;"><a th:href="${@environment.getProperty('static.url')}+@{/file/examList/{file}(file=${dataStatus.file_name})}" target="_blank">
+												<img th:src="${@environment.getProperty('static.url')}+@{/images/front/download_test.png}" th:title="${dataStatus.title + '簡章下載'}" /></a>
+												</td>
+											</th:block>
+										</th:block>
+										<th:block th:unless="${dataStatus.file_name!=null}">
+											<td style="width:13%;text-align:center !important;">尚未公告</td>
+										</th:block>
+ 		           	</tr><!-- 		         			table_style -->
+						</th:block>
+         			</table>
+         		</div>
+         		</th:block>
+<!--          		type -->
+         	</div>
+				<!-- 				搜尋功能 -->
+			</div>
+			<!-- 		ad -->
+		</div>
+		<!-- 		content -->
+</div>
+<!-- 	wrapper -->
+</body>
+	<script th:src="${@environment.getProperty('static.url')}+@{/js/facebook_Adjust.js}"></script>
+<!-- 	<script th:src="${@environment.getProperty('static.url')}+@{/js/front/advertising.js}"></script> -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    var codeExecuted = sessionStorage.getItem('codeExecuted');
+    if (!codeExecuted) {
+        sessionStorage.setItem('codeExecuted', true);
+        location.reload();
+    }
+});
+$(function(){
+		checkLogin = function(element)
+		{
+			
+				var year = element.getAttribute('data-year');
+				var encryptId = element.getAttribute('data-encryptId');
+				var login = element.getAttribute('data-login_msg');
+				var today=new Date();
+ 				var thisYear=today.getFullYear()-1911;
+ 				if((thisYear-2)>=year && login==0)
+					{
+						alert("如查閱3年前簡章請先登入會員\n為您導覽到登入頁面");
+						location.href = "[[${@environment.getProperty('weburl')}]]/memberAccount/login";
+					}
+				else
+					{
+						location.href="[[${@environment.getProperty('weburl')}]]/newExam/examList?categoryId="+encryptId;
+					}
+		};
+	
+});
+</script>
+</html>

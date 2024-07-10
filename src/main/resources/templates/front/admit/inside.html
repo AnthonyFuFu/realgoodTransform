@@ -1,0 +1,271 @@
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>[[${admit.title}]]-TKB甄戰學習顧問中心</title>
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front_style.css?v=20210901}" />	<!-- 電腦版 -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slides.css}" />	<!-- 電腦版 -->
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/jquery.mCustomScrollbar.css}" />
+<!-- 20190625 end -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">
+
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PCKKCNQ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PCKKCNQ');</script>
+<!-- End Google Tag Manager -->
+
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "k5keu8zt50");
+</script>
+
+<!-- Global site tag (gtag.js) - Google Ads: 957644279 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-957644279"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-957644279');
+</script>
+<meta name="description" th:if="${admit.seo_content}" th:content="${admit.seo_content}" />
+<meta name="keywords" content="TKB甄戰學習顧問中心"/>
+
+<meta property="og:title" th:content="|${admit.title}-TKB甄戰學習顧問中心|"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" th:content="|/admit/inside?str=${shareStr}|"/>
+<meta property="og:image" th:content="|/upload/image/admit/${admit.image_url}|"/>
+<meta property="og:site_name" content="TKB甄戰學習顧問中心" />
+<meta property="og:description" th:content="${admit.seo_content}" />
+
+
+
+
+</head>
+<body>
+<!-- 行動版 -->
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<div class="wrapper"> 
+	<!-- 20190625 start -->
+	<div class="header-box">  
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+			
+        <div class="content">
+        	<form method="get" action="" name="mainForm">
+			    <input type="hidden" id="admit_str" th:value="${admit.str}" />
+			</form>
+			<div class="main-area-title">考取金榜</div>
+			<div class="back"><a href="/admit/index">回上頁</a></div>
+			<hr/>
+			<h1 class="article-title" th:text="${admit.title}"></h1>
+			<div class="community_API">
+			    <a href="javascript:void window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('https://www.reallygood.com.tw/admit/inside?str=86E119B22FCBCAC2D7A236146FF4B6BC'))">
+			    	<img src="https://www.reallygood.com.tw/images/front/fb_api.png">
+			    </a>
+
+			    <!-- 社群API介接示意圖 -->
+			    <!-- <img src="${BASE_PATH}images/community_API.png"> -->
+			</div>
+			<div class="viewers" th:text="${admit.click_rate}"></div>
+			<div class="release">發佈時間：[[${#dates.format(admit.create_date, 'yyyy/MM/dd')}]]</div>
+			<div class="update">更新時間：[[${#strings.substring(admit.update_date, 0, 10)}]]</div>
+			
+			<div class="poster">
+			    <img th:src="${@environment.getProperty('static.url')}+@{/upload/image/admit/banner/}+${admit.banner_url}" />
+			    <!--
+			    <input type="hidden" id="saveBlack" th:value="${admit.banner_content_black}"  ${admit.banner_url}/>
+			    <input type="hidden" id="saveRed" th:value="${admit.banner_content_red}" />
+			    -->
+			    <div class="poster_text" id="newBlack">
+			        <span th:utext="${admit.banner_content_black.replace('\n', '<br>')}" />
+			        <br/>
+			        <span th:utext="${admit.banner_content_red.replace('\n', '<br>')}" />
+			    </div>
+			</div><!-- poster -->
+			<div th:if="${admit.total_title != null && admit.total_title != ''}">
+			    <input type="hidden" id="checkTotalStatus" value="1"/>
+			    <input type="hidden" id="total_list" th:value="${admit.total_list}" />
+			    <input type="hidden" id="save_total_content" th:value="${admit.total_content}" />
+<!-- 			    <h1 class="poster_admission_title" class="poster_admission_title" th:text="${admit.total_title}"></h1> -->
+			    <hr/>
+			    <div class="article" id="total_content"></div>
+			
+			    <div class="admission_table">
+			        <table id="total_table">
+			        </table>
+			    </div><!-- admission_table -->
+			
+			    <div class="article">※ 因版面有限，下方榜單僅列出部份學校上榜授權人數，完整人數請洽TKB數位學堂查詢。</div>
+			</div>
+			<div th:unless="${admit.total_title != null && admit.total_title != ''}">
+			    <input type="hidden" id="checkTotalStatus" value="0"/>
+			</div>
+			
+			
+			
+			<div th:if="${contentOptionList.size() == 0 || contentOptionList[0].title == null || contentOptionList[0].title == ''}">
+			    
+			</div>
+			<div th:else>
+			    <div th:each="content : ${contentOptionList}" th:status="contentStatus" th:id="content">
+			        <div class="admission_table">
+			            <table>
+			                <tr>
+			                    <th colspan="2" th:text="${content.title}"></th>
+			                </tr>
+			                <tr>
+			                    <td colspan="2"><span th:text="${content.summary}"></span></td>
+			                </tr>
+			                <div th:each="options : ${content.admitOptionList}" th:status="optionsStatus" th:id="options">
+			                    <tr>
+			                        <td width="50%" th:text="${options.achievement}"></td>
+			                        <td width="50%">
+			                            <!-- <s:property value="#options.name" /> -->
+			                            <span th:if="${#strings.length(options.name) > 4}">
+			                                <span th:text="${options.name.substring(0, 1)}"></span>O<span th:text="${options.name.substring(2, 3)}"></span>O<span th:text="${options.name.substring(4, 5)}"></span>
+			                            </span>
+			                            <span th:elseif="${#strings.length(options.name) > 3}">
+			                                <span th:text="${options.name.substring(0, 1)}"></span>O<span th:text="${options.name.substring(2, 3)}"></span>O
+			                            </span>
+			                            <span th:elseif="${#strings.length(options.name) > 2}">
+			                                <span th:text="${options.name.substring(0, 1)}"></span>O<span th:text="${options.name.substring(2, 3)}"></span>
+			                            </span>
+			                            <span th:else>
+			                                <span th:text="${options.name.substring(0, 1)}"></span>O
+			                            </span>
+			                        </td>
+			                    </tr>
+			                </div>
+			                <tr/>
+			            </table>
+			        </div>
+			    </div>
+			</div>		
+			
+			
+			<hr/>
+			<div class="admission_table">
+			    <h1 style="width:100%;" th:text="${admit.title}"></h1>
+			    <div class="table-wrap">
+			        <table class="double">
+			            <tr>
+			                <th>姓名</th>
+			                <th class="category">錄取學校</th>
+			                <th>錄取科系</th>       
+			            </tr>
+			            <tr th:each="detail, detailStatus : ${admitDetailList}" >
+			                <td>
+
+			                    
+						        
+						        [[${detail.name}]]
+			                    
+			                </td>
+			                <td th:text="${detail.type}"></td>
+			                <td>
+<!-- 			                    <img th:if="${detail.achievement == '榜首'}" src="/images/front/top.png"/> -->
+<!-- 			                    <img th:if="${detail.achievement == '榜眼'}" src="/images/front/second.png"/> -->
+<!-- 			                    <img th:if="${detail.achievement == '探花'}" src="/images/front/third.png"/> -->
+<!-- 			                    <span th:if="${detail.achievement == '正取'}" th:text="${detail.achievement}"></span> -->
+			                    <th:block th:if="${detail.achievement == '榜首'}">
+								    <img src="/images/front/top.png"/>
+								</th:block>
+								<th:block th:if="${detail.achievement == '榜眼'}">
+								    <img src="/images/front/second.png"/>
+								</th:block>
+								<th:block th:if="${detail.achievement == '探花'}">
+								    <img src="/images/front/third.png"/>
+								</th:block>
+								<th:block th:if="${detail.achievement == '正取'}" th:text="${detail.achievement}"></th:block>
+			                 [[${detail.achievement}]]
+			               
+			                </td>
+			            </tr>
+			        </table>
+<!-- 			    </div> -->
+<!-- 			    <div class="table-wrap"> -->
+			        
+			    </div>
+			</div><!-- admission_table -->			
+				
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+        </div><!-- content -->     
+    	 <div th:insert="~{front/loadForOldPage/layout :: footer}"></div>
+<!--     	 <script th:src="${@environment.getProperty('static.url')}+@{/js/front/advertising.js}"></script> -->
+    	 
+    </div><!-- wrapper -->
+<script>
+		$(function(){
+			if($("#checkTotalStatus").val()!=0){
+				total_list_load();
+				total_content_load();
+			}
+		
+		});
+		
+		function total_list_load(){
+			var listArray = $("#total_list").val().split(",");
+			var str = "";
+			str += "<tr><th>台大</th><th>清大</th><th>交大</th><th>成大</th><th>政大</th><th>台科大</th></tr>";
+			for(var i = 0 ; i < 4 ; i++){
+				str +="<tr>";
+				for(var y = 0 ; y < 24 ; y=y+4){
+					
+					if(listArray[i+y] == "0"){
+						str += "<td></td>";
+					}else{
+						if(i==0){
+							str += "<td>上榜<span>"+listArray[i+y]+"</span>人</td>";
+						}else if(i==1){
+							str += "<td>榜首<span>"+listArray[i+y]+"</span>人</td>";
+						}else if(i==2){
+							str += "<td>榜眼<span>"+listArray[i+y]+"</span>人</td>";
+						}else if(i==3){
+							str += "<td>探花<span>"+listArray[i+y]+"</span>人</td>";
+						}
+					}
+					
+				}
+				str += "</tr>";
+			}
+			$("#total_table").append(str);
+		}
+		
+		function total_content_load(){
+			var content = $("#save_total_content").val();
+			$("#total_content").html(content.replace(/\n/g,"<br>"));
+		}
+</script>	
+</body>
+
+</html>

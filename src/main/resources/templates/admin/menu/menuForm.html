@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<meta charset="UTF-8">
+<body>
+
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+		
+		<!-- content -->
+		<div class="content">
+			<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${menu}" th:with="btn_name = ${menu.id == null ? '新增': '修改'}">
+				<input type="hidden" id="btn_name" th:value="${btn_name}" />
+				<input type="hidden" th:field="*{id}">
+				<input type="hidden" th:field="*{parent_id}">
+				<input type="hidden" th:field="*{parent_name}">
+				<input type="hidden" th:field="*{layer}">
+				
+				<!-- table -->
+				<table class="table-vertical" cellspacing="0">
+					<caption><h2>[[${btn_name}]]頁面</h2></caption>
+					<tr>
+						<th><span class="important">*</span>標題</th>
+						<td><input type="text" th:field="*{name}"></td>
+					</tr>
+					<th:block th:if="${menu.layer ne '1'}">
+						<tr>
+							<th><span class="important">*</span>連結</th>
+							<td><input type="text" th:field="*{link}"></td>
+						</tr>
+					</th:block>
+					<tr>
+						<th>功能</th>
+						<td class="table-button vertical-btn">
+							<a href="index">返回</a>
+							<a href="#" onclick="add()">[[${btn_name}]]</a>
+						</td>
+					</tr>
+				</table>
+			</form>
+		
+		</div><!-- content -->
+		
+		<script>
+			$(function(){
+				add = function(){
+					if(!$("#name").val().trim()){
+						alert("標題不得為空!");
+						$("#name").focus();
+						return false;
+					}
+					//如果有連結欄位，驗證是否為空
+					if($("#link").length){
+						if(!$("#link").val().trim()){
+							alert("連結不得為空!");
+							$("#link").focus();
+							return false;
+						}
+					}
+					var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+					$("#mainForm").attr("action", link);
+					$("#mainForm").submit();
+				}
+			});
+		</script>
+		
+	</div>
+</div>
+
+</body>
+</html>

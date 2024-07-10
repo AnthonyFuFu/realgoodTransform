@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<meta charset="UTF-8">
+<body>
+
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+	
+	
+		<form id="mainForm" method="POST" th:object="${menu}">
+			<input type="hidden" id="id" th:field="*{id}" />
+			<input type="hidden" id="parent_id" th:field="*{parent_id}" />
+			<input type="hidden" id="name" th:field="*{name}" />
+	<!-- 		<input type="hidden" id="parent_name" th:name="parent_name" th:value="${menu.name eq null ? menu.parent_name : menu.name}" /> -->
+			<input type="hidden" id="parent_name" th:field="*{parent_name}" th:value="${menu.name eq null ? menu.parent_name : menu.name}" />
+	<!-- 		<input type="hidden" id="parent_name" th:field="*{menu.name eq null ? menu.parent_name : menu.name}" /> -->
+			<input type="hidden" id="layer" th:field="*{layer}" />
+			<input type="hidden" id="deleteList" name="deleteList" />
+		<!-- content -->
+		<div class="content">
+			<!-- button group -->
+			<div class="btn-group">
+				<ul>
+					<li><a href="javascript:void(0)" onclick="gotoPage('add')">新增</a></li>
+					<li><a href="javascript:void(0)" onclick="checkAll()">全選</a></li>
+					<li><a href="javascript:void(0)" onclick="checkData()">刪除</a></li>
+				</ul>
+			</div>
+			<!-- table -->
+			<table class="table-horizon">
+				<caption>
+					<h2 th:text="${menu.parent_name eq null ? '選單設定' : menu.parent_name}"></h2>
+				</caption>
+				<thead>
+					<tr>
+						<th width="5%"></th>
+						<th width="5%">序號</th>
+						<th class="width-lg">名稱</th>
+						<th class="width-fixed">功能</th>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:if="${#lists.isEmpty(menuList)}">
+						<tr>
+							<td colspan="4" align="center">尚無任何資料</td>
+						</tr>
+					</th:block>
+					<th:block th:each="dataStatus, data : ${menuList}">
+						<tr>
+							<td><input type="checkbox" name="selectList" th:value="${dataStatus.id}" /></td>
+							<td th:text="${(pageNo-1) * pageCount + data.count}"></td>
+							<td><a href="javascript:void(0)" th:attr="onclick=|changeLayer('index', ${dataStatus.id}, '${dataStatus.layer}', '${dataStatus.name}')|">[[${dataStatus.name}]]</a></td>
+								<td class="table-button width-fixed">
+								<a href="javascript:void(0)" title="修改" th:onclick="changeAction('update', [[${dataStatus.id}]])"><i class="fa fa-pencil"></i></a>
+							</td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+			<!-- table -->
+			<div th:insert="~{admin/load/layout :: page}"></div>
+		</div>
+		<!-- content -->
+		</form>
+		<script>
+			$(function(){
+	
+				changeAction = function(link, id) {
+					$("#id").val(id);
+					$("#mainForm").attr("action", link);
+					$("#mainForm").submit();
+				},
+				
+				changeLayer = function(link, id, layer, name) {
+					$("#parent_id").val(id);
+					$("#name").val(name);
+					$("#parent_name").val(name);
+					$("#layer").val(parseInt(layer)+1);
+					$("#mainForm").attr("action", link);
+					$("#mainForm").submit();
+				},
+				
+				checkData = function() {
+					var checkArray = new Array();
+					var checkList;
+					$("input[name='selectList']:checked").each(function(i) {
+						checkArray[i] = this.value;
+					});
+					checkList = checkArray.join(",");
+					if(!checkData){
+						alert('未勾選任何項目，請再確認。');
+						return false;
+					}
+					$.ajax({
+						url: 'checkData',
+						cache: false,
+						async: false,
+						dataType: 'text',
+						type:'POST',
+						data:{
+							checkList : checkList
+						},
+						error: function(xhr) {
+							alert('Ajax request 發生錯誤');
+						},
+						success: function(data) {
+							if(data == "T") {
+								deleteData();
+							} else {
+								alert("您欲刪除的資料還有子項目未刪除，請再確認。");
+							}
+						}
+					});
+				},
+				
+				resetData = function() {
+					$("#name").val('');
+				},
+				
+				gotoPage = function(link) {
+	// 				location.href = link;
+					$("#mainForm").attr("action", link);
+					$("#mainForm").submit();
+				}
+	
+			});
+		</script>
+	</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseUtil.js}"></script>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseForm.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+		<!-- content -->
+	<div class="content">
+		<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${winner}" th:with="btn_name = *{id} == null ? '新增': '修改'">
+			<input type="hidden" id="id" th:field="*{id}" />
+			<input type="hidden" id="parent_category" name="parentCategory"/>
+			<input type="hidden" id="category" th:value="${category}" />
+			<input type="hidden" name="searchItem" th:value="${searchItem}" >
+			<input type="hidden" name="searchYear" th:value="${searchYear}" >
+			<input type="hidden" name="searchName" th:value="${searchName}" >
+			<input type="hidden" name="searchParent_category" th:value="${searchParent_category}" >
+			<input type="hidden" name="searchCategory" th:value="${searchCategory}" >
+			<input type="hidden" id="pageNo" name="pageNo" th:value="${pageNo}">
+			<input type="hidden" id="winnerCategoryId" th:value="${winnerCategory.id}"/>
+			<input type="hidden" id="category_three" th:value="${winner.category_three}">
+			<input type="hidden" id="iconList" name="iconList" />
+			<input type="hidden" id="contentTitleList" name="contentTitleList" />
+			<input type="hidden" id="contentContentList" name="contentContentList" />
+		    <input type="hidden" id="winnerContentIdList" name="winnerContentIdList" />
+			<!-- table -->
+			<table class="table-vertical" cellspacing="0">
+				<caption><h2>贏家經驗談-[[${btn_name}]]頁面</h2></caption>
+				<tr>
+					<th>
+						<span class="important">*</span>年度
+					</th>
+					<td>
+						<input type="text" id="year" th:field="*{year}" placeholder="請輸入3位數，如:105" maxlength="3">
+					</td>
+				</tr>
+				<tr>
+				    <th><span class="important">*</span>類別</th>
+					<td>
+						<select  id="categoryLayerOne" onchange="changeCategory()" th:field="*{parent_category}">
+							<option value="0">請選擇</option>
+							<th:block th:each="dataStatus , data : ${winnerCategoryList}">
+								<option th:value="${dataStatus.id}" >[[${dataStatus.name}]]</option>
+							</th:block>
+						</select>
+						<select id="categoryLayerTwo" th:field="*{category}" onchange="changeCategoryThree()">
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						產品網址分類
+					</th>
+					<td>
+						<input type="text" th:field="*{product_category}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>姓名
+					</th>
+					<td>
+						<input type="text" id="name" th:field="*{name}" maxlength="15">
+					</td>
+				</tr>
+<!-- 				<tr> -->
+<!-- 					<th> -->
+<!-- 						<span class="important">*</span>原就讀學校 -->
+<!-- 					</th> -->
+<!-- 					<td> -->
+<!-- 						<input type="text" id="original" th:field="*{original}" maxlength="15"> -->
+<!-- 					</td> -->
+<!-- 				</tr> -->
+				<tr>
+					<th>
+						<span class="important">*</span>身份敘述
+					</th>
+					<td>
+						<input type="text" id="admitted" th:field="*{admitted}" maxlength="100">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>經驗分享簡介
+						<br/><span class="important" style="font-size:13px; opacity:0.8;">限140個字</span>
+					</th>
+					<td>
+						<textarea id="summary" th:field="*{summary}" maxlength="140">[[*{summary}]]</textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>內容
+					</th>
+					<td id="contentBox">
+						<th:block th:if="*{id == null}">
+						<div class="addDemand"><img class="closebtn" th:src="${@environment.getProperty('static.url')}+@{/images/close.png}" style="display:none">
+
+							<input type="radio" name="icon1" class="icon" value="article_type01.png" />&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type01.png}" style="width:15px;height:20px;" />&nbsp;
+							<input type="radio" name="icon1" class="icon" value="article_type02.png" />&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type02.png}" style="width:19px;height:20px;" />&nbsp;
+							<input type="radio" name="icon1" class="icon" value="article_type03.png" />&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type03.png}" style="width:19px;height:20px;" />
+							<input type="text" name="contentTitle" placeholder="內容標題，字數不得超過100字"  maxlength="100"/>
+							<textarea name="contentContent" placeholder="小提醒：如需做文字的縮排效果，請使用全形的空白鍵。"></textarea>
+						</div>
+						</th:block>
+						<th:block th:unless="*{id == null}">
+						<th:block th:each="dataStatus , data : ${winnerContentList}">
+						<div class="addDemand"><img class="closebtn" th:src="${@environment.getProperty('static.url')}+@{/images/close.png}">
+							<input type="hidden" name="winnerContentId" th:value="${dataStatus.id}"/>
+							
+
+							<input type="radio" th:name="icon+${data.count}"class="icon" th:value="article_type01.png" th:checked="${dataStatus.icon == 'article_type01.png'}"/>&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type01.png}" style="width:15px;height:20px;" />&nbsp;
+							<input type="radio" th:name="icon+${data.count}" class="icon" th:value="article_type02.png" th:checked="${dataStatus.icon == 'article_type02.png'}"/>&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type02.png}" style="width:19px;height:20px;" />&nbsp;
+							<input type="radio" th:name="icon+${data.count}" class="icon" th:value="article_type03.png" th:checked="${dataStatus.icon == 'article_type03.png'}"/>&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type03.png}" style="width:19px;height:20px;" />
+							<input type="text" name="contentTitle" placeholder="內容標題，字數不得超過100字"  maxlength="100" th:value="${dataStatus.title}"/>
+							<textarea name="contentContent" placeholder="小提醒：如需做文字的縮排效果，請使用全形的空白鍵。">[[${dataStatus.content}]]</textarea>
+						</div>
+						</th:block>
+						</th:block>
+						<div id="addContent" class="table-button addDemand-btn" onclick="addContent()">
+							<i class="fa fa-plus plus-btn"></i>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>列表頁圖片<br />(請上傳影片靜圖或學生照)
+					</th>
+					<td>
+						<input type="text" id="list_image" th:field="*{photo}"><font style="color:red;">請輸入圖庫平台URL，尺寸為：尺寸 300*184px</font>
+						<th:block th:if="*{photo!= null}">
+							<br><img th:src="*{photo}" th:alt="*{photo}" width="350px" height="200px" />
+						</th:block>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>內頁圖片<br />(請上傳影片靜圖或學生照)
+					</th>
+					<td>
+						<input type="text" id="inside_image" th:field="*{image}"><font style="color:red;">請輸入圖庫平台URL，尺寸為：尺寸 1180*787px</font>
+						<th:block th:if="*{image != null}">
+							<br><img th:src="*{image}" th:alt="*{image}" width="350px" height="200px" />
+						</th:block>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>影音首頁圖片<br />(請上傳影片靜圖或學生照)
+					</th>
+					<td>
+						<input type="text" id="video_image" th:field="*{video_image}"><font style="color:red;">請輸入圖庫平台URL，尺寸為：尺寸 573*322px</font>
+						<th:block th:if="*{video_image != null}">
+							<br><img th:src="*{video_image}" th:alt="*{video_image}" width="350px" height="200px" />
+						</th:block>
+					</td>
+				</tr>	
+				<tr>
+					<th>影音連結</th>
+					<td>
+						<input type="text" id="video" th:field="*{video}">
+						<font style="color:red;">影音連結-嵌入影音-iframe src="請複製這裡面的url"</font>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>是否顯示於前台
+					</th>
+					<td>
+						<input type="radio" id="show" th:field="*{show}" value="1" th:check="*{show == 1}">是
+						<input type="radio" id="show" th:field="*{show}" value="0" th:check="*{show == 0}">否
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>是否顯示於首頁影音專區<br />(超過5個隨機出現)
+					</th>
+					<td>
+						<input type="radio" id="showIndex" th:field="*{show_index}" value="1" th:checked="*{show_index == 1}">是
+						<input type="radio" id="showIndex" th:field="*{show_index}" value="0" th:checked="*{show_index == 0}">否
+					</td>
+				</tr>		
+				<tr>
+					<th>功能</th>
+					<td class="table-button vertical-btn">
+						<a style="cursor:pointer;" onclick="history.back()">返回</a>
+						<a style="cursor:pointer;" onclick="add()">[[${btn_name}]]</a>
+					</td>
+				</tr>
+			</table><!-- table -->
+		</form>
+	</div><!-- content -->
+	<script>
+		$(function(){
+			if($("#id").val() == 0) {
+				$("#year").val("");
+				$("#categoryLayerOne").val("0");
+			}
+			//刪除
+			$(document).on("click", ".closebtn", function() {
+				if($("#contentBox").children(".addDemand").size() <= 2) {
+					$("#contentBox").find(".closebtn").hide();
+				}
+				$(this).parent(".addDemand").remove();
+				
+				$("#contentBox").children(".addDemand").each(function(i) {
+					$(this).children(".icon").attr("name", "icon"+(i+1));
+				})
+			});
+			
+			changeCategory = function() {
+
+				$.ajax({
+					url: "[[${@environment.getProperty('weburl')}]]/tkbrule/winner/changeCategoryTwo",
+					cache: false,
+					async: false,
+					dataType: "json",
+					type:"GET",
+					data:{
+						id : $("#categoryLayerOne").val()
+					},
+					error: function(xhr) {
+						alert('Ajax request 發生錯誤');
+					},
+					success: function(data) {
+						$("#categoryLayerTwo").empty();
+						$("#categoryLayerThree").empty();
+						$("#categoryLayerTwo").append("<option value='0'>請選擇</option>");
+						
+						if($("#categoryLayerOne").val() == 0) {
+							displayControl($("#categoryLayerTwo"), "hide");
+							displayControl($("#categoryLayerThree"), "hide");
+						} else {
+							displayControl($("#categoryLayerThree"), "hide");
+							displayControl($("#categoryLayerTwo"), "show");
+							
+						}
+						
+						if(data != null && data.length > 0){
+							
+							for(i = 0 ; i < data.length; i++){
+								var winnerCategory = data[i];
+								if(winnerCategory.id == $("#winnerCategoryId").val()){
+									
+									$("#categoryLayerTwo").append("<option value='" + winnerCategory.id + "' selected>" + winnerCategory.name + "</option>");
+									
+								} else {
+									$("#categoryLayerTwo").append("<option value='" + winnerCategory.id + "'>" + winnerCategory.name + "</option>");
+									
+								}
+							}
+						}
+					}
+				});
+				
+				
+			},
+			changeCategoryThree = function() {
+				$.ajax({
+					url: "[[${@environment.getProperty('weburl')}]]/tkbrule/winner/changeCategoryThree",
+					cache: false,
+					async: false,
+					dataType: "json",
+					type:"POST",
+					data:{
+						parent_id : $("#categoryLayerTwo").val()
+					},
+					error: function(xhr) {
+						alert('Ajax request 發生錯誤');
+					},
+					success: function(data) {
+						$("#categoryLayerThree").empty();
+						$("#categoryLayerThree").append("<option value='0'>請選擇</option>");
+						
+						if($("#categoryLayerTwo").val() == 0) {
+							displayControl($("#categoryLayerThree"), "hide");
+						} else {
+							displayControl($("#categoryLayerThree"), "show");
+							
+						}
+						
+						if(data != null && data.length > 0){
+							
+							for(i = 0 ; i < data.length; i++){
+								var winnerCategory = data[i];
+								if(winnerCategory.id == $("#category_three").val()){
+									$("#categoryLayerThree").append("<option value='" + winnerCategory.id + "' selected>" + winnerCategory.name + "</option>");
+									
+								} else {
+									$("#categoryLayerThree").append("<option value='" + winnerCategory.id + "'>" + winnerCategory.name + "</option>");
+									
+								}
+							}
+						}
+					}
+				});
+				
+				
+			},
+			
+			
+			addContent = function() {
+				
+				var str = "<div class='addDemand'><img class='closebtn' src='/images/close.png'>";
+				str += "<input type='hidden' name='winnerContentId' value='0' />";
+				str += "<input type='radio' name='icon1' class='icon' value='article_type01.png' />&nbsp;";
+				str += "<img src='/images/front/article_type01.png' style='width:15px;height:20px;' />&nbsp;";
+				str += "<input type='radio' name='icon1' class='icon' value='article_type02.png' />&nbsp;";
+				str += "<img src='/images/front/article_type02.png' style='width:19px;height:20px;' />&nbsp;";
+				str += "<input type='radio' name='icon1' class='icon' value='article_type03.png' />&nbsp;";
+				str += "<img src='/images/front/article_type03.png' style='width:19px;height:20px;' />";
+				str += "<input type='text' name='contentTitle' placeholder='內容標題，字數不得超過100字' maxlength='100'/>";
+				str += "<textarea name='contentContent' placeholder='小提醒：如需做文字的縮排效果，請使用全形的空白鍵。'></textarea></div>";
+				
+				$("#addContent").before(str);
+				
+				if($("#contentBox").children(".addDemand").size() > 1) {
+					$("#contentBox").find(".closebtn").show();
+				}
+				
+				$("#contentBox").children(".addDemand").each(function(i) {
+					$(this).children(".icon").attr("name", "icon"+(i+1));
+				})
+				
+			},
+			
+			add = function() {
+				
+				var check = "T";
+				
+				//年度判斷
+				if($("#year").val() == "") {
+					alert("請輸入年度");
+					$("#year").focus();
+					return false;
+				}else{
+					if(checkByteLen($("#year").val(), "3")) {
+						alert("年度不可超過3個數字");
+						$("#year").focus();
+						return false;
+					}
+				}
+				
+				//類別判斷
+				if($("#categoryLayerOne").val() == 0 || $("#categoryLayerTwo").val() == 0) {
+					alert("請選擇類別");
+					$("#categoryLayerOne").focus();
+					return false;
+				} else {
+					$("#category").val($("#categoryLayerTwo").val());
+				}
+				
+				//姓名判斷
+				if($("#name").val() == "") {
+					alert("請輸入姓名");
+					$("#name").focus();
+					return false;
+				}else{
+					if(checkByteLen($("#name").val(), "75")) {
+						alert("姓名限輸入中文，不可超過15個字");
+						$("#name").focus();
+						return false;
+					}
+				}
+				//原學校判斷
+// 				if($("#original").val() == "") {
+// 					alert("請輸入原就讀學校");
+// 					$("#original").focus();
+// 					return false;
+// 				}else{
+// 					if(checkByteLen($("#original").val(), "45")) {
+// 						alert("原就讀學校限輸入中文，不可超過15個字");
+// 						$("#original").focus();
+// 						return false;
+// 					}
+// 				}
+				//身份敘述
+				if($("#admitted").val() == "") {
+					alert("請輸入身份敘述");
+					$("#admitted").focus();
+					return false;
+				}else{
+					if(checkByteLen($("#admitted").val(), "300")) {
+						alert("身份敘述限輸入中文，不可超過100個字");
+						$("#admitted").focus();
+						return false;
+					}
+				}
+				
+				//經驗分享簡介判斷
+				if($("#summary").val() == "") {
+					alert("請輸入經驗分享簡介");
+					$("#admitted").focus();
+					return false;
+				}else{
+					if(checkByteLen($("#summary").val(), "420")) {
+						alert("經驗分享簡介字數不可超過140個字");
+						$("#summary").focus();
+						return false;
+					}
+				}
+				
+					
+				
+				
+				//內容判斷
+				$("#contentBox").children(".addDemand").each(function(i) {
+					if($(this).children(".icon:checked").size() != 1) {
+						alert("請選擇ICON");
+						check = "F";
+						return false;
+					}
+					
+					if($(this).children("input[name='contentTitle']").val() == "") {
+						alert("請輸入內容標題");
+						$("input[name='contentTitle']").focus();
+						check = "F";
+						return false;
+					} else {
+						if(checkByteLen($(this).children("input[name='contentTitle']").val(), "900")) {
+							alert("字數不得超過100個字，請重新輸入");
+							$("input[name='contentTitle']").focus();
+							check = "F";
+							return false;
+						}
+					}
+					
+					if($(this).children("textarea[name='contentContent']").val() == "") {
+						alert("請輸入內文");
+						$("textarea[name='contentContent']").focus();
+						check = "F";
+						return false;
+					} else {
+						if(checkByteLen($(this).children("textarea[name='contentContent']").val(), "3860")) {
+							alert("字數太長，請重新輸入");
+							$("textarea[name='contentContent']").focus();
+							check = "F";
+							return false;
+						}
+					}
+				})
+				
+				if(check == "F") {
+					return false;
+				}
+				
+				//列表圖片判斷
+				if ($("#list_image").val() == "") {
+					alert("必須上傳列表頁圖片");
+					$("#list_image").focus();
+					return false;
+				}
+				if(checkURL($("#list_image"))) {
+				   alert("請輸入有效的列表頁圖片網址,ex：http://www.google.com");
+				   $("#list_image").focus();
+				   return false;
+				}
+				
+				//內容圖片判斷
+				if ($("#inside_image").val() == "") {
+					alert("必須上傳內頁圖片");
+					$("#inside_image").focus();
+					return false;
+				}
+				if(checkURL($("#inside_image"))) {
+				   alert("請輸入有效的內頁圖片網址,ex：http://www.google.com");
+				   $("#inside_image").focus();
+				   return false;
+				}
+		  		
+				//判斷影音連結是否正確
+				if(checkURL($("#video"))) {
+				   alert("請輸入有效的影片網址,ex：http://www.google.com");
+				   $("#video").focus();
+				   return false;
+				}		  		
+				
+				//前台是否顯示判斷
+				if($("input[name='show']:checked").size() != 1) {
+					alert("是否顯示於前台");
+					return false;
+				}
+				
+				//ICON串接
+				var iconArray = new Array();
+				var iconList;
+				$(".icon:checked").each(function(i) {
+					iconArray[i] = this.value;
+				});
+				iconList = iconArray.join(",");
+				$("#iconList").val(iconList);
+				
+				//標題串接
+				var contentTitleArray = new Array();
+				var contentTitleList;
+				$("input[name='contentTitle']").each(function(i) {
+					contentTitleArray[i] = this.value;
+					
+				});
+				contentTitleList = contentTitleArray.join(",");
+				$("#contentTitleList").val(contentTitleList);
+				
+				//內容串接
+				var contentContentArray = new Array();
+				var contentContentList;
+				$("textarea[name='contentContent']").each(function(i) {
+					contentContentArray[i] = this.value;
+				});
+				contentContentList = contentContentArray.join(",p_a,");
+				$("#contentContentList").val(contentContentList);
+				
+				
+				
+				//內容ID串接
+				var winnerContentIdArray = new Array();
+				var winnerContentIdList;
+				$("input[name='winnerContentId']").each(function(i) {
+					winnerContentIdArray[i] = this.value;
+				});
+				winnerContentIdList = winnerContentIdArray.join(",");
+				$("#winnerContentIdList").val(winnerContentIdList);
+				
+// 				if($("#list_image").val().indexOf("https://www.tkbtv.com.tw") == -1){
+// 					alert("列表頁圖片請輸入有效的圖庫網址 如：https://www.tkbtv.com.tw");
+// 					$("#list_image").focus();
+// 					return false;
+// 				}
+// 				if($("#inside_image").val().indexOf("https://www.tkbtv.com.tw") == -1){
+// 					alert("內頁圖片請輸入有效的圖庫網址 如：https://www.tkbtv.com.tw");
+// 					$("#inside_image").focus();
+// 					return false;
+// 				}
+// 				if($("#video_image").val().indexOf("https://www.tkbtv.com.tw") == -1){
+// 					alert("影音首頁圖片請輸入有效的圖庫網址 如：https://www.tkbtv.com.tw");
+// 					$("#video_image").focus();
+// 					return false;
+// 				}
+				
+				if($("#id").val() == 0) {
+					link = "addSubmit";
+				} else {
+					link = "updateSubmit";
+				}
+				
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+			}
+			
+			changeCategory();
+			changeCategoryThree();
+			
+		});
+		
+		
+	</script>
+</div>
+</div>
+</body>
+</html>

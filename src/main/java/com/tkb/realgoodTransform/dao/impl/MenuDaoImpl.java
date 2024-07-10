@@ -19,6 +19,9 @@ import com.tkb.realgoodTransform.dao.MenuDao;
 import com.tkb.realgoodTransform.model.Menu;
 import com.tkb.realgoodTransform.model.User;
 
+
+
+
 /**
  * 選單Dao實作類
  * @author Joshua
@@ -34,53 +37,10 @@ public class MenuDaoImpl implements MenuDao {
 	@Autowired
     @Qualifier("postgresqlJdbcTemplate2")
 	private NamedParameterJdbcTemplate postgresqlJdbcNameTemplate;
-
-	@Autowired
-    @Qualifier("fifthJdbcTemplate")
-	private JdbcTemplate fifthJdbcTemplate;
-
-	// ======================================== 開發用method start ========================================= 
-	@Override
-	public List<Map<String, Object>> getListForInsertData() {
-		String sql = "SELECT * FROM MENU";
-		return fifthJdbcTemplate.queryForList(sql);
-	}
-	@Override
-	public List<Map<String, Object>> getListForChecktData() {
-		String sql = "SELECT * FROM MENU";
-		List<Map<String, Object>> list = postgresqlJdbcTemplate.queryForList(sql);
-		if (list != null) {
-			return list;
-		} else {
-			return null;
-		}
-	}
-	@Override
-	public void insertForRemake(Menu menu) {
-		SqlParameterSource parameter = new BeanPropertySqlParameterSource(menu);
-		String sql = "INSERT INTO MENU"
-				+ " (ID, PARENT_ID, NAME, LAYER, LINK, CREATE_BY, CREATE_DATE, UPDATE_BY, UPDATE_DATE) "
-				+ " VALUES(:id, :parent_id, :name, :layer, :link, :create_by, :create_date, :update_by, :update_date)";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-		postgresqlJdbcNameTemplate.update(sql, parameter, keyHolder);
-	}
-	@Override
-	public void updateForRemake(Menu menu) {
-		SqlParameterSource parameter = new BeanPropertySqlParameterSource(menu);
-		String sql = "UPDATE MENU SET "
-		           + "PARENT_ID = :parent_id, "
-		           + "NAME = :name, "
-		           + "LAYER = :layer, "
-		           + "LINK = :link, "
-		           + "CREATE_BY = :create_by, "
-		           + "CREATE_DATE = :create_date, "
-		           + "UPDATE_BY = :update_by, "
-		           + "UPDATE_DATE = :update_date "
-		           + "WHERE ID = :id";
-		KeyHolder keyHolder = new GeneratedKeyHolder();
-		postgresqlJdbcNameTemplate.update(sql, parameter, keyHolder);
-	}
-	// ======================================== 開發用method end =========================================
+	
+//	@Autowired
+//	@Qualifier("oracleJdbcTemlplate")
+//	private JdbcTemplate oracJdbcTemplate;
 
 	@Override
 	public Integer getCount(Menu menu) {
@@ -205,17 +165,19 @@ public class MenuDaoImpl implements MenuDao {
 //		args.add("1");
 		String sql = "SELECT M2.* FROM GROUP_ACTION GA "
 				   + " LEFT JOIN GROUPS G ON GA.GROUP_ID = G.ID"
-				   + " LEFT JOIN MENU M ON M.ID = GA.ACTION_ID "
+				   + " LEFT JOIN MENU M ON M.ID = GA.ACITON_ID "
 				   + " LEFT JOIN MENU M2 ON M2.ID = M.PARENT_ID "
 				   + " LEFT JOIN GROUP_USER GU ON GU.GROUP_ID = G.ID "
 				   + " LEFT JOIN USER_ACCOUNT UA ON UA.ID = GU.USER_ID "
 				   + " WHERE M2.LAYER = ? "
-				   + " AND UA.ACCOUNT = ? "
+				   + " AND UA.ACCOUNT = upper(?) "
 				   + " GROUP BY M2.ID ";
 		args.add("1");
 		args.add(user.getAccount());
 		
-		return postgresqlJdbcTemplate.query(sql, new BeanPropertyRowMapper<Menu>(Menu.class), args.toArray());
+		List<Menu> query = postgresqlJdbcTemplate.query(sql, new BeanPropertyRowMapper<Menu>(Menu.class), args.toArray());
+		
+		return query;
 	}
 
 	@Override
@@ -266,7 +228,7 @@ public class MenuDaoImpl implements MenuDao {
 		List<Object> args = new ArrayList<>();
 		String sql = "";
 		if (group_id != 0) {
-			sql = "SELECT m.id AS id, m.name AS name, ga.group_id AS group_id, ga.aciton_id AS group_aciton_id "
+			sql = "SELECT m.id AS id, m.name AS name, ga.group_id AS group_id, ga.aciton_id AS group_action_id "
 					+ "FROM menu m "
 					+ "LEFT JOIN group_action ga ON ga.aciton_id = m.id AND ga.group_id = ? "
 					+ "WHERE m.layer = ? "
@@ -279,6 +241,27 @@ public class MenuDaoImpl implements MenuDao {
 			args.add("2");
 		}
 		return postgresqlJdbcTemplate.queryForList(sql, args.toArray());
+	}
+
+	@Override
+	public Integer getMenuId(String link) {
+		
+		List<Object> args = new ArrayList<Object>();
+		
+		String sql = " SELECT ID FROM MENU WHERE LINK = ? ";
+		
+		args.add(link);
+		
+//		List<Integer> resultLis = oracJdbcTemplate.queryForList(sql, Integer.class, args.toArray());
+		
+//		if (resultLis.isEmpty()) {
+//		    return 0;
+//		} else {
+//		    return resultLis.get(0);
+//		}
+		
+		return 0;
+		
 	}
 
 }

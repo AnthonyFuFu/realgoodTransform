@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseForm.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+		
+		<!-- content -->
+		<div class="content">
+			<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${gSATNews}" th:with="btn_name=${gSATNews.id==null ? '新增' : '修改'}">
+			<input type="hidden" id="id" th:field="*{id}" />
+			<!-- table -->
+			<table class="table-vertical" cellspacing="0">
+				<caption>
+					<h2>
+						一點通-最新消息-[[${btn_name}]]頁面
+					</h2>
+				</caption>
+				<tr>
+					<th>
+						<span class="important">*</span>
+						類別
+					</th>
+					<td>
+						<select id="fare" th:field="*{category}">
+								<option value="0">請選擇</option>
+								<option value="最新考情" th:selected="*{category == '最新考情'}">最新考情</option>
+								<option value="班內訊息" th:selected="*{category == '班內訊息'}">班內訊息</option>
+							</select>
+					</td>
+				</tr>				
+				<tr>
+					<th>
+						<span class="important">*</span>
+						最新消息標題
+					</th>
+					<td>
+						<input type="text" id="title" th:field="*{title}">
+					</td>
+				</tr>
+				<tr>
+				<tr>
+					<th>
+						<span class="important">*</span>
+						內容
+					</th>
+					<td>
+						<textarea class="ckeditor" cols="80" id="contentArea" th:field="*{content}" name=contentArea rows="12"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>是否顯示於前台
+					</th>
+					<td>
+						<input type="radio" id="show" name="gSATNews.show" th:checked="${gSATNews.show == 1}" value="1" th:field="*{show}">是
+						<input type="radio" id="show" name="gSATNews.show" th:checked="${gSATNews.show == 0}" value="0" th:field="*{show}">否
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>開始日期</th>
+					<td>
+						<input type="text" id="begin_date" placeholder="開始日期" th:field="*{begin_date}" format="yyyy-MM-dd"/>
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>結束日期</th>
+					<td>
+						<input type="text" id="end_date"   placeholder="結束日期" th:field="*{end_date}" format="yyyy-MM-dd" />
+					</td>
+				</tr>
+				<tr>
+					<th>功能</th>
+					<td class="table-button vertical-btn">
+						<a style="cursor:pointer;" href="index">返回</a>
+						<a style="cursor:pointer;" onclick="add()">[[${btn_name}]]</a>
+					</td>
+				</tr>
+			</table>
+			<!-- table -->
+		</form>
+	</div>
+	<!-- content -->
+	</div>
+	</div>
+	<script>
+		$(function(){
+			//小日曆
+			$("#begin_date").datepicker({dateFormat: 'yy-mm-dd'});
+			$("#end_date").datepicker({dateFormat: 'yy-mm-dd'});		
+			//刪除
+			$(document).on("click", ".closebtn", function() {
+				if($("#contentBox").children(".addDemand").size() <= 2) {
+					$("#contentBox").find(".closebtn").hide();
+				}
+				$(this).parent(".addDemand").remove();
+			
+			});	
+
+			add = function() {
+				var check = "T";
+			  //類別判斷
+				if($("#fare").val() == "" || $("#fare").val()=="0") {
+					alert("請選擇類別");
+					return false;
+				}		
+				//標題判斷
+				if($("#title").val() == "") {
+					alert("請輸入標題名稱");
+					return false;
+				}
+				else {
+					if(checkByteLen($("#title").val(), "120")) {
+						alert("標題限40字，請重新輸入");
+						return false;
+					}
+				}
+							
+				//內容
+				if($("#contentArea").val() == "") {
+					alert("請輸入內容");
+					return false;
+				}	
+
+				//前台是否顯示判斷
+				if($("input[name='show']:checked").size() != 1) {
+					alert("是否顯示於前台");
+					return false;
+				}
+				//開始日期判斷
+				if($.trim($("#begin_date").val())==""){
+					$("#begin_date").focus();
+					alert("開始時間不可為空");
+					return false;
+				}
+				
+				//結束日期判斷
+				if($.trim($("#end_date").val())==""){
+					$("#end_date").focus();
+					alert("結束時間不可為空");
+					return false;
+				}
+				//日期起迄判斷
+				var beginDate = Date.parse($.datepicker.formatDate('yy/mm/dd', new Date($("#begin_date").val()))+" 00:00:00");
+				var endDate = Date.parse($.datepicker.formatDate('yy/mm/dd', new Date($("#end_date").val()))+" 00:00:00");
+				if (endDate.valueOf() <= beginDate.valueOf()){
+					$("#begin_date").focus();
+					alert("開始時間不可大於等於結束時間");
+					return false;
+				}				
+				
+				var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+			}
+
+		});
+	</script>
+</body>

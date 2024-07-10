@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>[[${chosenArticle.title}]]-TKB甄戰學習顧問中心</title>
+<meta name="description" th:content="|${chosenArticle.summary}|" />
+<meta name="keywords" content="TKB甄戰學習顧問中心" />
+<meta property="og:title" th:content="|${chosenArticle.title}-TKB甄戰學習顧問中心|"/>
+<meta property="og:type" content="website" />
+<meta property="og:url" th:content="|/chosenArticle/inside?str=${shareStr}|" />
+<meta property="og:image" th:content="|${chosenArticle.image_url}|" />
+<meta property="og:site_name" content="TKB甄戰學習顧問中心" />
+<meta property="og:description" th:content="|${chosenArticle.summary}|" />
+
+
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css?v=20210705}" />	<!-- 電腦版 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick-theme.css}" /> 
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slick.css}" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/slides.css}" />
+<!-- 20190625 end -->
+<link th:insert="~{front/loadForOldPage/js :: common}">
+<!-- Global site tag (gtag.js) - Google Ads: 957644279 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-957644279"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-957644279');
+</script>
+</head>
+<body>
+<!-- 行動版 -->
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<div class="wrapper"> 
+	<!-- 20190625 start -->
+	<div class="header-box">  
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>
+	<div class="content">
+		<div class="ad">
+		<th:block th:if="${#lists.size(navBannerList)==3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<th:block th:if="${data.count == 1}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			<th:block th:if="${data.count == 2}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			</th:block>
+		</th:block>
+		<th:block th:if="${#lists.size(navBannerList)<3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<div><a th:href="${dataStatus.link}" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+			</th:block>
+		</th:block>
+		
+		
+		
+		<th:block th:if="${#lists.size(navBannerList)==3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<th:block th:if="${data.count == 3}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			</th:block>
+		</th:block>
+		
+		
+		
+	
+		
+		
+		<div class="metaBox"></div>
+		
+		
+		
+	
+		
+		
+		
+		<th:block th:each="dataStatus , data : ${navBannerType2List}">
+			<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+		</th:block>
+		</div>
+		<!--             ad -->
+            
+            <div class="main_area">
+            
+	            <h1>精選文章</h1>
+	            <div class="back"><a th:href="@{/chosenArticle/index}">回上頁</a></div>
+	            <hr/>
+	            <h2>[[${chosenArticle.title}]]</h2>
+	            <div class="community_API">
+					<a th:href="@{'https://www.facebook.com/sharer/sharer.php?u=' + @{https://byone.tkb.com.tw/lectures/inside?{str}}(str=${shareStr})}" target="_blank" ><img th:src="${@environment.getProperty('static.url')}+@{/images/front/fb_api.png}"></a>
+				</div>
+	            <div class="viewers">[[${chosenArticle.click_rate}]]</div>
+	            <div class="release" th:text="發佈時間：+${#strings.replace(#strings.substring(chosenArticle.create_date, 0, 10), '-', '/')}"></div>
+	            <div class="update" th:text="更新時間：+${#dates.format(chosenArticle.update_date, 'yyyy/MM/dd')}"></div>
+				<div class="poster"><img th:src="${chosenArticle.banner_url}"/></div>
+                <div class="lecture_title">【[[${chosenArticle.title}]]】</div>
+                <hr/>
+				<div class="article">
+				<div th:utext="${chosenArticle.quote_content_string}"> 
+				</div>
+<!-- 				<div class="article"> -->
+<!-- 				[[${chosenArticle.content_string}]] -->
+<!-- 				</div> -->
+				<div class="article" th:utext="${chosenArticle.content_string}"></div>
+            
+            	</div>
+			<div class="clear_float"></div>
+			<hr/>
+			
+			<h2>如對本專案有相關問題，歡迎填表洽詢，有專人為您解答　*必填123</h2> 
+		
+			<div class="red_word">　*必填</div> 
+			
+			<form id="ReceiveForm" method="POST" enctype="multipart/form-data">
+<!-- 		<input type="hidden" id ="transfer_code" value="課程諮詢-甄戰學習顧問網" /> -->
+		<input type="hidden" id ="transfer_code" th:value="${chosenArticle.title}" />
+        <input type="hidden" name="loginEquipment" th:value="${login_equipment}"/><!-- 登入裝置 -->
+        <input type="hidden" id="print_id" name="print_id" value="0" /><!-- PO版人 -->
+        <input type="hidden" id="type_code" name="type_code" value="ARTICLE" />
+		<input type="hidden" id="type_id" name="type_id" value="0" />
+            
+		<table>
+                <tr>
+                <th width="20%">真實姓名<span>*</span></th>
+                <td class="schedule_form"><input type="text" id="formname" maxlength="6" /></td>
+                </tr>
+                <tr>
+                <th>行動電話<span>*</span></th>
+                <td class="schedule_form"><input type="tel" id="cellphone" maxlength="10" /></td>
+                </tr>
+                <tr>
+                <th>電子郵件<span>*</span></th>
+                <td class="schedule_form"><input type="email" id="email" maxlength="30" /></td>
+                </tr>
+                <tr>
+                <th>諮詢地點<span>*</span></th>
+                <td class="schedule_form">
+					<select id="toArea" name="toArea">			
+						<option value="0">請選擇</option>			
+              	  </select>
+                </td>
+                </tr>
+                <tr>
+                <th>可聯絡時間<span>*</span></th>
+                <td class="schedule_form">
+					<select id="take" name="take">
+						<option value="0">皆可</option>
+						<option value="1">早上</option>
+						<option value="2">中午</option>
+						<option value="3">下午</option>
+						<option value="4">晚上</option>
+					</select>
+                </td>
+                </tr>
+<!--                  <tr> -->
+<!--                <th> -->
+<!--                目前背景 -->
+<!--                </th> -->
+<!--                <td id="backgroundTd" class="schedule_form"> -->
+<!--                	<select id="backgroundSelect" onchange="backgroundSearch(this.options[this.options.selectedIndex].value)"> -->
+<!--                		<option value="0">--在校/在職--</option> -->
+<!--                		<option value="1">在校</option> -->
+<!--                		<option value="2">在職</option> -->
+<!--                	</select> -->
+<!-- 				<select id="areaSelect" onchange="schoolSearch()"> -->
+<!-- 					<option value="0">--區域--</option> -->
+<!-- 				</select> -->
+<!-- 				<select id="degreeSelect" onchange="schoolSearch()"> -->
+<!-- 					<option value="0">--學制--</option> -->
+
+<!-- 				</select> -->
+<!-- 				<select id="schoolSelect"> -->
+<!-- 					<option value="0">--就讀學校--</option> -->
+<!-- 				</select>					 -->
+<!-- 				<select id="workBackgroundSelect"> -->
+<!-- 					<option value="0">--背景--</option> -->
+<!-- 					<option value="1">電類</option> -->
+<!-- 					<option value="3">資訊類</option>	 -->
+<!-- 					<option value="4">機械類</option>					 -->
+<!-- 					<option value="5">土木類</option> -->
+<!-- 					<option value="6">環工類</option> -->
+<!-- 					<option value="7">化工類</option> -->
+<!-- 					<option value="8">語言類</option> -->
+<!-- 					<option value="9">商管類</option> -->
+<!-- 					<option value="10">行政類</option> -->
+<!-- 				</select> -->
+<!--                </td> -->
+<!--                </tr>    -->
+				<tr>
+                	<th>是否寄送電子報<span>*</span></th>
+               	 <td>
+                	<input type="radio"  name="agree_send" value="1"/>是
+                	<input type="radio"  name="agree_send" value="0"/>否
+                </td>
+                </tr>
+                <tr>
+                <th>
+                	<div style="margin-bottom:5px">備註描述</div>
+				</th>
+                <td class="schedule_form">
+                <textarea name="ps" placeholder="限250個中文字" ></textarea>
+                <p><br />註：同學若有預約試聽或課程諮詢等需求，均可留言，我們會儘快與您聯絡。</p>
+                </td>
+                </tr>
+            </table>
+            <input id="sale_agree" checked type="checkbox" />我想收到最新考試資訊及課程優惠電子報<br>
+            <input id="is_read" type="checkbox" />請勾選已詳細閱讀及了解本站之<a th:href="@{/common/personLaw}" target="_blank"><span><u>個資法及隱私權相關規範</u></span></a>
+            <div class="send"><a onclick="toReceive()" style="cursor:pointer;">送出資料</a></div>	
+		</form>	
+			
+			
+			
+			
+			
+			
+			<hr/>
+			
+			
+			
+			
+				<div class="extend">
+			<th:block th:if="${!#lists.isEmpty(nextList)}" th:each="dataStatus , data : ${nextList}">
+				<div class="previous">
+				<th:block th:if="${dataStatus.product_category==null||dataStatus.product_category==''}">
+					<a id="name1" th:href="@{'/chosenArticle/inside?str=' +${dataStatus.encrypturl}}">
+				</th:block>
+				<th:block th:unless="${dataStatus.product_category==null||dataStatus.product_category==''}">
+					<a id="name1" th:href="@{'/chosenArticle/inside?str=' +${dataStatus.encrypturl}+'&product_category='+${dataStatus.product_category}}">
+				</th:block>				
+				<img th:src="${@environment.getProperty('static.url')}+@{/images/front/previous.png}">上一篇：[[${dataStatus.title}]]</a></div>
+			</th:block>
+			<th:block th:if="${!#lists.isEmpty(prevList)}" th:each="dataStatus , data : ${prevList}">
+				<div class="next">
+				<th:block th:if="${dataStatus.product_category==null||dataStatus.product_category==''}">
+					<a id="name2" th:href="@{'/chosenArticle/inside?str=' +${dataStatus.encrypturl}}">
+				</th:block>
+				<th:block th:unless="${dataStatus.product_category==null||dataStatus.product_category==''}">
+					<a id="name2" th:href="@{'/chosenArticle/inside?str=' +${dataStatus.encrypturl}+'&product_category='+${dataStatus.product_category}}">
+				</th:block>	
+				<img th:src="${@environment.getProperty('static.url')}+@{/images/front/next.png}">下一篇：[[${dataStatus.title}]]</a></div>
+			</th:block>
+		</div><!-- extend -->
+		
+		
+		
+
+			<div class="clear_float"></div>
+			<br>
+			
+			
+			
+			
+		</div>
+		
+		
+		
+
+        </div><!-- content -->   
+        
+        
+        
+       
+        
+		<div th:insert="~{front/loadForOldPage/layout :: footer}"></div>
+		<script th:src="${@environment.getProperty('static.url')}+@{/js/facebook_Adjust.js}"></script>
+		<script th:src="${@environment.getProperty('static.url')}+@{/js/front/advertising.js}"></script>	     
+    </div><!-- wrapper -->
+<script>
+banner_toInside = function(id) {
+	
+	$.ajax({
+		url: "[[${@environment.getProperty('weburl')}]]/navBannerUpdateClickRate",
+		cache: false,
+		async: false,
+		type:"POST",
+		data:{
+			id : id
+		},
+		success: function(data) {
+			
+		}
+	});
+	
+}
+</script>
+
+
+<script>
+$(function(){
+	
+	toGetLocationList();
+// 	getSchoolArea();
+	$("#backgroundTd select").hide();
+	$("#backgroundSelect").show();
+	let currentURL = new URLSearchParams(document.location.search);
+	var strValue = currentURL.get('print_id');
+	toReceive = function(){
+		var phonecheck = /^[09]{2}[0-9]{8}$/;//檢查手機正則表達式
+		var emailcheck = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/;//檢查信箱正則表達式
+		var emailendcheck = /\.$/;//信箱結尾不可為.
+		var printcheck = /^[0-9]*$/;//檢查print_id正則表達式
+		
+		if(strValue==null){
+			strValue=$("input[name='print_id']").val()
+		}
+		
+		
+			if($("#formname").val() == ""){
+				alert("請輸入真實姓名");
+				return false;
+			}
+		
+			if($("#cellphone").val() == ""){
+				alert("請輸入行動電話");
+				return false;
+			}
+		
+			if(!phonecheck.test($("#cellphone").val())){
+				alert("請輸入正確的行動電話");
+				return false;
+			}
+		
+			if($("#email").val() == ""){
+				alert("請輸入電子郵件");
+				return false;
+			}
+		
+			if(!emailcheck.test($("#email").val())){
+				alert("不是正確的信箱格式");
+				return false;
+			}
+		
+			if(emailendcheck.test($("#email").val())){
+			alert("不是正確的信箱格式");
+					return false;
+			}	
+			if($("#toArea").val() == 0 ) {
+				if(document.getElementById("toArea").parentElement.previousElementSibling.innerHTML=="詢問班別<span>*</span>"){
+					alert("請選擇詢問班別")
+					return false;
+				}else{
+					alert("請選擇地點");
+					return false;
+				}
+			}
+			
+			if(!$("#is_read").prop("checked")){
+				alert("請勾選已詳細閱讀及了解本站之個資法及隱私權相關規範");
+				return false;
+			}	
+			var transferCode = $("#transfer_code").val();
+			var memo = $("textarea[name='ps']").val();
+			var backgroundDetail = "";
+			var areaSelect = $("#areaSelect").find(":selected").val() == 0 ? "" : $("#areaSelect").find(":selected").text();
+			var schoolSelect = $("#schoolSelect").find(":selected").val() == 0 ? "" : $("#schoolSelect").find(":selected").text();
+			var workBackgroundSelect = $("#workBackgroundSelect").find(":selected").val() == 0 ? "" : " 背景類別為"+$("#workBackgroundSelect").find(":selected").text();
+			
+			if($("#backgroundSelect").find(":selected").val() == 1){
+				
+				backgroundDetail += "  目前"+$("#backgroundSelect").find(":selected").text();
+				
+				if(areaSelect != "" || schoolSelect != ""){
+					backgroundDetail+=  " 就讀於"+areaSelect
+					                +  schoolSelect
+	                                +  workBackgroundSelect;
+				}else{
+					backgroundDetail += workBackgroundSelect;
+				}
+				
+			}
+			if($("#backgroundSelect").find(":selected").val() == 2){
+				backgroundDetail += "  目前"+$("#backgroundSelect").find(":selected").text()
+								 + workBackgroundSelect;
+			}
+			if (transferCode && transferCode !== null) {
+				memo += ", 來源名稱："+$("#transfer_code").val()+",";
+			}
+			memo += backgroundDetail;
+			
+			var sale_agree = 1;
+			if ($("#sale_agree").prop("checked")) {
+			    sale_agree = 1;
+			} else {
+			    sale_agree = 0;
+			}
+			
+			
+			$(".send a").attr("disabled",true);
+			$(".send a").css("pointer-events","none");
+			
+			var json = {};
+			var childname = $("#formname").val();
+			var phone = $("#cellphone").val();
+			var email = $("#email").val();
+			var webLocation = $("#toArea").val();
+			var contactTime = $("#take").val();
+			var saleAgree = sale_agree;
+			var printId = strValue;
+			var loginEquipment = $("input[name='loginEquipment']").val();
+			var time = new Date();
+			var create_time = DateFormat(time, 'yyyy-MM-dd HH:mm:ss');
+			var typeCode = $("input[name='type_code']").val();
+			var typeId = $("input[name='type_id']").val();
+			var keyword = $("input[name='keyword']").val();
+			var network = $("input[name='network']").val();
+			var device = $("input[name='device']").val();
+			var campaignid = $("input[name='campaignid']").val();
+			var isGoogleAd = $("input[name='is_google_ad']").val();
+			json.NAME = childname;
+			json.PHONE = phone;
+			json.E_MAIL = email;
+			json.WEB_LOCATION_ID = webLocation;
+			json.CREATE_DATE = create_time;
+			json.CONTACT_TIME = contactTime;
+			json.SALE_AGREE = saleAgree.toString();
+			json.MEMO = memo;
+			json.PRINT_ID = printId;
+			json.IS_READ = '1';
+			json.LOGIN_EQUIPMENT = loginEquipment;
+			json.IS_DEL = '0';
+			json.ANATOMIC = 'R';
+			json.TYPE_ID = typeId;
+			json.TYPE_CODE = typeCode;
+			json.IS_IMPORT = '0';
+			json.IS_POST_EC = '0';
+			json.KEYWORD = keyword;
+			json.NETWORK = network;
+			json.DEVICE = device;
+			json.CAMPAIGN_ID = campaignid;
+			json.IS_GOOGLE_AD = isGoogleAd;
+			
+			var data = JSON.stringify(json);
+			var data2 = DES_Encrypt(data);
+			
+// 			console.log("data" + data);
+			
+			
+		$.ajax({
+			url: "https://www.tkbtv.com.tw/api/formList/import",
+			cache : false,
+			async : true,
+			dataType : "text",
+			type : "POST",
+			data : data2,
+			error: function(xhr) {
+				alert('Ajax request 發生錯誤');
+			},
+			error: function(err, tst, xhr) {
+				   alert(JSON.stringify(err.responseText));
+				   alert('送單異常');
+			},
+			success: function(data) {
+				window.location.assign("/common/sendFormSuccess.html");
+			}
+		});
+	}	
+	
+});
+//取得參加地點
+function toGetLocationList(){
+	var json = {};
+	json.WEB = 'R';
+	var data = JSON.stringify(json);
+	var data2 = DES_Encrypt(data);
+	
+	$.ajax({
+		url : "https://www.tkbtv.com.tw/api/webLocation/queryListByWeb",
+		cache: false,
+		async: true,
+		dataType: "text",
+		type:"POST",
+		data : data2,
+		error: function(xhr) {
+			alert('取得參加地點失敗');
+		},
+		success : function(data) {
+			if (data != null && data.length > 0) {
+				var str = "<option value='0'>請選擇</option>";
+				var result = JSON.parse(data);
+				var resultArray = result.data.WEB_LOCATION_LIST;
+				$("#toArea").empty();
+				for(i = 0 ; i<resultArray.length ; i++){
+					var location = resultArray[i];
+					str += "<option value='"+location.WEB_LOCATION_ID+"'>"+location.LOCATION+"</option>";
+				}
+				$("#toArea").append(str);
+			} else {
+				alert('取得參加地點失敗');
+			}
+		}
+	});
+}
+function getSchoolArea(){
+	//進入edm頁面取得學校資料的下拉式選單
+	$.ajax({
+		url: "/getSchoolArea",
+		cache: false,
+		async: false,
+		dataType: "json",
+		type:"POST",
+		data:{},
+		error: function(xhr) {
+			alert('Ajax request 發生錯誤');
+		},
+		success: function(data) {
+			var appendStr="";
+			$.each(data[0], function(i, item){
+				appendStr += "<option value='"+item.code+"'>"+item.description+"</option>"
+			});
+			$("#areaSelect").append(appendStr);
+			appendStr = "";
+			
+			$.each(data[1], function(i, item){
+				appendStr += "<option value='"+item.code+"'>"+item.description+"</option>"
+			});
+			$("#degreeSelect").append(appendStr);
+			appendStr = "";
+			
+			$.each(data[2], function(i, item){
+				appendStr += "<option value='"+item.school_no+"'>"+item.chinese_name+"</option>"
+			});
+			$("#schoolSelect").append(appendStr);
+			
+		}
+	});
+}
+function schoolSearch(){
+	$.ajax({
+		url: "/searchSchool",
+		cache: false,
+		async: false,
+		dataType: "json",
+		type:"POST",
+		data:{
+			degree : $("#degreeSelect").val(),
+			area : $("#areaSelect").val(),
+			school_category : $("#schoolCategorySelect").val()
+		},
+		error: function(xhr) {
+			alert('Ajax request 發生錯誤');
+		},
+		success: function(data) {
+			var str = "";
+			if(data != null && data.length > 0){
+				
+				$("#schoolSelect").empty();
+				str += "<option value='0'>--就讀學校--</option>";
+				for(i = 0 ; i < data.length; i++){
+					var schoolArray = data[i];
+					str += "<option value='"+schoolArray.school_no+"'>"+schoolArray.chinese_name+"</option>";
+				}
+				$("#schoolSelect").append(str);
+			}else{
+				alert("查無此資料");
+				$("#schoolSelect").empty();
+				$("#schoolSelect").append("<option value='0'>--就讀學校--</option>");
+			}
+		}
+	});
+}
+backgroundSearch = function(num){
+	if(num== 1){
+		$("#backgroundTd select").show();
+		$('#backgroundTd select').prop('selectedIndex',0);
+		$("#backgroundSelect").val(num);
+	}
+	
+	else if(num == 2){
+		$("#backgroundTd select").hide();
+		$("#backgroundSelect").show();
+		$("#workBackgroundSelect").show();
+		$('#backgroundTd select').prop('selectedIndex',0);
+		$("#backgroundSelect").val(num);
+	}
+	else{
+		$("#backgroundTd select").hide();
+		$('#backgroundTd select').prop('selectedIndex',0);
+		$("#backgroundSelect").show();
+	}
+}
+function DateFormat(date, format) {
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
+	const hour = date.getHours();
+	const minute = date.getMinutes();
+	const second = date.getSeconds();
+	const map = {
+		'yyyy': year,
+		'MM': String(month).padStart(2, '0'),
+		'dd': String(day).padStart(2, '0'),
+		'HH': String(hour).padStart(2, '0'),
+		'mm': String(minute).padStart(2, '0'),
+		'ss': String(second).padStart(2, '0')
+	};
+	return format.replace(/yyyy|MM|dd|HH|mm|ss/g, match => map[match]);
+}
+</script>
+
+</body>
+</html>

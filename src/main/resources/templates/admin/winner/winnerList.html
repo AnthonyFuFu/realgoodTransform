@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+<form id="mainForm" method="POST" th:object="${winner}">
+		<input type="hidden" id="id" th:field="*{id}" />
+		<input type="hidden"  id="winnerCategoryId" th:field="${winnerCategory.id}">
+		<input type="hidden" id="deleteList" name="deleteList" />
+		<input type="hidden" id="searchParent_category" th:value="${searchParent_category}" />
+		<input type="hidden" id="searchCategory" th:value="${searchCategory}" />
+		
+		<!-- content -->
+		<div class="content">
+			<!-- button group -->
+			<div class="btn-group">
+				<ul>
+					<li><a href="javascript:void(0)" onclick="gotoPage('add')">新增</a></li>
+					<li><a href="javascript:void(0)" onclick="checkAll()">全選</a></li>
+					<li><a href="javascript:void(0)" onclick="deleteData()">刪除</a></li>
+					<li><a href="updateNormalData">去更新正是機資料到本地</a></li>
+				</ul>
+			</div>
+			<!-- button group -->
+			
+			<!-- search -->
+			<div class="search">
+				<ul>
+					<li>
+						<select  id="categoryLayerOne" th:field="*{parent_category}" onchange="changeCategoryTwo()">
+							<option value="">請選擇</option>
+							<th:block th:each ="dataStatus , data : ${winnerCategoryList}" id="winnerCategory">
+									<option th:value="${dataStatus.id}" th:selected="${dataStatus.id}" >[[${dataStatus.name}]]</option>								
+							</th:block>
+						</select>
+						<select id="categoryLayerTwo" th:field="*{category}">
+							<option value="">請選擇</option>
+							<th:block th:each="dataStatus , data : ${winnerCategoryIIList}" id="winnerCategoryII">
+								<option th:value="${dataStatus.id}" th:selected="${dataStatus.id}">[[${dataStatus.name}]]</option>
+							</th:block>
+						</select>
+					</li>
+					<li>
+						<select id="searchItem" name="searchItem">
+						<option value="" th:selected="${searchItem eq ''}">請選擇</option>
+					    <option value="1" th:value="year" th:selected="${searchItem eq 'year'}">年度</option>
+					    <option value="2" th:value="name" th:selected="${searchItem eq 'name'}">姓名</option>
+						</select>
+					</li>
+					<li>
+					<input type="text" id="year" th:field="*{year}">
+					<input type="text" id="name" th:field="*{name}">
+					<li><button class="search-button" onclick="search()">搜尋</button></li>
+					<li><button class="search-button" onclick="resetData()">清除</button></li>
+				</ul>
+			</div>
+			<!-- search -->
+			
+			<!-- table -->
+			<table class="table-horizon">
+				
+				<caption><h2>贏家經驗談</h2></caption>
+				
+				<thead>
+					<tr>
+						<th></th>
+						<th>序號</th>
+						<th>年度</th>
+						<th>類別</th>
+						<th>子類別</th>
+						<th>姓名</th>
+						<th>顯示於前台</th>
+						<th>影音顯示於首頁</th>
+						<th>是否有影音</th>
+						<th>點閱次數</th>
+						<th class="width-fixed">功能</th>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:if="${#lists.isEmpty(winnerList)}">
+						<tr>
+							<td colspan="9" align="center">尚無任何資料</td>
+						</tr>
+					</th:block>
+					<th:block th:each="dataStatus , data : ${winnerList}" th:with="show_name=${dataStatus.show} == 0 ? '否': '是' 
+																				  ,show_index=${dataStatus.show_index} == 0 ? '否': '是'
+																				  ,video=${(dataStatus.video == null or dataStatus.video.isEmpty()) ? '否' : '是'}">
+						<tr>
+							<td><input type="checkbox" name="selectList" th:value="${dataStatus.id}"/></td>
+							<td th:text="${(pageNo-1) * pageCount + data.count}"></td>
+							<td th:text="${dataStatus.year}"></td>
+							<td th:text="${dataStatus.parent_name}"></td>
+							<td th:text="${dataStatus.category_name}"></td>
+							<td th:text="${dataStatus.name}"></td>
+							<td th:text="${show_name}"></td>
+							<td th:text="${show_index}"></td>
+							<td th:text="${video}"></td>
+							<td th:text="${dataStatus.click_rate}"></td>
+							<td class="table-button width-fixed">
+								<a href="javascript:void(0)" title="瀏覽" th:onclick="|javascript:changeAction('view', '${dataStatus.id}')|"><i class="fa fa-eye"></i></a>
+								<a href="javascript:void(0)" title="修改" th:onclick="|javascript:changeAction('update','${dataStatus.id}')|"><i class="fa fa-pencil"></i></a>
+							</td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+			<!-- table -->
+			<div th:insert="~{admin/load/layout :: page}"></div>
+		</div>
+		<!-- content -->
+ 	</form>
+		
+	<script>
+
+		$(function(){
+			if($("#year").val() == ""){
+				$("#year").hide();
+			}
+			if($("#name").val() == ""){
+				$("#name").hide();
+			}
+			
+			
+
+
+			
+// 			if($("#categoryLayerTwo").val() == ""){
+// 				$("#categoryLayerTwo option").hide();
+// 			}
+			
+			$("#content").hide();
+			
+			$("#searchItem").change(function() {
+
+				if($("#searchItem").val() == "name"){
+					$("#year").hide();
+					$("#name").show();
+					$("#content").hide();
+					$("#name").val('');
+					$("#year").val('');
+					$("#content").val('');
+				}
+				if($("#searchItem").val() == "content"){
+					$("#year").hide();
+					$("#name").hide();
+					$("#content").show();
+					$("#name").val('');
+					$("#year").val('');
+					$("#content").val('');
+				}
+				if($("#searchItem").val() == "year"){
+					$("#year").show();
+					$("#name").hide();
+					$("#content").hide();
+					$("#name").val('');
+					$("#year").val('');
+					$("#content").val('');
+				}
+				if($("#searchItem").val() == ""){
+					$("#year").hide();
+					$("#name").hide();
+					$("#content").hide();
+					$("#name").val('');
+					$("#year").val('');
+					$("#content").val('');
+				}
+			}), 
+
+			changeCategoryTwo = function() {
+				
+				$("#parent_category").val($("#categoryLayerOne").val());
+				$("#categoryLayerTwo").hide();
+				$.ajax({
+					url: "[[${@environment.getProperty('weburl')}]]/tkbrule/winner/changeCategoryTwo",
+					cache: false,
+					async: false,
+					dataType: "json",
+					type:"GET",
+					data:{
+						id : $("#categoryLayerOne").val()
+					},
+					error: function(xhr) {
+						alert('Ajax request 發生錯誤!');
+					},
+					success: function(data) {
+						$("#year").hide();
+						$("#name").hide();
+
+						$("#categoryLayerTwo").empty();
+						
+						if(data != null && data.length > 0){
+							$("#categoryLayerTwo").append("<option value=''>請選擇</option>");
+							$("#categoryLayerTwo").show();
+							for(i = 0 ; i < data.length; i++){
+								var winnerCategory = data[i];
+								if(winnerCategory.id == $("#winnerCategoryId").val()){
+									$("#categoryLayerTwo").append("<option value='" + winnerCategory.id + "' selected>" + winnerCategory.name + "</option>");
+								} else {
+									$("#categoryLayerTwo").append("<option value='" + winnerCategory.id + "'>" + winnerCategory.name + "</option>");
+								}
+							}
+						}
+					}
+				});
+				
+				
+			},
+
+			search = function() {
+				$("#pageNo").val(0)
+				if($("#categoryLayerTwo").val() != 0){
+					$("#category").val($("#categoryLayerTwo").val());	
+				}
+				$("#parent_category").val($("#categoryLayerOne").val());
+				$("#mainForm").submit();
+				
+			},
+			
+			changeAction = function(link, id) {
+				
+				$("#id").val(id);
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+				
+			},
+			
+			resetData = function() {
+				
+				$("#name").val('');
+				$("#year").val('');
+				$("#content").val('');
+				$("#parent_category").val('');
+				$("#category").val('');
+				$("#searchItem").val('');
+				$("#categoryLayerOne option").prop("selected", false);
+				
+				$("#categoryLayerTwo option").prop("selected", false);
+				
+				$("#pageNo").val('1');
+			},
+			
+			gotoPage = function(link) {
+				
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+				
+			}
+			
+			// 檢查 categoryLayerOne 是否為空
+		    if ($("#categoryLayerOne").val() === "") {
+		        // 遍歷每個選項並檢查其值是否與 searchParent_category 匹配
+		        $("#categoryLayerOne option").each(function() {
+		            // 檢查選項的值是否與 searchParent_category 匹配
+		            if ($(this).val() === $("#searchParent_category").val() ) {
+		                // 如果匹配，設置該選項為選中狀態
+		                $(this).prop("selected", true);
+		                changeCategoryTwo();
+		            }
+		            if ($("#categoryLayerTwo").val() === "") {
+				        // 遍歷每個選項並檢查其值是否與 searchParent_category 匹配
+				        $("#categoryLayerTwo option").each(function() {
+				            // 檢查選項的值是否與 searchParent_category 匹配
+				            if ($(this).val() === $("#searchCategory").val() ) {
+				                // 如果匹配，設置該選項為選中狀態
+				                $(this).prop("selected", true);
+				            }
+				        });
+				    }
+		            
+		        });
+		    }
+
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/js :: layout}"></head>
+<body>
+<form id="main_form" method="POST" action="index" >
+		<input type="hidden" name="pageNo" th:value="${pageNo}" />
+		<input type="hidden"  th:value="${winner.parent_id}" />
+		<input type="hidden" name="searchParent_category" th:value="${searchParent_category}" />
+		<input type="hidden" name="searchCategory" th:value="${searchCategory}" />
+		<input type="hidden" name="searchItem" th:value="${searchItem}" />
+		<input type="hidden" name="name" th:value="${name}" />
+		<input type="hidden" name="year" th:value="${year}" />
+		<input type="hidden"  id="message" th:value="${message}" />
+</form>
+	<script>
+		$(function(){
+			alert($("#message").val()); 
+			$("#main_form").submit();
+		})
+	</script>
+</body>
+</html>

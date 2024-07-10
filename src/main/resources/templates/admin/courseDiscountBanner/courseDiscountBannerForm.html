@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+<!-- content -->
+	<div class="content">
+		<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${courseDiscountBanner}" th:with="btn_name=${courseDiscountBanner.id==null ? '新增' : '修改'}">
+			<input type="hidden" id="id"  th:field="*{id}" />
+			<input type="hidden" name="searchTitle" th:value="${searchTitle}" >
+			<input type="hidden" id="pageNo" name="pageNo" th:value="${pageNo}">
+			<input type="hidden" id="totalCount"  th:field="*{count}"/>
+			<!-- table -->
+			<table class="table-vertical" cellspacing="0">
+				<caption><h2>課程廣告設定-[[${btn_name}]]頁面</h2></caption>
+				<tr>
+					<th>
+						<span class="important">*</span>標題
+						
+					</th>
+					<td>
+						<input type="text" id="title" name="courseDiscountBanner.title" th:field="*{title}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>連結
+					</th>
+					<td>
+						<input type="text" id="link" name="courseDiscountBanner.link" th:field="*{link}">
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>排序
+					</th>
+					<td>
+						<input type="text" id="sort" name="courseDiscountBanner.sort" th:field="*{sort}">
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>圖片</th>
+					<td>
+<!-- 						<input type="hidden" id="image" name="image" /> -->
+						<input type="hidden" id="imageExtension" name="imageExtension" />
+						<input type="file" id="uploadImage" name="uploadImage" />
+						<span style="color:red;">尺寸：1100px*380px ，檔案大小不超過500KB。</span>
+						<div style="color:red;">請注意：如上傳圖片規格不符，則需重新填寫資料!!</div>						
+<!-- 						<br/><br/> -->
+						<th:block  th:if="*{image}!=null">
+					 	<img th:src="${@environment.getProperty('static.url')}+@{/upload/image/courseDiscountBanner/{image}(image=*{image})}" th:alt="*{image}" width="350px" height="200px" />
+					 	<input type="hidden" id="deleteImage" name="deleteImage" th:field="*{image}" />
+						<th:block>						
+					</td>
+				</tr>					
+				<tr>
+					<th><span class="important">*</span>開始日期</th>
+					<td>
+						<input type="text" id="begin_date" name="courseDiscountBanner.begin_date" placeholder="開始日期" th:field="*{begin_date}" format="yyyy-MM-dd" />
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>結束日期</th>
+					<td>
+						<input type="text" id="end_date" name="courseDiscountBanner.end_date" placeholder="結束日期" th:field="*{end_date}" format="yyyy-MM-dd" />
+					</td>
+				</tr>
+				<tr>
+					<th>
+						<span class="important">*</span>是否顯示於前台
+					</th>
+					<td>
+						<input type="radio" id="show" name="courseDiscountBanner.show" value="1" th:checked="${courseDiscountBanner.show == 1}" th:field="*{show}">是
+						<input type="radio" id="show" name="courseDiscountBanner.show" value="0" th:checked="${courseDiscountBanner.show == 0}" th:field="*{show}">否
+					</td>
+				</tr>
+				<tr>
+					<th>功能</th>
+					<td class="table-button vertical-btn">
+						<a onclick="history.back()" style="cursor:pointer;">返回</a>
+						<a style="cursor:pointer;" th:onclick="add()">[[${btn_name}]]</a>
+					</td>
+				</tr>
+			</table><!-- table -->
+		</form>
+	</div><!-- content -->
+	<script>
+		$(function(){
+			
+			if($("#id").val() != 0) {
+// 				$("#category").val("<s:property value="courseDiscountBanner.category"/>");
+			}
+			
+			$("#begin_date").datepicker({dateFormat: 'yy-mm-dd'});
+			$("#end_date").datepicker({dateFormat: 'yy-mm-dd'});			
+			
+			add = function() {	
+//				網址的reqular expression
+				var regex = new RegExp("^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?");			
+				
+				//標題判斷
+				if($("#title").val() == "") {
+					alert("請輸入標題");
+					return false;
+				}
+				
+				//連結判斷
+				if($("#link").val() == "") {
+					alert("請輸入檔案連結");
+					return false;
+ 				}
+				
+					//判斷影音連結是否正確
+				else if(!regex.test($("#link").val())) {
+					   alert("請輸入有效的網址,ex：http://www.google.com");
+					   return false;
+					}	
+				
+				
+				//排序判斷
+				if($("#sort").val() == "") {
+					alert("請輸入排序");
+					return false;
+				}
+				
+				//內容圖片判斷
+				
+				var imagesize = 0;
+				
+				if ($("#uploadImage").val() != "") {
+					$("#imageExtension").val($("#uploadImage").val().substr(($("#uploadImage").val().lastIndexOf('.')+1)));
+					imagesize = document.getElementById("uploadImage").files.item(0).size; //抓取圖檔大小
+				} else {
+					$("#imageExtension").val($("#deleteImage").val().substr(($("#deleteImage").val().lastIndexOf('.')+1)));
+				}					
+
+// 				if ($("#uploadImage").val() == "") {
+// 					alert("必須上傳圖片");
+// 					return false;
+// 				}
+				if ($("#uploadImage").val() != "") {
+					if ($("#imageExtension").val() != "png" && $("#imageExtension").val() != "jpeg"
+						&& $("#imageExtension").val() != "jpg" && $("#imageExtension").val() != "gif") {
+						alert("上傳圖片格式必須為png、jpeg、jpg、gif");
+						return false;
+					}
+				}				
+				
+				if(imagesize > 512000 && $("#uploadImage").val() != ""){
+					alert("圖檔大小限制500K內");
+					return false;
+				}	
+				
+				//開始日期判斷
+				if($.trim($("#begin_date").val())==""){
+					$("#begin_date").focus();
+					alert("開始時間不可為空");
+					return false;
+				}
+				
+				//結束日期判斷
+				if($.trim($("#end_date").val())==""){
+					$("#end_date").focus();
+					alert("結束時間不可為空");
+					return false;
+				}
+				
+				//前台是否顯示判斷
+				if($("input[name='show']:checked").size() != 1) {
+					alert("是否顯示於前台");
+					return false;
+				}
+				
+				if($("#totalCount").val() < 10 || $("input[name='courseDiscountBanner.show']:checked").val() == "0"){
+					var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+					$("#mainForm").attr("action", link);
+					$("#mainForm").submit();
+				}else{
+					alert("廣告數量已達上限，不得再新增。");
+				}
+			}		
+		});
+	</script>
+</body>
+</html>

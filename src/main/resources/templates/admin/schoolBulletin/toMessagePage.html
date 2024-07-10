@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<meta charset="UTF-8">
+<body>
+<form id="mainForm" method="POST" action="index" th:object="${schoolBulletin}">
+		<input type="hidden" name="searchTitle" th:value="${title}" />
+		<input type="hidden" id="show_message" name="show_message" th:field="*{show_message}" />
+		<input type="hidden"  id="message" th:value="${message}" />
+		
+	</form>
+	<script>
+		$(function(){
+			if($("#show_message").val()!=null&&$("#show_message").val()!=""){
+				alert($("#show_message").val());
+			}else{
+				alert($("#message").val());
+
+			}
+			$("#mainForm").submit();
+		})
+	</script>
+</body>
+</html>

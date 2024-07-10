@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseUtil.js}"></script>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/baseForm.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+	<!-- content -->
+	<div class="content">
+		<form id="mainForm" method="POST" enctype="multipart/form-data" th:object="${schoolBulletin}" th:with="btn_name=${schoolBulletin.id == null ? '新增': '修改'}">
+			<input type="hidden" id="id" th:field="*{id}" />
+			<input type="hidden" id="deleteImage" name="deleteImage" th:value="*{image}" />
+			
+			<input type="hidden" id="area_id" th:value="${area.id}" />
+			<input type="hidden" id="location_id" name="id" th:value="${location.id}"/>
+			
+			<input type="hidden" id="user_id_hidden" th:value="${user.id}"/>
+			<input type="hidden" id="area" name="schoolBulletin.area" th:value="*{area}" />
+			
+			<input type="hidden" id="iconList" name="iconList" />
+			<input type="hidden" id="contentTitleList" name="contentTitleList" />
+			<input type="hidden" id="contentContentList" name="contentContentList" />
+			<input type="hidden" id="schoolBulletinContentIdList" name="schoolBulletinContentIdList" />
+			
+			<input type="hidden" name="searchTitle" th:value="${searchTitle}" >
+			
+			
+			<input type="hidden" id="judgeSchoolChange" th:value="${judgeSchoolChange}" >
+			
+			
+			<!-- table -->
+			<table class="table-vertical" cellspacing="0">
+				<caption><h2>甄戰公告-[[${btn_name}]]頁面</h2></caption>
+				<tr>
+					<th>
+						<span class="important">*</span>標題
+					</th>
+					<td>
+						<input type="text" id="title" th:field="*{title}">
+					</td>
+				</tr>
+				<tr>
+				    <th><span class="important">*</span>地區</th>
+					<td th:if="${user.area != '0'}">
+						<span>
+							<input type="hidden" th:value="${user.area}" name="area" />[[${location.name}]]
+						</span>
+					</td>
+					<td th:if="${user.area == '0'}">
+						<select id="areaLayerOne" name="areaLayerOne" onchange="changeArea()">
+							<option value="1">全區</option>
+							<th:block th:each="dataStatus , data : ${areaList}">
+								<option th:value="${dataStatus.id}" th:text="${dataStatus.name}"></option>
+							</th:block>
+						</select>
+						<select id="location" name="areaLayerOne" th:field="*{area}" hidden="true">
+						</select>
+					</td>
+				</tr>
+				<tr>
+				    <th><span class="important">*</span>類別</th>
+					<td>
+						<select id="category" name="schoolBulletin.category" th:field="*{category}">
+							<option value="0">請選擇</option>
+							<th:block th:each="dataStatus , data : ${schoolBulletinCategoryList}">
+								<option th:value="${dataStatus.id}" th:text="${dataStatus.name}"></option>
+							</th:block>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>
+						產品網址分類
+					</th>
+					<td>
+						<input type="text" th:field="*{product_category}">
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>內容</th>
+					<td id="contentBox">
+						<th:block th:if="*{id} == null">
+						<div class="addDemand"><img class="closebtn" th:src="${@environment.getProperty('static.url')}+@{/images/close.png}" style="display:none">
+							<input type="radio" name="icon1" class="icon" value="article_type01.png" />&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type01.png}" style="width:15px;height:20px;" />&nbsp;
+							<input type="radio" name="icon1" class="icon" value="article_type02.png" />&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type02.png}" style="width:19px;height:20px;" />&nbsp;
+							<input type="radio" name="icon1" class="icon" value="article_type03.png" />&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type03.png}" style="width:19px;height:20px;" />
+							<input type="text" name="contentTitle" placeholder="請在此行中，輸入內容標題" />
+							<textarea name="contentContent" placeholder="小提醒：如需做文字的縮排效果，請使用全形的空白鍵。"></textarea>
+						</div>
+						</th:block>
+						<th:block th:unless="*{id} == null">
+						<th:block th:each="dataStatus , data :  ${schoolBulletinContentList}">
+						<div class="addDemand"><img class="closebtn" th:src="${@environment.getProperty('static.url')}+@{/images/close.png}">
+							<input type="hidden" name="schoolBulletinContentId" th:value="${dataStatus.id}"/>
+							<input type="radio" th:name="icon+${data.count}" class="icon" value="article_type01.png" th:checked="${dataStatus.icon} == 'article_type01.png'"/>&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type01.png}" style="width:15px;height:20px;" />&nbsp;
+							<input type="radio" th:name="icon+${data.count}" class="icon" value="article_type02.png" th:checked="${dataStatus.icon} == 'article_type02.png'" />&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type02.png}" style="width:19px;height:20px;" />&nbsp;
+							<input type="radio" th:name="icon+${data.count}" class="icon" value="article_type03.png"th:checked="${dataStatus.icon} == 'article_type03.png'" />&nbsp;
+							<img th:src="${@environment.getProperty('static.url')}+@{/images/front/article_type03.png}" style="width:19px;height:20px;" />
+							<input type="text" name="contentTitle" placeholder="請在此行中，輸入內容標題" th:value="${dataStatus.title}"/>
+							<textarea name="contentContent" placeholder="小提醒：如需做文字的縮排效果，請使用全形的空白鍵。">[[${dataStatus.content}]]</textarea>
+						</div>
+						</th:block>
+						</th:block>
+						<div id="addContent" class="table-button addDemand-btn" onclick="addContent()">
+							<i class="fa fa-plus plus-btn"></i>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>圖片</th>
+					<td>
+						<input type="text" id="uploadImage" th:field="*{image}"/>
+						<font style="color:red;">請輸入圖庫平台URL</font>
+						<br/>
+						<th:block th:if="*{image} != null">
+							<img th:src="*{image}" th:alt="*{image}" width="350px" height="200px" />
+						</th:block>
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>開始日期</th>
+					<td>
+						<input type="text" id="begin_date" placeholder="開始日期" th:field="*{begin_date}" format="yyyy-MM-dd" />
+					</td>
+				</tr>
+				<tr>
+					<th><span class="important">*</span>結束日期</th>
+					<td>
+						<input type="text" id="end_date" placeholder="結束日期" th:field="*{end_date}" format="yyyy-MM-dd" />
+					</td>
+				</tr>
+				<tr>
+					<th>功能</th>
+					<td class="table-button vertical-btn">
+						<a onclick="history.back()" style="cursor: pointer;">返回</a>
+						<a onclick="add()" style="cursor: pointer;">[[${btn_name}]]</a>
+					</td>
+				</tr>
+			</table><!-- table -->
+		</form>
+	</div><!-- content -->
+	<script>
+		$(function(){
+			
+			if($("#id").val() != 0) {
+				$("#areaLayerOne").val($("#area_id").val()).attr('selected', 'selected');
+
+			}
+			
+			$("#begin_date").datepicker({dateFormat: 'yy-mm-dd'});
+			$("#end_date").datepicker({dateFormat: 'yy-mm-dd'});
+			
+			//刪除
+			$(document).on("click", ".closebtn", function() {
+				if($("#contentBox").children(".addDemand").size() <= 2) {
+					$("#contentBox").find(".closebtn").hide();
+				}
+				$(this).parent(".addDemand").remove();
+				
+				$("#contentBox").children(".addDemand").each(function(i) {
+					$(this).children(".icon").attr("name", "icon"+(i+1));
+				})
+			});
+			
+			changeArea = function() {
+				console.log('有近來啦')
+				
+				$.ajax({
+					url: "[[${@environment.getProperty('weburl')}]]/tkbrule/schoolBulletin/changeArea",
+					cache: false,
+					async: false,
+					dataType: "json",
+					type:"POST",
+					data:{
+						id : $("#areaLayerOne").val()
+					},
+					error: function(xhr) {
+						alert('Ajax request 發生錯誤');
+					},
+					success: function(data) {
+						$("#location").empty();
+						$("#location").append("<option value='N'>請選擇</option>");
+						if($("#areaLayerOne").val() == 0) {
+							displayControl($("#location"), "hide");
+						} else {
+							displayControl($("#location"), "show");
+						}
+						if(data != null && data.length > 0){
+							
+							for(i = 0 ; i < data.length; i++){
+								var location = data[i];
+								if(location.id == $("#location_id").val()){
+									$("#location").append("<option value='" + location.id + "' selected>" + location.name + "</option>");
+								} else {
+									$("#location").append("<option value='" + location.id + "'>" + location.name + "</option>");
+								}
+							}
+						}
+					}
+				});
+				
+			},
+			
+			addContent = function() {
+				
+				var str = "<div class='addDemand'><img class='closebtn' src='/images/close.png'>";
+				str += "<input type='hidden' name='schoolBulletinContentId' value='0' />";
+				str += "<input type='radio' name='icon1' class='icon' value='article_type01.png' />&nbsp;";
+				str += "<img src='/images/front/article_type01.png' style='width:15px;height:20px;' />&nbsp;";
+				str += "<input type='radio' name='icon1' class='icon' value='article_type02.png' />&nbsp;";
+				str += "<img src='/images/front/article_type02.png' style='width:19px;height:20px;' />&nbsp;";
+				str += "<input type='radio' name='icon1' class='icon' value='article_type03.png' />&nbsp;";
+				str += "<img src='/images/front/article_type03.png' style='width:19px;height:20px;' />";
+				str += "<input type='text' name='contentTitle' placeholder='請在此行中，輸入內容標題' />";
+				str += "<textarea name='contentContent' placeholder='小提醒：如需做文字的縮排效果，請使用全形的空白鍵。'></textarea></div>";
+				
+				$("#addContent").before(str);
+				
+				if($("#contentBox").children(".addDemand").size() > 1) {
+					$("#contentBox").find(".closebtn").show();
+				}
+				
+				$("#contentBox").children(".addDemand").each(function(i) {
+					$(this).children(".icon").attr("name", "icon"+(i+1));
+				})
+				
+			},
+			
+			add = function() {
+				
+				var check = "T";
+				
+				//標題判斷
+				if($("#title").val() == "") {
+					alert("請輸入標題");
+					$("#title").focus();
+					return false;
+				} else {
+					if(checkByteLen($("#title").val(), "210")) {
+						alert("標題字數不得超過70個字，請重新輸入");
+						return false;
+					}
+				}
+				
+				//地區判斷
+					if($("#areaLayerOne").val() == 0 || $("#location").val() == 'N') {
+						alert("請選擇地區");
+						$("#areaLayerOne").focus();
+						return false;
+					} else {
+						$("#area").val($("#location").val());
+					}
+				
+				//類別判斷
+				if($("#category").val() == 0) {
+					alert("請選擇類別");
+					return false;
+				}
+				
+				//內容判斷
+				$("#contentBox").children(".addDemand").each(function(i) {
+					if($(this).children(".icon:checked").size() != 1) {
+						alert("請選擇ICON");
+						check = "F";
+						return false;
+					}
+					
+					if($(this).children("input[name='contentTitle']").val() == "") {
+						alert("請輸入內容主題");
+						check = "F";
+						return false;
+					} else {
+						if(checkByteLen($(this).children("input[name='contentTitle']").val(), "210")) {
+							alert("內容標題字數不得超過70個字，請重新輸入");
+							check = "F";
+							return false;
+						}
+					}
+					
+					if($(this).children("textarea[name='contentContent']").val() == "") {
+						alert("請輸入內文");
+						check = "F";
+						return false;
+					} else {
+						if(checkByteLen($(this).children("textarea[name='contentContent']").val(), "3900")) {
+// 							alert("中英文字數不得超過3900個字，請重新輸入");
+							alert("字數太長，請重新輸入");
+							check = "F";
+							return false;
+						}
+					}
+				})
+				
+				if(check == "F") {
+					return false;
+				}
+				
+				//圖片判斷
+				if ($("#uploadImage").val() == "") {
+					alert("必須上傳圖片");
+					return false;
+				}
+
+				//開始日期判斷
+				if($.trim($("#begin_date").val())==""){
+					$("#begin_date").focus();
+					alert("開始時間不可為空");
+					return false;
+				}
+				
+				//結束日期判斷
+				if($.trim($("#end_date").val())==""){
+					$("#end_date").focus();
+					alert("結束時間不可為空");
+					return false;
+				}
+				
+				//日期起迄判斷
+				var beginDate = Date.parse($.datepicker.formatDate('yy/mm/dd', new Date($("#begin_date").val()))+" 00:00:00");
+				var endDate = Date.parse($.datepicker.formatDate('yy/mm/dd', new Date($("#end_date").val()))+" 00:00:00");
+				if (endDate.valueOf() < beginDate.valueOf()){
+					$("#begin_date").focus();
+					alert("開始時間不可大於等於結束時間");
+					return false;
+				}
+				
+				//ICON串接
+				var iconArray = new Array();
+				var iconList;
+				$(".icon:checked").each(function(i) {
+					iconArray[i] = this.value;
+				});
+				iconList = iconArray.join(",;,");
+				$("#iconList").val(iconList);
+				
+				//標題串接
+				var contentTitleArray = new Array();
+				var contentTitleList;
+				$("input[name='contentTitle']").each(function(i) {
+					contentTitleArray[i] = this.value;
+				});
+				contentTitleList = contentTitleArray.join(",;,");
+				$("#contentTitleList").val(contentTitleList);
+				
+				//內容串接
+				var contentContentArray = new Array();
+				var contentContentList;
+				$("textarea[name='contentContent']").each(function(i) {
+					contentContentArray[i] = this.value;
+				});
+				contentContentList = contentContentArray.join(",;,");
+				$("#contentContentList").val(contentContentList);
+				
+				//內容ID串接
+				var schoolBulletinContentIdArray = new Array();
+				var schoolBulletinContentIdList;
+				$("input[name='schoolBulletinContentId']").each(function(i) {
+					schoolBulletinContentIdArray[i] = this.value;
+				});
+				schoolBulletinContentIdList = schoolBulletinContentIdArray.join(",;,");
+				$("#schoolBulletinContentIdList").val(schoolBulletinContentIdList);
+				
+				var link = $("#id").val() == 0 ? "addSubmit" : "updateSubmit";
+				
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+			}
+			if($("#location_id").val()== 0 ) {
+// 				changeArea();
+			}
+			
+			if($('#judgeSchoolChange').val() == ""){
+			 	changeArea();
+			}
+			
+		});
+	</script>	
+</div>
+</div>
+</body>
+</html>

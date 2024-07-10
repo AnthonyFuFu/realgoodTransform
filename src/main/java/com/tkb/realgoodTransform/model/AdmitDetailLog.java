@@ -1,11 +1,13 @@
 package com.tkb.realgoodTransform.model;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 import lombok.Data;
 
 /**
  * 考取金榜榜單LOG內容
+ * @author 
+ * @version 創建時間：2016-06-01
  */
 @Data
 public class AdmitDetailLog {
@@ -17,6 +19,7 @@ public class AdmitDetailLog {
 	private String pre_detail;			//修改前資料
 	private String new_detail;			//修改後資料
 	private String create_by;			//創建者
-	private Timestamp create_date;		//創建時間
+	private Date create_date;		//創建時間
+	
 	
 }

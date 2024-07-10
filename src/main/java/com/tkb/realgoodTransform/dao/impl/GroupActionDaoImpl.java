@@ -17,6 +17,8 @@ import org.springframework.stereotype.Repository;
 import com.tkb.realgoodTransform.dao.GroupActionDao;
 import com.tkb.realgoodTransform.model.GroupAction;
 
+
+
 @Repository
 public class GroupActionDaoImpl implements GroupActionDao {
 	

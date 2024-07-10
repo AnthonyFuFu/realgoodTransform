@@ -6,19 +6,14 @@ import java.util.Map;
 import com.tkb.realgoodTransform.model.Menu;
 import com.tkb.realgoodTransform.model.User;
 
+
+
 /**
  * 選單Dao介面接口
  * @author Joshua
  * @version 創建時間：2022-01-25
  */
 public interface MenuDao {
-
-	// ======================================== 開發用method start ========================================= 
-	public List<Map<String, Object>> getListForInsertData();
-	public List<Map<String, Object>> getListForChecktData();
-	public void insertForRemake(Menu menu);
-	public void updateForRemake(Menu menu);
-	// ======================================== 開發用method end =========================================
 	
 	/**
 	 * 取得選單總筆數
@@ -97,5 +92,12 @@ public interface MenuDao {
 	
 	public List<Map<String, Object>> getMenuLayer2List(Menu menu, Integer group_id);
 	
+	
+	/**
+	 * 拿舊大碩的菜單id放在網址用
+	 * @param String link
+	 * @return Integer
+	 */
+	public Integer getMenuId(String link);
 
 }

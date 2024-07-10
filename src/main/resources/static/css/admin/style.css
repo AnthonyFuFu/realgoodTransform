@@ -769,7 +769,7 @@ caption {
   margin: 5px;
 }
 .offer_type1 {
-  background: url(../images/front/offer_type1.png) #8FC31F 8px 5px no-repeat;
+  background: url(/images/front/offer_type1.png) #8FC31F 8px 5px no-repeat;
   padding: 0.25rem 1rem 0.25rem 2rem;
   border-radius: 1rem;
   color: #FFF;
@@ -777,7 +777,7 @@ caption {
 }
 
 .offer_type2 {
-  background: url(../images/front/offer_type2.png) #00A29A 10px 5px no-repeat;
+  background: url(/images/front/offer_type2.png) #00A29A 10px 5px no-repeat;
   padding: 0.25rem 1rem 0.25rem 2rem;
   border-radius: 1rem;
   color: #FFF;
@@ -785,7 +785,7 @@ caption {
 }
 
 .offer_type3 {
-  background: url(../images/front/offer_type3.png) #F39800 6px 5px no-repeat;
+  background: url(/images/front/offer_type3.png) #F39800 6px 5px no-repeat;
   padding: 0.25rem 1rem 0.25rem 2rem;
   border-radius: 1rem;
   color: #FFF;

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/css :: layout}"></head>
+<head th:insert="~{admin/load/js :: layout}"></head>
+<script th:src="${@environment.getProperty('static.url')}+@{/js/admin/baseList.js}"></script>
+<meta charset="UTF-8">
+<body>
+<div class="container">
+	<div th:insert="~{admin/load/layout :: top}"></div>
+	<div class="main">
+		<div th:insert="~{admin/load/layout :: menu}"></div>
+		<form id="mainForm" method="POST" th:object="${lecturesCategory}">
+		<input type="hidden" th:field="*{id}" />
+		<input type="hidden" id="parent_id" th:field="*{parent_id}" />
+		<input type="hidden" id="name" th:field="*{name}" />
+		<input type="hidden" id="layer" th:field="*{layer}" />
+		<input type="hidden" id="deleteList" name="deleteList" />
+		<!-- content -->
+		<div class="content">
+			<!-- button group -->
+			<div class="btn-group">
+				<ul>
+					<li><a href="javascript:void(0)" onclick="gotoPage('add')">新增</a></li>
+					<li><a href="javascript:void(0)" onclick="checkAll()">全選</a></li>
+					<li><a href="javascript:void(0)" onclick="checkData()">刪除</a></li>
+					<li><a href="javascript:void(0)" onclick="resetSort()">重新排序</a></li>
+					<li><a href="updateNormalData">去更新正是機資料到本地</a></li>
+				</ul>
+			</div>
+			<!-- table -->
+			<table class="table-horizon">
+				
+				<caption><h2>近期活動-類別設定</h2></caption>
+				
+				<thead>
+					<tr>
+						<th width="5%"></th>
+						<th width="5%">序號</th>
+						<th class="width-lg">名稱</th>
+						<th width="5%">排序</th>
+						<th class="width-fixed">功能</th>
+					</tr>
+				</thead>
+				<tbody>
+					<th:block th:if="${#lists.isEmpty(lecturesCategoryList)}">
+						<tr>
+							<td colspan="6" align="center">尚無任何資料</td>
+						</tr>
+					</th:block>
+					<th:block th:each="dataStatus , data : ${lecturesCategoryList}">
+						<tr>
+							<td><input type="checkbox" name="selectList" th:value="${dataStatus.id}"/></td>
+							<td th:text="${(pageNo-1) * pageCount + data.count}"></td>
+							<td><a href="javascript:void(0)" th:attr="onclick=|changeLayer('index', '${dataStatus.id}', '${dataStatus.layer}', '${dataStatus.name}')|">[[${dataStatus.name}]]</a></td>
+							<td th:text="${dataStatus.sort}"></td>
+							<td class="table-button width-fixed">
+								<a href="javascript:void(0)" title="修改" th:onclick="|javascript:changeAction('update', '${dataStatus.id}')|"><i class="fa fa-pencil"></i></a>
+							</td>
+						</tr>
+					</th:block>
+				</tbody>
+			</table>
+			<!-- table -->
+			<div th:insert="~{admin/load/layout :: page}"></div>
+		</div>
+		<!-- content -->
+ 	</form>
+		
+	<script>
+
+		$(function(){
+
+			changeAction = function(link, id) {
+				
+				$("#id").val(id);
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+				
+			},
+			
+			changeLayer = function(link, id, layer, name) {
+				
+				$("#parent_id").val(id);
+				$("#name").val(name);
+				$("#parent_name").val(name);
+				$("#layer").val(parseInt(layer)+1);
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+				
+			},
+			
+			checkData = function() {
+				
+				if($("input[name='selectList']:checked").length <= 0) {
+					alert("請選擇要刪除的資料！");
+					return false;
+				}
+				var checkArray = new Array();
+				var checkList;
+				$("input[name='selectList']:checked").each(function(i) {
+					checkArray[i] = this.value;
+				});
+				checkList = checkArray.join(",");
+				
+				$.ajax({
+					url: "[[${@environment.getProperty('weburl')}]]/tkbrule/lecturesCategory/checkData",
+					cache: false,
+					async: false,
+					dataType: 'text',
+					type:'GET',
+					data:{
+						checkList : checkList
+					},
+					error: function(xhr) {
+						alert('Ajax request 發生錯誤');
+					},
+					success: function(data) {
+						if(data == "T") {
+							deleteData();
+						} else {
+							alert("您欲刪除的類別尚在使用，或還有子項目未刪除，請再確認。");
+						}
+					}
+				});
+			
+			},
+			
+			resetData = function() {
+				
+				$("#name").val('');
+				
+			},
+			
+			gotoPage = function(link) {
+
+// 				location.href = link;
+				$("#mainForm").attr("action", link);
+				$("#mainForm").submit();
+				
+			}
+
+		});
+	</script>
+
+</body>
+</html>

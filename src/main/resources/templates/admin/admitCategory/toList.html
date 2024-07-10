@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{admin/load/js :: layout}"></head>
+<body>
+<form id="main_form" method="POST" action="index" >
+		<input type="hidden"  id="message" th:value="${message}" />
+</form>
+	<script>
+		$(function(){
+			alert($("#message").val()); 
+			$("#main_form").submit();
+		})
+	</script>
+</body>
+</html>
