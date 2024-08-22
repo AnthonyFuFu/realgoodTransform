@@ -28,68 +28,57 @@ public class LecturesCategoryServiceImpl implements LecturesCategoryService {
 	private EditLogService editLogService;
 	@Override
 	public List<LecturesCategory> getSubList(LecturesCategory lecturesCategory) {
-		// TODO Auto-generated method stub修改頁面
 		return lecturesCategoryDao.getSubList(lecturesCategory);
 	}
 
 	@Override
 	public List<LecturesCategory> getLayerList(String layer, LecturesCategory lecturesCategory) {
-		// TODO Auto-generated method stub
 		return lecturesCategoryDao.getLayerList(layer, lecturesCategory);
 	}
 
 	@Override
 	public List<LecturesCategory> getList(int pageCount, int pageStart, LecturesCategory lecturesCategory) {
-		// TODO Auto-generated method stub
 		return lecturesCategoryDao.getList(pageCount, pageStart, lecturesCategory);
 	}
 
 	@Override
 	public Integer getCount(LecturesCategory lecturesCategory) {
-		// TODO Auto-generated method stub
 		return lecturesCategoryDao.getCount(lecturesCategory);
 	}
 
 	@Override
 	public LecturesCategory getData(LecturesCategory lecturesCategory) {
-		// TODO Auto-generated method stub
 		return lecturesCategoryDao.getData(lecturesCategory);
 	}
 
 	@Override
 	public Integer getNextId() {
-		// TODO Auto-generated method stub
 		return lecturesCategoryDao.getNextId();
 	}
 
 	@Override
 	public void add(LecturesCategory lecturesCategory) {
-		// TODO Auto-generated method stub
 		lecturesCategoryDao.add(lecturesCategory);
 	}
 
 	@Override
 	public void update(LecturesCategory lecturesCategory) {
-		// TODO Auto-generated method stub
 		lecturesCategoryDao.update(lecturesCategory);
 	}
 
 	@Override
 	public void delete(LecturesCategory lecturesCategory, Integer id) {
-		// TODO Auto-generated method stub
 		lecturesCategoryDao.delete(lecturesCategory, id);
 
 	}
 
 	@Override
 	public String checkLecturesCategory(LecturesCategory lecturesCategory) {
-		// TODO Auto-generated method stub
 		return lecturesCategoryDao.checkLecturesCategory(lecturesCategory);
 	}
 
 	@Override
 	public void resetSort(LecturesCategory lecturesCategory) {
-		// TODO Auto-generated method stub
 		lecturesCategoryDao.resetSort(lecturesCategory);
 	}
 
@@ -189,19 +178,16 @@ public class LecturesCategoryServiceImpl implements LecturesCategoryService {
 
 	@Override
 	public List<LecturesCategory> getFrontList(LecturesCategory lecturesCategory) {
-		// TODO Auto-generated method stub
 		return lecturesCategoryDao.getFrontList(lecturesCategory);
 	}
 
 	@Override
 	public List<LecturesCategory> getFrontLayerList(String layer) {
-		// TODO Auto-generated method stub
 		return lecturesCategoryDao.getFrontLayerList(layer);
 	}
 
 	@Override
 	public Integer deleteCheck(LecturesCategory lecturesCategory) throws IOException {
-		// TODO Auto-generated method stub
 		return lecturesCategoryDao.deleteCheck(lecturesCategory);
 	}
 

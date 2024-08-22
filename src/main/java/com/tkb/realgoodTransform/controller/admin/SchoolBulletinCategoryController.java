@@ -29,25 +29,24 @@ import com.tkb.realgoodTransform.model.SchoolBulletinCategory;
 import com.tkb.realgoodTransform.model.User;
 import com.tkb.realgoodTransform.service.EditLogService;
 import com.tkb.realgoodTransform.service.SchoolBulletinCategoryService;
-import com.tkb.realgoodTransform.service.SchoolBulletinService;
 import com.tkb.realgoodTransform.utils.BaseUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 @RequestMapping("/tkbrule")
 @SessionAttributes(value = { "userAccountSession", "sideMenuList" })
 public class SchoolBulletinCategoryController extends BaseUtils{
 	private int pageNo;							//頁碼
+	
 	@Autowired
-	SchoolBulletinCategoryService schoolBulletinCategoryService;
-	@Autowired
-	SchoolBulletinService schoolBulletinService;
+	private SchoolBulletinCategoryService schoolBulletinCategoryService;
+	
 	@Autowired
 	private EditLogService editLogService;
+	
 	/**
 	 * 清單頁面
 	 * @return

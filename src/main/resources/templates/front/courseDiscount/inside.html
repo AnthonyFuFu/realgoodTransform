@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>TKB甄戰學習顧問中心-書審口面試輔導專家</title>
+<title>[[${courseDiscount.title}]]-TKB甄戰學習顧問中心</title>
 <meta name="description" content="大學學測個人申請,研究推甄甄試,研究所在職專班,高職升科大書審口試輔導專家"/>
 <meta name="keywords" content="推甄,大學甄選,甄試入學,申請入學,面試技巧,科大申請,備審資料,推薦入學"/>
 <link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
@@ -32,73 +32,82 @@
 <div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
 <div class="wrapper">
 <!-- 20190625 start -->
-	<div class="header-box">  
+	<div class="header-box">
 		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
 		
 		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
 	</div>
 <div class="content">
 	<h1>課程優惠</h1>
-            <hr>
-            div class="back"><a href="${BASE_PATH}courseDiscount/index">回上頁</a></div>
-		<hr />
-		<h2>${courseDiscount.title}</h2>
+        <div class="back"><a href="/courseDiscount/index">回上頁</a></div>
+        <hr>
+		<h2>[[${courseDiscount.title}]]</h2>
 		<div class="community_API">
-            <a href="javascript:void window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('${BASE_PATH}courseDiscount/inside?str=${shareStr}'))"  ><img src="${BASE_PATH}images/front/fb_api.png"></a>          					
-        </div>		
-<%-- 		<div class="community_API">社群API介接示意圖 <img src="${BASE_PATH}images/front/community_API.png"></div> --%>
-		<div class="viewers">${courseDiscount.click_rate}</div>
-		<div class="release">發佈時間：<s:date name="courseDiscount.begin_date" format="yyyy/MM/dd" /></div>
-		<div class="update">更新時間：<s:date name="courseDiscount.update_date" format="yyyy/MM/dd" /></div>
-		<div class="poster"><img src="${BASE_PATH}upload/image/courseDiscount/image/${courseDiscount.image}" style="width:1100px; height:380px;" /></div>
-		
-		<div class="poster_admission_title">${courseDiscount.title}</div>
-		<hr />		
-		<s:if test="courseDiscount.goodies != null && courseDiscount.gifts != null">
-            <div class="offer_ad1">
-                <span>超值優惠</span><br />
-                <div><s:property value='courseDiscount.goodies.replace(\"\n\",\"<br>\")' escape="false" /></div>
-            </div><!-- offer_ad1 -->
-            
-            <div class="offer_ad2">
-                <span>嚴選好禮</span><br />
-                <div><s:property value='courseDiscount.gifts.replace(\"\n\",\"<br>\")' escape="false" /></div>
-            </div><!-- offer_ad2 -->
-            <div class="clear_float"></div>
-		</s:if>
-		<s:iterator value="courseDiscountContentList" status="courseDiscountContentStatus" id="courseDiscountContent">
-			<div class="<s:property value="#courseDiscountContent.icon.substring(0,14)" />"><s:property value="#courseDiscountContent.title" /></div>
-			<div class="article"><s:property value='#courseDiscountContent.content.replace(\"\n\",\"<br>\")' escape="false" /></div>
-			<s:if test="#courseDiscountContent.image != null">
-			<div class="poster"><img style="width:1100px;" src="${BASE_PATH}upload/image/courseDiscount/image/<s:property value="#courseDiscountContent.image" />" /></div>			
-			</s:if>
-		</s:iterator>
-<!-- 		
-            <div class="admission_table">
-            <table>
-                <tr>
-                <th>推薦連結</th>   
-                </tr>
-                <tr>
-                <td><span id="exam_analysis1"></span></td>
-                </tr>
-                <tr>
-                <td><span id="exam_analysis2"></span></td>
-                </tr>
-                <tr>
-                <td><span id="exam_analysis3"></span></td>
-                </tr>
-                <tr>
-                <td><span id="exam_analysis4"></span></td>
-                </tr>
-                <tr>
-                <td><span id="exam_analysis5"></span></td>
-                </tr>       
-            </table>
-            </div><!-- admission_table -->		
+            <a th:href="'javascript:void window.open('+@{'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('https://www.reallygood.com.tw/courseDiscount/inside?str={str}')(str=${shareStr})}+')'"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/fb_api.png}"></a>          					
+        </div>
+<!-- 		<div class="community_API">社群API介接示意圖 <img src="${BASE_PATH}images/front/community_API.png"></div> -->
+		<div class="viewers">[[${courseDiscount.click_rate}]]</div>
+		<div class="release" th:text="發佈時間：+${#dates.format(begin_date, 'yyyy/MM/dd')}"></div>
+		<div class="update" th:text="更新時間：+${#dates.format(update_date, 'yyyy/MM/dd')}"></div>
 
+		<div class="poster"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/courseDiscount/photo/{image}(image=${courseDiscount.image})}" style="width:1100px; height:380px;" /></div>
+		<div class="poster_admission_title">[[${courseDiscount.title}]]</div>
+		<hr>
+		
+		<th:block th:if="${courseDiscount.goodies != null and courseDiscount.gifts != null}">
+        	<div class="offer_ad1">
+            	<span>超值優惠</span><br />
+            	<div th:utext="${#strings.replace(courseDiscount.goodies, '&#10;','&lt;br&gt;')}"></div>
+        	</div><!-- offer_ad1 -->
+        	<div class="offer_ad2">
+            	<span>嚴選好禮</span><br />
+            	<div th:utext="${#strings.replace(courseDiscount.gifts, '&#10;','&lt;br&gt;')}"></div>
+        	</div><!-- offer_ad2 -->
+        	<div class="clear_float"></div>
+    	</th:block>
+		
+		<th:block th:each="dataStatus , data : ${courseDiscountContentList}">
+			<h2 th:class="${#strings.substring(dataStatus.icon,0,14)}">[[${dataStatus.title}]]</h2>
+			<div class="article" th:utext="${#strings.replace(dataStatus.content,'&#10;','&lt;br&gt;')}"></div>
+			<th:block th:if="${dataStatus.image != null}">
+				<div class="poster"><img style="width:1100px;" th:src="${@environment.getProperty('static.url')}+@{/upload/image/courseDiscount/photo/{image}(image=${dataStatus.image})}"></div>
+			</th:block>
+		</th:block>
+		
 		<div class="clear_float"></div>
-	</div>
+		
+		<div style="margin-top:-10%" th:insert="~{front/common/consultationGsat}"></div>
+		
+		<th:block th:if="${!#lists.isEmpty(courseDiscountRandomList)}">
+		<h1>其他優惠</h1>
+		<hr />
+		<div class="bulletin_ad">
+		
+            <th:block th:each="dataStatus , data : ${courseDiscountRandomList}">
+            
+				<th:block th:if="${dataStatus.edm_url != null || dataStatus.edm_url !=''}">
+					<div class="bulletin_ad_img">
+					<a th:href="${dataStatus.edm_url}">
+						<img th:src="${@environment.getProperty('static.url')}+@{/upload/image/courseDiscount/photo/{photo}(photo=${dataStatus.photo})}" width="380px" height="161px" />
+					</a>
+					<div class="bulletin_ad_text">[[${dataStatus.title}]]</div>
+					</div>
+				</th:block>
+				<th:block th:unless="${dataStatus.edm_url != null || dataStatus.edm_url !=''}">
+					<div class="bulletin_ad_img">
+					<a href="#" th:onclick="toInside([[${dataStatus.id}]])">
+						<img th:src="${@environment.getProperty('static.url')}+@{/upload/image/courseDiscount/photo/{photo}(photo=${dataStatus.photo})}" width="380px" height="161px" />
+					</a>
+					<div class="bulletin_ad_text">[[${dataStatus.title}]]</div>
+					</div>
+				</th:block>
+			</th:block>
+		
+		</div>
+		</th:block>
+		
+		
+		
 </div><!-- content -->
 <div th:insert="~{front/loadForOldPage/layout :: footer}"></div>
 <script th:src="${@environment.getProperty('static.url')}+@{/js/front/advertising.js}"></script>	
@@ -195,7 +204,7 @@ $(function(){
 				
 				$(".bulletin_list").empty();
 				
-				var weburl = '[[${@environment.getProperty('weburl')}]]' ;
+				var weburl = "[[${@environment.getProperty('weburl')}]]" ;
 				
 				var str = "";
 				if(data != null && data.length > 0){
@@ -263,7 +272,6 @@ $(function(){
 	}
 	
 	toInside= function(id) {
-		
 		$.ajax({
 			url: "[[${@environment.getProperty('weburl')}]]/courseDiscount/toEncrypt",
 			cache: false,
@@ -278,8 +286,8 @@ $(function(){
 			},
 			success: function(data) {
 				$("#str").val(data);
-				$("#getForm").attr("action", "inside");
-				$("#getForm").submit();
+			    var url = "/courseDiscount/inside?str="+data;
+	            window.location.href = url;
 			}
 		});
 		

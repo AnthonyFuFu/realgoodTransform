@@ -43,20 +43,23 @@ import com.tkb.realgoodTransform.utils.CryptographyUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-
-
 @Controller
 public class FrontLecturesController extends BaseUtils {
 	
 	private int pageNo; // 頁碼
+	
 	@Autowired
 	private LecturesService lecturesService;
+	
 	@Autowired
 	private LecturesCategoryService lecturesCategoryService;
+	
 	@Autowired
 	private LecturesContentService lecturesContentService;
+	
 	@Autowired
 	private LecturesPlaceService lecturesPlaceService;
+	
 	@Autowired
 	private NavBannerService navBannerService;
 
@@ -80,8 +83,6 @@ public class FrontLecturesController extends BaseUtils {
 		if (fare != null && !"".equals(fare)) {
 			lectures.setFare(fare);
 		}
-		
-		System.out.println("lecturesCategoryList" + lecturesCategoryList);
 		
 		lecturesList = lecturesService.getFrontList(pageCount, pageStart, lectures, sort);
 		addModelAttribute(pageNo, model);
@@ -469,8 +470,6 @@ public class FrontLecturesController extends BaseUtils {
 				placeList = lecturesPlaceService.getEventList(lecturesPlace);
 			}
 		}
-		
-//		System.out.println("placeList123" + placeList);
 		
 		return new ResponseEntity<>(placeList, HttpStatus.OK);
 	}

@@ -11,7 +11,6 @@ public class MyX509TrustManager implements X509TrustManager {
 
 	@Override
 	public void checkClientTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-		// TODO Auto-generated method stub
 		// 檢查客戶端證書是否可信
 		// 如果可信，不抛出任何異常；否則，抛出CertificateException異常
 
@@ -19,7 +18,6 @@ public class MyX509TrustManager implements X509TrustManager {
 
 	@Override
 	public void checkServerTrusted(X509Certificate[] arg0, String arg1) throws CertificateException {
-		// TODO Auto-generated method stub
 		// 檢查服務器端證書是否可信
 		// 如果可信，不抛出任何異常；否則，抛出CertificateException異常
 

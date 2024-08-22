@@ -119,7 +119,6 @@ public class NewExamDaoImpl implements NewExamDao{
 	@Override
 	public List<NewExam> getFrontList(int pageCount, int pageStart, NewExam newExam, List<Area> areaList,
 			String search_sort) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -186,7 +185,6 @@ public class NewExamDaoImpl implements NewExamDao{
 
 	@Override
 	public Integer getFrontCount(NewExam newExam, List<Area> areaList) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

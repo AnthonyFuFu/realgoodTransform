@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-
-import javax.swing.plaf.synth.SynthScrollPaneUI;
-
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +28,6 @@ import com.tkb.realgoodTransform.utils.BaseUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
-
 @Controller
 @RequestMapping("/tkbrule")
 @SessionAttributes(value = {"userAccountSession", "sideMenuList"})
@@ -42,9 +37,9 @@ public class GroupsController extends BaseUtils {
 	
 	@Autowired
 	private GroupsService groupsService;
+	
 	@Autowired
 	private MenuService menuService;
-	
 	
 	/**
 	 * 清單頁面
@@ -145,6 +140,5 @@ public class GroupsController extends BaseUtils {
 	public ResponseEntity<?> getLayer2AllList(@RequestParam(name = "id", defaultValue = "0") Integer group_id) throws Exception {
 		return menuService.getMenuLayer2List(new Menu(), group_id);
 	}
-	
 	
 }

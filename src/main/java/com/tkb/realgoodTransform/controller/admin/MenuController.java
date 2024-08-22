@@ -26,12 +26,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-
-/**
- * 後台選單
- * @author Joshua
- * @version 創建時間：2022-01-25
- */
 @Controller
 @RequestMapping("/tkbrule")
 @SessionAttributes(value = {"userAccountSession", "sideMenuList"})
@@ -42,8 +36,10 @@ public class MenuController extends BaseUtils {
 	
 	@Autowired
 	private Menu menu;
+	
 	@Autowired
 	private MenuService menuService;
+	
 	@Autowired
 	private EditLogService editLogService;
 	

@@ -36,25 +36,19 @@ import com.tkb.realgoodTransform.utils.UploadUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
-/**
- * 後台選單
- * 
- * @author Felix
- * @version 創建時間：2022-03-07
- */
-
 @Controller
 @RequestMapping("/tkbrule")
 @SessionAttributes(value = { "userAccountSession", "sideMenuList" })
 public class NavBannerController extends BaseUtils {
+	
 	@Value("${upload.file.path}")
 	private String uploadFilePath; // 檔案上傳位置
 
 	private int pageNo; // 頁碼
 
 	@Autowired
-	NavBannerService navBannerService;
+	private NavBannerService navBannerService;
+	
 	@Autowired
 	private EditLogService editLogService;
 
@@ -384,15 +378,13 @@ public class NavBannerController extends BaseUtils {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
 			
-			for (Map<String, Object> map : getNormalNavBannerList) {
-			    for (Map.Entry<String, Object> entry : map.entrySet()) {
-			        String key = entry.getKey();
-			        Object value = entry.getValue();
-			    }
-			}
+//			for (Map<String, Object> map : getNormalNavBannerList) {
+//			    for (Map.Entry<String, Object> entry : map.entrySet()) {
+//			        String key = entry.getKey();
+//			        Object value = entry.getValue();
+//			    }
+//			}
 			
-			
-		
 			for(Map<String, Object> map : getNormalNavBannerList) {
 				NavBanner navBanner = new NavBanner();
 				

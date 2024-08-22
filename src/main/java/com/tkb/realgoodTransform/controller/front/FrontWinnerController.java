@@ -31,12 +31,16 @@ import jakarta.servlet.http.HttpServletRequest;
 public class FrontWinnerController extends BaseUtils {
 	
 	private int pageNo; // 頁碼
+	
 	@Autowired
 	private WinnerService winnerService;
+	
 	@Autowired
 	private WinnerCategoryService winnerCategoryService;
+	
 	@Autowired
 	private WinnerContentService winnerContentService;
+	
 	@Autowired
 	private NavBannerService navBannerService;
 

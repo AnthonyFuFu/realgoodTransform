@@ -19,8 +19,6 @@ import com.tkb.realgoodTransform.utils.BaseUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-
-
 @Controller
 @RequestMapping(value = "/location")
 public class FrontLocationController extends BaseUtils {
@@ -52,13 +50,6 @@ public class FrontLocationController extends BaseUtils {
 		List<Location> apiLocationList = areaLocationApi.jsonToLocationList(apiLocation);
 		locationList = apiLocationList;
 		
-		
-		System.out.println("areaList" + areaList);
-		System.out.println("apiLocation" + apiLocation);
-		System.out.println("locationList" + locationList);
-		
-		
-
 		model.addAttribute("areaList", areaList).addAttribute("locationList", locationList);
 		return "front/location/list";
 		
@@ -83,9 +74,6 @@ public class FrontLocationController extends BaseUtils {
 				locationList = apiLocationList;
 			}
 		}
-		
-		System.out.println("locationList" + locationList);
-		
 		
 		locationList.get(0).setTotalPage(super.totalPage);
 		return new ResponseEntity<>(locationList,HttpStatus.OK);

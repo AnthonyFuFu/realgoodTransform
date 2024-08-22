@@ -17,6 +17,7 @@ public class ARTICLEAPIServiceImpl implements ARTICLEAPIService {
 	private ARTICLEAPIDao articleapiDao;
 	
 	@Override
+	@SuppressWarnings("rawtypes")
 	public Map quoteArticleDate(String article_num, String appName, String reqEncryptKey, String repDecryptKey) throws Exception {
 		
 		return articleapiDao.quoteArticleDate(article_num, appName, reqEncryptKey, repDecryptKey);

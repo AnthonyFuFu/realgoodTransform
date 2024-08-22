@@ -200,7 +200,6 @@ public class NavBannerDaoImpl implements NavBannerDao {
 
 	@Override
 	public void delete(Integer id) {
-		// TODO Auto-generated method stub
 		String sql = "DELETE FROM NAVBANNER WHERE ID = ?";
 		postgresqlJdbcTemplate.update(sql, new Object[] {id});
 	}

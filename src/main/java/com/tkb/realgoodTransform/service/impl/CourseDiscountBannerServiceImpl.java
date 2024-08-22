@@ -35,43 +35,36 @@ public class CourseDiscountBannerServiceImpl implements CourseDiscountBannerServ
 
 	@Override
 	public Integer getCount(CourseDiscountBanner courseDiscountBanner) {
-		// TODO Auto-generated method stub
 		return courseDiscountBannerDao.getCount(courseDiscountBanner);
 	}
 
 	@Override
 	public Integer getFrontCount(CourseDiscountBanner courseDiscountBanner) {
-		// TODO Auto-generated method stub
 		return courseDiscountBannerDao.getFrontCount(courseDiscountBanner);
 	}
 
 	@Override
 	public Integer getShowCount(CourseDiscountBanner courseDiscountBanner) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public CourseDiscountBanner getData(CourseDiscountBanner courseDiscountBanner) {
-		// TODO Auto-generated method stub
 		return courseDiscountBannerDao.getData(courseDiscountBanner);
 	}
 
 	@Override
 	public CourseDiscountBanner getFrontData(CourseDiscountBanner courseDiscountBanner) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Integer getNextId() {
-		// TODO Auto-generated method stub
 		return courseDiscountBannerDao.getNextId();
 	}
 
 	@Override
 	public void add(CourseDiscountBanner courseDiscountBanner) {
-		// TODO Auto-generated method stu
 		courseDiscountBannerDao.add(courseDiscountBanner);
 
 	}
@@ -84,13 +77,11 @@ public class CourseDiscountBannerServiceImpl implements CourseDiscountBannerServ
 
 	@Override
 	public void updateClickRate(CourseDiscountBanner courseDiscountBanner) {
-		// TODO Auto-generated method stub
 		courseDiscountBannerDao.updateClickRate(courseDiscountBanner);
 	}
 
 	@Override
 	public void updateSort(CourseDiscountBanner courseDiscountBanner) {
-		// TODO Auto-generated method stub
 		courseDiscountBannerDao.updateSort(courseDiscountBanner);
 	}
 

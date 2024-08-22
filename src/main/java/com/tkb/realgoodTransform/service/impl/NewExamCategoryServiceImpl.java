@@ -230,7 +230,6 @@ public class NewExamCategoryServiceImpl extends BaseUtils implements NewExamCate
 
 	@Override
 	public List<NewExamCategory> getLayerList(String layer, NewExamCategory newExamCategory) {
-		// TODO Auto-generated method stub
 		return newExamCategoryDao.getLayerList(layer, newExamCategory);
 	}
 

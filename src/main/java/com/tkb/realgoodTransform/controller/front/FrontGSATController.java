@@ -37,18 +37,25 @@ public class FrontGSATController extends BaseUtils {
 
 	private int pageNo; // 頁籤編號
 	private String shareStr;
+	
 	@Autowired
 	private GSATService gSATService; // 外交特考文章服務
+	
 	@Autowired
 	private GSATMenuService gSATMenuService; // 選單服務
+	
 	@Autowired
 	private GSATAdmitService gSATAdmitService; // 外交特考考取金榜文章服務
+	
 	@Autowired
 	private GSATWinnerService gSATWinnerService; // 外交特考贏家經驗談服務
+	
 	@Autowired
 	private GSATWinnerContentService gSATWinnerContentService; // 贏家經驗談內容服務
+	
 	@Autowired
 	private GSATNewsService gSATNewsService; // 外特最新消息服務
+	
 	@Autowired
 	private GSATSideBannerService gSATSideBannerService; // 廣告服務
 
@@ -94,7 +101,7 @@ public class FrontGSATController extends BaseUtils {
 				}
 			}
 		}
-		model.addAttribute("gSATMenuList", gSATMenuList)
+		model.addAttribute("shareStr", shareStr).addAttribute("gSATMenuList", gSATMenuList)
 			 .addAttribute("gSATArticleList", gSATArticleList)
 			 .addAttribute("navBannerList", navBannerList)
 			 .addAttribute("navBannerType2List", navBannerType2List)

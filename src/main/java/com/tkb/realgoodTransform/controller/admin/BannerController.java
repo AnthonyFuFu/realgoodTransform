@@ -47,7 +47,8 @@ public class BannerController extends BaseUtils{
 	private int pageNo;			  //頁碼
 	
 	@Autowired
-	BannerService bannerService;
+	private BannerService bannerService;
+	
 	@Autowired
 	private EditLogService editLogService;
 	/**

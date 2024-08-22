@@ -1,30 +1,68 @@
-2024-07-09 09:20:33.907 INFO  c.t.r.RealgoodTransformApplication - Starting RealgoodTransformApplication using Java 17.0.10 with PID 7304 (C:\Users\TKB0004757\git\realgoodTransform\target\classes started by TKB0004757 in C:\Users\TKB0004757\git\realgoodTransform)
-2024-07-09 09:20:33.914 INFO  c.t.r.RealgoodTransformApplication - No active profile set, falling back to 1 default profile: "default"
-2024-07-09 09:20:33.982 INFO  o.s.b.d.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\TKB0004757\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.9.0.0\ojdbc8-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/TKB0004757/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.9.0.0/oraclepki.jar
-2024-07-09 09:20:33.983 INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-2024-07-09 09:20:33.983 INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-2024-07-09 09:20:35.105 INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-07-09 09:20:35.184 INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 69 ms. Found 0 JPA repository interfaces.
-2024-07-09 09:20:35.607 ERROR o.a.c.core.AprLifecycleListener - An incompatible version [1.1.30] of the Apache Tomcat Native library is installed, while Tomcat requires version [1.2.34]
-2024-07-09 09:20:35.870 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8089 (http)
-2024-07-09 09:20:35.888 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2024-07-09 09:20:35.888 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
-2024-07-09 09:20:35.965 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2024-07-09 09:20:35.965 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1981 ms
-2024-07-09 09:20:36.267 INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
-2024-07-09 09:20:36.566 INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-07-09 09:20:36.652 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
-2024-07-09 09:20:36.716 INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2024-07-09 09:20:37.069 INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-07-09 09:20:37.814 INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-07-09 09:20:37.822 INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-07-09 09:20:38.506 WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-07-09 09:20:39.109 WARN  o.s.b.d.a.OptionalLiveReloadServer - Unable to start LiveReload server
-2024-07-09 09:20:39.157 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8089 (http) with context path ''
-2024-07-09 09:20:39.167 INFO  c.t.r.RealgoodTransformApplication - Started RealgoodTransformApplication in 5.641 seconds (process running for 6.308)
-2024-07-09 09:20:52.979 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2024-07-09 09:20:52.979 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
-2024-07-09 09:20:52.980 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
-2024-07-09 12:11:12.258 INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
-2024-07-09 12:11:12.323 INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-07-09 12:11:12.333 INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2024-08-20 08:43:17.380 INFO  c.t.r.RealgoodTransformApplication - Starting RealgoodTransformApplication using Java 17.0.1 with PID 8632 (C:\Users\TKB0004757\git\realgoodTransform\target\classes started by TKB0004757 in C:\Users\TKB0004757\git\realgoodTransform)
+2024-08-20 08:43:17.386 INFO  c.t.r.RealgoodTransformApplication - No active profile set, falling back to 1 default profile: "default"
+2024-08-20 08:43:17.453 INFO  o.s.b.d.restart.ChangeableUrls - The Class-Path manifest attribute in C:\Users\TKB0004757\.m2\repository\com\oracle\database\jdbc\ojdbc8\21.9.0.0\ojdbc8-21.9.0.0.jar referenced one or more files that do not exist: file:/C:/Users/TKB0004757/.m2/repository/com/oracle/database/jdbc/ojdbc8/21.9.0.0/oraclepki.jar
+2024-08-20 08:43:17.454 INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2024-08-20 08:43:17.454 INFO  o.s.b.d.e.DevToolsPropertyDefaultsPostProcessor - For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2024-08-20 08:43:21.767 INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-08-20 08:43:21.843 INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 60 ms. Found 0 JPA repository interfaces.
+2024-08-20 08:43:22.342 ERROR o.a.c.core.AprLifecycleListener - An incompatible version [1.1.30] of the Apache Tomcat Native library is installed, while Tomcat requires version [1.2.34]
+2024-08-20 08:43:22.639 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8089 (http)
+2024-08-20 08:43:22.664 INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-08-20 08:43:22.666 INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
+2024-08-20 08:43:22.809 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-08-20 08:43:22.810 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 5355 ms
+2024-08-20 08:43:23.078 INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2024-08-20 08:43:23.364 INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-08-20 08:43:23.430 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-08-20 08:43:23.465 INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-08-20 08:43:23.755 INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-08-20 08:43:24.432 INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-08-20 08:43:24.440 INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-08-20 08:43:25.015 WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-08-20 08:43:25.727 INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-08-20 08:43:25.806 INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8089 (http) with context path ''
+2024-08-20 08:43:25.823 INFO  c.t.r.RealgoodTransformApplication - Started RealgoodTransformApplication in 8.814 seconds (process running for 9.539)
+2024-08-20 09:01:05.771 INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-08-20 09:01:05.772 INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-08-20 09:01:05.774 INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2024-08-20 09:22:40.691 INFO  o.a.coyote.http11.Http11Processor - Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+java.lang.IllegalArgumentException: Invalid character found in the request target [/winner/'https://www.facebook.com/sharer/sharer.php?u=%27%20+%20{@environment.getProperty(%27static.url%27)}+@{/lectures/inside?247215B8E18DC8810E4B64DDA1ECE4E8} ]. The valid characters are defined in RFC 7230 and RFC 3986
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:482)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:264)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+2024-08-20 10:56:09.675 INFO  o.s.b.a.SpringApplicationAdminMXBeanRegistrar$SpringApplicationAdmin - Application shutdown requested.
+2024-08-20 10:56:09.726 INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-08-20 10:56:09.739 INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed
+2024-08-20 11:03:56.547 WARN  o.s.b.t.j.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer - 
+
+Found multiple occurrences of org.json.JSONObject on the class path:
+
+	jar:file:/C:/Users/TKB0004757/.m2/repository/org/json/json/20210307/json-20210307.jar!/org/json/JSONObject.class
+	jar:file:/C:/Users/TKB0004757/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar!/org/json/JSONObject.class
+
+You may wish to exclude one of them to ensure predictable runtime behavior
+
+2024-08-20 11:03:56.572 INFO  c.t.r.RealgoodTransformApplicationTests - Starting RealgoodTransformApplicationTests using Java 17.0.1 with PID 9212 (started by TKB0004757 in C:\Users\TKB0004757\git\realgoodTransform)
+2024-08-20 11:03:56.573 INFO  c.t.r.RealgoodTransformApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2024-08-20 11:03:58.069 INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-08-20 11:03:58.156 INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 76 ms. Found 0 JPA repository interfaces.
+2024-08-20 11:03:59.141 INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} inited
+2024-08-20 11:03:59.634 INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-08-20 11:03:59.748 INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2024-08-20 11:03:59.828 INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-08-20 11:04:00.223 INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-08-20 11:04:00.837 INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-08-20 11:04:00.844 INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-08-20 11:04:01.708 ERROR o.a.c.core.AprLifecycleListener - An incompatible version [1.1.30] of the Apache Tomcat Native library is installed, while Tomcat requires version [1.2.34]
+2024-08-20 11:04:01.845 WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-08-20 11:04:02.601 INFO  c.t.r.RealgoodTransformApplicationTests - Started RealgoodTransformApplicationTests in 6.418 seconds (process running for 8.152)
+2024-08-20 11:04:03.721 INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-08-20 11:04:03.728 INFO  c.alibaba.druid.pool.DruidDataSource - {dataSource-1} closed

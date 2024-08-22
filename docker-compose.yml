@@ -1,0 +1,141 @@
+version: '3'
+services:
+  realgood:
+    build: .
+    ports:
+      - 8080:8089
+    networks:
+      - realgood-bridge
+    environment:
+    
+      # Server Configuration
+      - server.error.path=/error
+      - server.servlet.encoding.force=true
+      - server.servlet.encoding.charset=UTF-8
+      - server.servlet.encoding.enabled=true
+      - server.servlet.context-path=
+      - server.port=8089
+      
+      # Spring Datasource Configuration
+      - spring.datasource.druid.first.driver-class-name =org.postgresql.Driver
+      - spring.datasource.druid.first.url=jdbc:postgresql://postgresql:5432/realgood
+      - spring.datasource.druid.first.username=postgres
+      - spring.datasource.druid.first.password=realgood
+      
+      - spring.datasource.druid.fifth.driver-class-name=oracle.jdbc.OracleDriver
+      - spring.datasource.druid.fifth.url=jdbc:oracle:thin:@122.147.5.176:1521:tkblearn
+      - spring.datasource.druid.fifth.username=tkbrealgood
+      - spring.datasource.druid.fifth.password=lur5p504
+      
+      - spring.datasource.druid.second.driver-class-name=org.postgresql.Driver
+      - spring.datasource.druid.second.url=jdbc:postgresql://172.16.131.156:5432/compose
+      - spring.datasource.druid.second.username=compose
+      - spring.datasource.druid.second.password=comexam
+      
+      - spring.datasource.druid.third.driver-class-name=oracle.jdbc.OracleDriver
+      - spring.datasource.druid.third.url=jdbc:oracle:thin:@122.147.5.176:1521:tkblearn
+      - spring.datasource.druid.third.username=elearning
+      - spring.datasource.druid.third.password=learning0202
+      
+      - spring.datasource.druid.fourth.driver-class-name=oracle.jdbc.OracleDriver
+      - spring.datasource.druid.fourth.url=jdbc:oracle:thin:@//168.138.202.149:1521/pdb1.sub03170207590.ecvcn.oraclevcn.com
+      - spring.datasource.druid.fourth.username=compose
+      - spring.datasource.druid.fourth.password=V2x57xNAei
+      
+      # Spring Thymeleaf Configuration
+      - spring.thymeleaf.prefix=classpath:/templates/
+      - spring.thymeleaf.suffix=.html
+      - spring.thymeleaf.cache=false
+      
+      # Spring Web Resources
+      - spring.web.resources.static-locations=classpath:/static/
+      
+      # Datasource Pool Configuration
+      - spring.datasource.druid.not-full-timeout-retry-count=5
+      - spring.datasource.druid.time-between-connect-error-millis=60000
+      - spring.datasource.druid.pool-prepared-statements=true
+      - spring.datasource.druid.maxPoolPreparedStatementPerConnectionSize=30
+      - spring.datasource.druid.initialSize=5
+      - spring.datasource.druid.minIdle=5
+      - spring.datasource.druid.maxActive=20
+      - spring.datasource.druid.maxWait=60000
+      - spring.datasource.druid.timeBetweenEvictionRunsMillis=60000
+      - spring.datasource.druid.minEvictableIdleTimeMillis=300000
+      - spring.datasource.druid.validationQuery=SELECT 1 FROM DUAL
+      - spring.datasource.druid.testWhileIdle=true
+      - spring.datasource.druid.testOnBorrow=false
+      - spring.datasource.druid.testOnReturn=false
+      - spring.datasource.druid.connectionProperties=druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      
+      # Logging Configuration
+      - logging.pattern.file=%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level %logger{36} - %msg%n
+      - logging.file.name=/app/logs/realgood.log
+      - logging.file.path=/app/logs/
+      
+      # File Upload Configuration
+      - upload.file.path=/upload/
+      
+      # Static URL Configuration
+      - static.url=
+      - weburl=
+      - html.url=
+      - web.path=
+      - api.endpoint=/realgood
+      
+      # DES Encryption Configuration
+      - DES.Key=aj3lwidk3
+      - DES.ModeAndPadding=DES/ECB/PKCS5Padding
+      
+      # Project Information
+      - project.name=realgood
+      
+      # Email Configuration
+      - ad.maxSize=1
+      - spring.servlet.multipart.max-file-size=5MB
+      - spring.servlet.multipart.max-request-size=5MB
+      
+      # Article API Configuration
+      - articleAppName=ARTICLE
+      - articleReqEncryptKey=article-req-xxxx
+      - articleRepDecryptKey=article-rep-xxxx
+      
+    volumes:
+      - ./logs:/app/logs
+      
+    depends_on:
+      - postgresql
+      
+  postgresql:
+    image: postgres:14
+    restart: always
+    #command: -c ssl=on -c ssl_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem -c ssl_key_file=/etc/ssl/private/ssl-cert-snakeoil.key
+    ports:
+      - '5429:5432'
+    environment:
+      POSTGRES_DB: 'realgood'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'realgood'
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+        - ./data:/var/lib/postgresql/data
+    #volumes:
+    #  - /app/server/postgres:/var/lib/postgresql/data
+    
+    networks:
+      - realgood-bridge
+  pgadmin4:
+    image: elestio/pgadmin:latest
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: 123456
+      PGADMIN_LISTEN_PORT: 5428
+    ports:
+      - '5428:5428'
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+        
+networks:
+  # docker network create realgood-bridge
+  realgood-bridge:
+    external: true

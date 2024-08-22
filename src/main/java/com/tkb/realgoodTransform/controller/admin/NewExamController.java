@@ -1,6 +1,5 @@
 package com.tkb.realgoodTransform.controller.admin;
 
-
 import java.io.IOException;
 import java.sql.Date;
 import java.text.ParseException;
@@ -32,17 +31,17 @@ import com.tkb.realgoodTransform.utils.BaseUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
-
 @Controller
 @RequestMapping("/tkbrule")
 @SessionAttributes(value = { "userAccountSession", "sideMenuList" })
 public class NewExamController extends BaseUtils {
 	private int pageNo;
+	
 	@Autowired
-	NewExamService newExamService;
+	private NewExamService newExamService;
+	
 	@Autowired
-	NewExamContentService newExamContentService;
+	private NewExamContentService newExamContentService;
 	
 	/**
 	 * 清單頁面

@@ -10,6 +10,7 @@ import lombok.Data;
  * 地區
  */
 @Data
+@SuppressWarnings("rawtypes")
 public class Location {
 
 	private Integer id; 						// 流水號

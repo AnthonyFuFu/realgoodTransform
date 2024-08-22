@@ -26,18 +26,17 @@ import com.tkb.realgoodTransform.utils.CryptographyUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-
-
-
-
 @Controller
 public class FrontChosenArticleController extends BaseUtils {
 	
 	private int pageNo;										//頁碼
+	
 	@Autowired
 	private ChosenArticleService chosenArticleService;		//精選文章服務
+	
 	@Autowired
 	private ChosenArticleCategoryService chosenArticleCategoryService;		//精選文章類別服務
+	
 	@Autowired
 	private NavBannerService navBannerService;                    //廣告服務
 	
@@ -46,7 +45,6 @@ public class FrontChosenArticleController extends BaseUtils {
 		List<ChosenArticleCategory> chosenArticleCategoryList = new ArrayList<>();
 		List<ChosenArticleCategory> chosenArticleCategoryChildList = new ArrayList<>();
 		List<ChosenArticle> chosenArticleList = new ArrayList<>();
-
 		
 		if(chosenArticle.getArticle_category()==null){
 			chosenArticle.setArticle_category(0);
@@ -64,15 +62,9 @@ public class FrontChosenArticleController extends BaseUtils {
 		}
 		pageNo = super.pageSetting(pageNo);
 		
-		
-
 		chosenArticleCategory.setParent_id(0);
-
 		chosenArticleCategoryList = chosenArticleCategoryService.getLayerList("1", chosenArticleCategory);
 		
-		
-		System.out.println("chosenArticleCategoryList70" + chosenArticleCategoryList);
-
 		for(int i = 0 ; i < chosenArticleCategoryList.size() ; i++){
 			
 			if(chosenArticle.getArticle_category().equals(chosenArticleCategoryList.get(i).getId())){
@@ -118,15 +110,11 @@ public class FrontChosenArticleController extends BaseUtils {
 			}
 		}
 		
-		System.out.println("chosenArticleCategoryList" + chosenArticleCategoryList);
-		
-		
 		model.addAttribute("chosenArticleCategoryList", chosenArticleCategoryList)
 			.addAttribute("chosenArticleCategoryChildList", chosenArticleCategoryChildList)
 			.addAttribute("chosenArticleList", chosenArticleList);
 		addModelAttribute(pageNo, model);
 		return "front/chosenArticle/list";
-
 		
 	}
 	
@@ -174,7 +162,6 @@ public class FrontChosenArticleController extends BaseUtils {
 			.addAttribute("navBannerType2List", navBannerType2List)
 			.addAttribute("chosenArticleList", chosenArticleList);
 		return "front/chosenArticle/inside";
-
 		
 	}
 	
@@ -228,6 +215,5 @@ public class FrontChosenArticleController extends BaseUtils {
 		addModelAttribute(pageNo, model);
 		return new ResponseEntity<>(chosenArticleList, HttpStatus.OK);
 	}
-	
 	
 }

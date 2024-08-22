@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>108課綱學測攻略數位學習專區-贏家分享-甄戰學習顧問</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/front_style.css}" />
+<link rel="shortcut icon" type="image/x-icon" th:href="${@environment.getProperty('static.url')}+@{/images/front/favicon1.ico}" />
+<!-- 20190625 start -->
+<link rel="stylesheet" type="text/css" th:href="${@environment.getProperty('static.url')}+@{/css/front/font-awesome.css}" />
+<link type="text/css" rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous" />
+<link type="text/css" rel="stylesheet" th:href="${@environment.getProperty('static.url')}+@{/css/front/jquery.mCustomScrollbar.css}" />
+<!-- 20190625 end -->
+
+<!-- 電腦版 -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+<meta name="description" content="一點通輔考第一品牌，一點通考取學員心得分享，讀書計畫安排，提供給沒有方向的您！" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="贏家分享-一點通專區-甄戰學習顧問" />
+<meta property="og:description" content="一點通輔考第一品牌，一點通考取學員心得分享，讀書計畫安排，提供給沒有方向的您！" />
+<meta property="og:title" content="贏家分享-一點通專區-甄戰學習顧問" />
+<meta property="og:url" content="/GSAT/list" />
+<link th:insert="~{front/loadForOldPage/js :: common}">
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PQJ4V7B');</script>
+<!-- End Google Tag Manager -->
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PQJ4V7B"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<!-- 置頂按鈕 -->
+<a class="btn-top" href="javascript:void(0);"><i class="fas fa-arrow-up"></i></a>
+<!-- 收納按鈕 -->
+<a class="btn-feature" href="javascript:void(0);"><i class="fas fa-ellipsis-h"></i></a>
+<!-- 展開功能 -->
+<!-- 課程諮詢按鈕 -->
+<a class="btn-course" href="${BASE_PATH}EDM/edm253/index.jsp?str=741C31581DB3FF18F9B1FEE9DAEC51CB" target="_blank">課程<br>諮詢</a>
+
+<!-- 行動版 -->
+<div th:insert="~{front/loadForOldPage/layout :: menu_rwd}"></div>
+<div class="wrapper">
+    
+	<!-- 20190625 start -->
+	<div class="header-box">  
+		<div th:insert="~{front/loadForOldPage/layout :: header}"></div>
+		
+		<div th:insert="~{front/loadForOldPage/layout :: menu}"></div>
+	</div>	
+		<form id="getForm" method="get" enctype="multipart/form-data">
+			<input type="hidden" id="str" name="str"/>
+		</form>
+		<div class="content">
+		<div class="ad">
+		<th:block th:if="${#lists.size(navBannerList)==3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<th:block th:if="${data.count == 1}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			<th:block th:if="${data.count == 2}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			</th:block>
+		</th:block>
+		<th:block th:if="${#lists.size(navBannerList)<3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<div><a th:href="${dataStatus.link}" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+			</th:block>
+		</th:block>
+		
+		
+		
+		<th:block th:if="${#lists.size(navBannerList)==3}">
+			<th:block th:each="dataStatus , data : ${navBannerList}">
+				<th:block th:if="${data.count == 3}">
+				<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/upload/image/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+				</th:block>
+			</th:block>
+		</th:block>
+		
+		
+		
+	
+		
+		
+		<div class="metaBox"></div>
+		
+		
+		
+	
+		
+		
+		
+		<th:block th:each="dataStatus , data : ${navBannerType2List}">
+			<div><a th:href="${dataStatus.link}" th:onclick="|banner_toInside('${dataStatus.id}')|" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/navBanner/{image}(image=${dataStatus.image})}"></a></div>
+		</th:block>
+		</div>
+		<!--             ad -->
+
+				<!-- ad -->
+			<div class="main_area">
+				<h1>108課綱學測攻略數位學習專區</h1>		
+				<div class="back"><a href="javascript:history.back()">回上頁</a></div>
+				<hr></hr>
+			<div class="gsat_link">	
+				<span>&nbsp;&nbsp;»&nbsp;快速連結</span>
+				<ul>
+					<th:block th:each="dataStatus , data : ${gSATMenuList}">
+						<li class="fast_link_li">
+							<th:block th:if="${dataStatus.name eq '贏家分享'}">
+								<a class="gsat_link_now" th:href="${dataStatus.link}">
+								[[${dataStatus.name}]]
+								</a>
+							</th:block>
+							<th:block th:unless="${dataStatus.name eq '贏家分享'}">
+								<a th:href="${dataStatus.link}">
+								[[${dataStatus.name}]]
+								</a>
+							</th:block>
+						</li>
+					</th:block>
+				</ul>
+			</div>  <!-- 			gsat_link -->
+
+			<h2><div class="red_word">»&nbsp;贏家分享</div></h2>
+  			<div class="clear_float"></div>
+  			
+				<th:block th:each="dataStatus , data : ${gsatWinnerList}">
+					<div class="gsat_winner_group">
+					<div class="gsat_winner">[[${dataStatus.name}]]</div>
+					<div class="gsat_winner_link"><a href="${BASE_PATH}GSAT/WinnerInside?str={str}(str=${dataStatus.front_url})">[[${dataStatus.title}]]</a></div>
+					</div>
+				</th:block>
+				
+				<p><br /></p>
+				<div th:insert="~{front/loadForOldPage/layout :: page}"></div>
+			
+			</div><!-- main_area -->
+			<div style="margin-top:-15%" th:insert="~{front/common/consultationGsat}"></div>
+			</div><!-- content -->
+				
+	<div th:insert="~{front/loadForOldPage/layout :: footer}"></div>
+	</div> <!-- wrapper -->
+	<script th:src="${@environment.getProperty('static.url')}+@{/js/receivedipForm.js}"></script>
+	<script th:src="${@environment.getProperty('static.url')}+@{/js/facebook_Adjust.js}"></script>
+
+<script type="text/javascript">
+(function() {
+var pa = document.createElement('script'); pa.type = 'text/javascript'; pa.charset = "utf-8"; pa.async = true;
+pa.src = window.location.protocol + "//api.popin.cc/ads/TKB.js";
+var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(pa, s);
+})(); 
+</script>		
+
+</body>
+</html>

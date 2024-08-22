@@ -18,8 +18,6 @@ import org.springframework.stereotype.Repository;
 import com.tkb.realgoodTransform.dao.CourseDiscountDao;
 import com.tkb.realgoodTransform.model.CourseDiscount;
 
-
-
 @Repository
 public class CourseDiscountDaoImpl implements CourseDiscountDao {
 
@@ -36,8 +34,9 @@ public class CourseDiscountDaoImpl implements CourseDiscountDao {
 	@Override
 	public List<CourseDiscount> getList(int pageCount, int pageStart, CourseDiscount courseDiscount) {
 		List<Object> args = new ArrayList<Object>();
-		String sql = "SELECT CD.*, C.NAME AS CATEGORY_NAME " + "FROM COURSE_DISCOUNT CD "
-				+ "LEFT JOIN COURSE_DISCOUNT_CATEGORY C ON C.ID = CAST(CD.CATEGORY AS INTEGER) ";
+		String sql = " SELECT CD.*, C.NAME AS CATEGORY_NAME "
+				   + " FROM COURSE_DISCOUNT CD "
+				   + " LEFT JOIN COURSE_DISCOUNT_CATEGORY C ON C.ID = CAST(CD.CATEGORY AS INTEGER) ";
 		if (courseDiscount.getTitle() != null && !"".equals(courseDiscount.getTitle())) {
 			sql += "WHERE TITLE LIKE ? ";
 			args.add("%" + courseDiscount.getTitle() + "%");
@@ -49,6 +48,21 @@ public class CourseDiscountDaoImpl implements CourseDiscountDao {
 				args.toArray());
 	}
 
+	public List<CourseDiscount> getFrontList(CourseDiscount courseDiscount) {
+		
+		List<Object> args = new ArrayList<Object>();
+		
+		String sql = " SELECT * FROM COURSE_DISCOUNT WHERE SHOW = 1 "
+				   + " AND ID <> ? "
+				   + " AND TO_DATE(TO_CHAR(NOW(), 'yyyy-MM-dd'), 'yyyy-MM-dd') >= BEGIN_DATE "
+				   + " AND TO_DATE(TO_CHAR(NOW(), 'yyyy-MM-dd'), 'yyyy-MM-dd') <= END_DATE "
+				   + " ORDER BY RANDOM() LIMIT 3";
+			args.add(courseDiscount.getId());
+
+		return postgresqlJdbcTemplate.query(sql, new BeanPropertyRowMapper<CourseDiscount>(CourseDiscount.class),args.toArray());
+		
+	}
+	
 	@Override
 	public List<CourseDiscount> getFrontList(int pageCount, int pageStart, CourseDiscount courseDiscount,
 			String search_sort) {
@@ -152,6 +166,14 @@ public class CourseDiscountDaoImpl implements CourseDiscountDao {
 	}
 
 	@Override
+	public CourseDiscount getFrontData(CourseDiscount courseDiscount) {
+		List<Object>args = new ArrayList<>();
+		String sql = "SELECT * FROM COURSE_DISCOUNT WHERE ID = ? ";
+		args.add(courseDiscount.getId());
+		return postgresqlJdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<CourseDiscount>(CourseDiscount.class),args.toArray());
+	}
+	
+	@Override
 	public Integer getNextId() {
 		Integer nextId = null;
 		String sql = "SELECT ID FROM COURSE_DISCOUNT ORDER BY ID DESC LIMIT 1";
@@ -189,6 +211,15 @@ public class CourseDiscountDaoImpl implements CourseDiscountDao {
 		String sql = "UPDATE COURSE_DISCOUNT SET TITLE = :title, CATEGORY = :category, CONTENT = :content,TYPE_ICON = :type_icon, TYPE_ICON_TEXT = :type_icon_text, SHOW = :show, PHOTO = :photo, COURSE_DISCOUNT_TOP = :course_discount_top,"
 				+ "INDEX_IMAGE = :index_image, BEGIN_DATE = :begin_date, END_DATE = :end_date, UPDATE_BY = :update_by, UPDATE_DATE = now(), EDM_URL = :edm_url, PRODUCT_CATEGORY = :product_category WHERE ID = :id";
 		postgresqlJdbcNameTemplate.update(sql, parameter);
+	}
+
+	@Override
+	public void updateClickRate(CourseDiscount courseDiscount) {
+		List<Object>args = new ArrayList<>();
+		String sql = "UPDATE COURSE_DISCOUNT SET CLICK_RATE = CLICK_RATE + 1 WHERE ID = ? ";
+		args.add(courseDiscount.getId());
+		postgresqlJdbcTemplate.update(sql,args.toArray());
+
 	}
 
 	public void index_sort(CourseDiscount courseDiscount) {

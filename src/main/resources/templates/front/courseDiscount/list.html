@@ -216,7 +216,7 @@ $(function(){
 				
 				$(".bulletin_list").empty();
 				
-				var weburl = '[[${@environment.getProperty('weburl')}]]' ;
+				var weburl = "[[${@environment.getProperty('weburl')}]]" ;
 				
 				var str = "";
 				if(data != null && data.length > 0){
@@ -229,13 +229,13 @@ $(function(){
 							str += "<div class='examInfo'>";
 						}
 						str += "<div class='bulletin_img'>";
-						str += "<a href='"+courseDiscount.edm_url+"'><img src="+weburl+"/upload/image/courseDiscount/photo/"+courseDiscount.photo+" width='180px' height='110px' /></a>";
+						str += "<a href='"+courseDiscount.edm_url+"'><img src='"+weburl+"/upload/image/courseDiscount/photo/"+courseDiscount.photo+"' width='180px' height='110px' /></a>";
 						str += "</div>";
 						str += "<div class='bulletin_info'>";
 						str += "<div class='bulletin_title'><a href='"+courseDiscount.edm_url+"'>"+courseDiscount.title+"</a></div>";
 						str += "<div class='offer_intro'>"+courseDiscount.content+"</div>";
 						str += "<div class='"+courseDiscount.type_icon+"'>"+courseDiscount.type_icon_text+"</div>";
-						str += "<div class='offer_text_more'><a href='"+courseDiscount.edm_url+"'>優惠詳情 &gt;</a></div>	";				
+						str += "<div class='offer_text_more'><a href='"+courseDiscount.edm_url+"'>優惠詳情 &gt;</a></div>	";
 						str += "</div>";
 						str += "</div>";
 						

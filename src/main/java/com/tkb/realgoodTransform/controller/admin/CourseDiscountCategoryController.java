@@ -34,15 +34,17 @@ import com.tkb.realgoodTransform.utils.BaseUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 @RequestMapping("/tkbrule")
 @SessionAttributes(value = { "userAccountSession", "sideMenuList" })
 public class CourseDiscountCategoryController extends BaseUtils {
+	
 	@Autowired
-	CourseDiscountCategoryService courseDiscountCategoryService;
+	private CourseDiscountCategoryService courseDiscountCategoryService;
+	
 	@Autowired
 	private EditLogService editLogService;
+	
 	private int pageNo;
 	
 	/**

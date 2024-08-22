@@ -45,15 +45,21 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/tkbrule")
 @SessionAttributes(value = { "userAccountSession", "sideMenuList" })
 public class WinnerController extends BaseUtils {
+	
 	private int pageNo;									        		//頁碼
+	
 	@Autowired
-	WinnerService winnerService;
+	private WinnerService winnerService;
+	
 	@Autowired
-	WinnerContentService winnerContentService;
+	private WinnerContentService winnerContentService;
+	
 	@Autowired
-	WinnerCategoryService winnerCategoryService;
+	private WinnerCategoryService winnerCategoryService;
+	
 	@Autowired
 	private EditLogService editLogService;
+	
 	/**
 	 * 清單頁面
 	 * @return

@@ -358,7 +358,7 @@ public class WinnerDaoImpl implements WinnerDao {
 
 	@Override
 	public List<Winner> getVideoIndexList(Winner winner) {
-		String sql = "SELECT * FROM WINNER WHERE SHOW = 1 AND SHOW_INDEX = 1 ORDER BY RANDOM() LIMIT  1 ";
+		String sql = "SELECT * FROM WINNER WHERE SHOW = 1 AND SHOW_INDEX = 1 AND VIDEO IS NOT NULL ORDER BY RANDOM() LIMIT  1 ";
 		return postgresqlJdbcTemplate.query(sql, new BeanPropertyRowMapper<Winner>(Winner.class));
 	}
 
@@ -371,7 +371,7 @@ public class WinnerDaoImpl implements WinnerDao {
 	@Override
 	public List<Winner> getFrontVideoList(Winner winner) {
 		List<Object>args = new ArrayList<>();
-		String sql = "SELECT * FROM WINNER WHERE SHOW = 1 AND SHOW_INDEX = 1 AND ID != ? ORDER BY RANDOM() LIMIT 4;";
+		String sql = "SELECT * FROM WINNER WHERE SHOW = 1 AND SHOW_INDEX = 1 AND VIDEO IS NOT NULL AND ID != ? ORDER BY RANDOM() LIMIT 4;";
 		args.add(winner.getId());
 		return postgresqlJdbcTemplate.query(sql, new BeanPropertyRowMapper<Winner>(Winner.class),args.toArray());
 	}

@@ -1,7 +1,6 @@
 package com.tkb.realgoodTransform.model;
 
 import java.sql.Timestamp;
-import java.util.Date;
 
 import lombok.Data;
 

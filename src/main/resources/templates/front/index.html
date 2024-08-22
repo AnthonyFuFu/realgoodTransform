@@ -35,7 +35,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   gtag('config', 'AW-970517127');
 </script>
-
+<style>
+	.hide {
+		display:none;
+	}
+</style>
 </head>
 <body>
 <input type="hidden"  id="message" th:value="${message}" />
@@ -327,8 +331,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 								<div class="type_widen">
 									[[${dataStatus.area_name}]]
 								</div>
-								<a th:if="${dataStatus.product_category != ''} and ${dataStatus.product_category != null}" th:href="${@environment.getProperty('weburl')}+@{/schoolBulletin/inside?str=}+${dataStatus.encrypturl}+'&product_category='+${dataStatus.product_category}">[[${dataStatus.title}]]</a>
-								<a th:if="${dataStatus.product_category == ''} or ${dataStatus.product_category == null}" th:href="${@environment.getProperty('weburl')}+@{/schoolBulletin/inside?str=}+${dataStatus.encrypturl}">[[${dataStatus.title}]]</a>
+								<a th:if="${dataStatus.product_category != ''} and ${dataStatus.product_category != null}" th:href="${@environment.getProperty('weburl')}+@{/schoolBulletin/inside?str=}+${dataStatus.encrypturl}+'&product_category='+${dataStatus.product_category}" th:style="${dataStatus.category_name == '系統公告'} ? 'color:red;' : ''">[[${dataStatus.title}]]</a>
+								<a th:if="${dataStatus.product_category == ''} or ${dataStatus.product_category == null}" th:href="${@environment.getProperty('weburl')}+@{/schoolBulletin/inside?str=}+${dataStatus.encrypturl}" th:style="${dataStatus.category_name == '系統公告'} ? 'color:red;' : ''">[[${dataStatus.title}]]</a>
 							</dt>
 							<!-- 20200710 Linda end -->
 							<dd>
@@ -368,7 +372,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                      	 <div id="carousel">
                      	  <div class="winner_btn">
 			                   	<div class="winner_next"><a id="nextBtn">▶</a></div>
-			                   	<div class="winner_next"><a id="prevBtn">◀</a></div>
+			                   	<div class="winner_next hide"><a id="prevBtn">◀</a></div>
 			               </div>
                         <th:block th:each="dataStatus, data : ${winnerList}" > 
                         <div class="carousel-item" th:style = '${data.index == 0 ? "display:block" : "display:none"}'>
@@ -549,6 +553,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	    var currentSlide = 1;
 	    // 綁定按鈕事件
 	    $("#prevBtn").click(function() {
+	    	
+	    	if(currentSlide <= 3){
+	    		$("#prevBtn").parent().addClass('hide');
+	    	}
+	    	
 	        if (currentSlide >2) {
 	            currentSlide--;
 	            $(".carousel-item").hide();
@@ -557,6 +566,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	    });
 
 	    $("#nextBtn").click(function() {
+	    	
+	    	if(currentSlide == 2){
+	    		$("#prevBtn").parent().removeClass('hide');
+	    	}else{
+	    		
+	    	}
+	    	
 	        if (currentSlide <= totalSlides) {
 	            currentSlide++;
 	            $(".carousel-item").hide();

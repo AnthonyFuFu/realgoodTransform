@@ -27,18 +27,16 @@ import com.tkb.realgoodTransform.utils.BaseUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-/**
- * 類別Action
- * @author Wen
- * @version 創建時間：2016-10-11
- */
 @Controller
 @RequestMapping("/tkbrule")
 @SessionAttributes(value = { "userAccountSession", "sideMenuList" })
 public class GSATMenuController extends BaseUtils{
+	
 	private int pageNo;
+	
 	@Autowired
 	private GSATMenuService gSATMenuService; //選單服務
+	
 	@Autowired
 	private EditLogService editLogService;				//各功能編輯的LOG服務
 

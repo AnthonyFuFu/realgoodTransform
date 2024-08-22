@@ -44,7 +44,6 @@ public class WinnerContentDaoImpl implements WinnerContentDao {
 
 	@Override
 	public List<WinnerContent> getList(int pageCount, int pageStart, WinnerContent winnerContent) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -88,7 +88,7 @@
 		<h1 class="article-title" style="color: #036EB8" th:utext="${newExam.title}"></h1>
 		
 		<div class="community_API">
-            <a th:href="@{'https://www.facebook.com/sharer/sharer.php?u=' + @{https://daso.tkb.com.tw/lectures/inside?{str}}(str=${shareStr})}" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/fb_api.png}" /></a>
+            <a th:href="@{'https://www.facebook.com/sharer/sharer.php?u=' + @{https://www.reallygood.com.tw/newExam/inside?{str}}(str=${shareStr})}" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/fb_api.png}" /></a>
         </div>
         <div class="viewers">[[${newExam.click_rate}]]</div>
 		<div class="release" th:text="發佈時間：+${#dates.format(begin_date, 'yyyy/MM/dd')}"></div>

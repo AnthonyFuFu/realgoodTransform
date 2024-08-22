@@ -45,92 +45,77 @@ public class CourseDiscountServiceImpl extends BaseUtils implements CourseDiscou
 	
 	@Override
 	public List<CourseDiscount> getList(int pageCount, int pageStart, CourseDiscount courseDiscount) {
-		// TODO Auto-generated method stub
 		return courseDiscountDao.getList(pageCount, pageStart, courseDiscount);
 	}
 
 	@Override
 	public List<CourseDiscount> getFrontList(CourseDiscount courseDiscount) {
-		// TODO Auto-generated method stub
-		return null;
+		return courseDiscountDao.getFrontList(courseDiscount);
 	}
 
 	@Override
 	public List<CourseDiscount> getFrontList(int pageCount, int pageStart, CourseDiscount courseDiscount,
 			String search_sort) {
-		// TODO Auto-generated method stub
 		return courseDiscountDao.getFrontList(pageCount, pageStart, courseDiscount, search_sort);
 	}
 
 	@Override
 	public List<CourseDiscount> getFrontList() {
-		// TODO Auto-generated method stub
 		return courseDiscountDao.getFrontList();
 	}
 
 	@Override
 	public Integer getCount(CourseDiscount courseDiscount) {
-		// TODO Auto-generated method stub
 		return courseDiscountDao.getCount(courseDiscount);
 	}
 
 	@Override
 	public Integer getFrontCount(CourseDiscount courseDiscount) {
-		// TODO Auto-generated method stub
 		return courseDiscountDao.getFrontCount(courseDiscount);
 	}
 
 	@Override
 	public CourseDiscount getData(CourseDiscount courseDiscount) {
-		// TODO Auto-generated method stub
 		return courseDiscountDao.getData(courseDiscount);
 	}
 
 	@Override
 	public CourseDiscount getFrontData(CourseDiscount courseDiscount) {
-		// TODO Auto-generated method stub
-		return null;
+		return courseDiscountDao.getFrontData(courseDiscount);
 	}
 
 	@Override
 	public Integer getNextId() {
-		// TODO Auto-generated method stub
 		return courseDiscountDao.getNextId();
 	}
 
 	@Override
 	public void add(CourseDiscount courseDiscount) {
-		// TODO Auto-generated method stub
 		courseDiscountDao.add(courseDiscount);
 	}
 
 	@Override
 	public void update(CourseDiscount courseDiscount) {
-		// TODO Auto-generated method stub
 		courseDiscountDao.update(courseDiscount);
 	}
 
 	@Override
 	public void updateClickRate(CourseDiscount courseDiscount) {
-		// TODO Auto-generated method stub
-
+		courseDiscountDao.updateClickRate(courseDiscount);
 	}
 
 	@Override
 	public void delete(CourseDiscount courseDiscount,Integer id) {
-		// TODO Auto-generated method stub
 		courseDiscountDao.delete(courseDiscount, id);
 	}
 
 	@Override
 	public Integer checkTopCount(CourseDiscount courseDiscount) {
-		// TODO Auto-generated method stub
 		return courseDiscountDao.checkTopCount(courseDiscount);
 	}
 
 	@Override
 	public void updateIndex_Sort(CourseDiscount courseDiscount) {
-		// TODO Auto-generated method stub
 
 	}
 

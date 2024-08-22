@@ -83,7 +83,6 @@ public class NewExamServiceImpl implements NewExamService{
 
 	@Override
 	public NewExam getData(NewExam newExam) {
-		// TODO Auto-generated method stub
 		return newExamDao.getData(newExam);
 	}
 

@@ -81,7 +81,7 @@
 				<h1 class="article-title" th:utext="${schoolBulletin.title}"></h1>
 				
 			<div class="community_API">
-				<a th:href="'javascript:void window.open('+@{'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('https://www.daso.com.tw/schoolBulletin/inside?str={str}')(str=${shareStr})}+')'">
+				<a th:href="'javascript:void window.open('+@{'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('https://www.reallygood.com.tw/schoolBulletin/inside?str={str}')(str=${shareStr})}+')'">
 					<img th:src="${@environment.getProperty('static.url')}+@{/images/front/fb_api.png}">
 				</a>
 			</div>

@@ -118,7 +118,6 @@ public class LecturesPlaceDaoImpl implements LecturesPlaceDao {
 
 	@Override
 	public List<LecturesPlace> getList(int pageCount, int pageStart, LecturesPlace lecturesPlace) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

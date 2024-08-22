@@ -18,6 +18,7 @@ public interface ARTICLEAPIService {
 	 * @return quoteArticleDate
 	 * @throws Exception
 	 */
+	@SuppressWarnings("rawtypes")
 	public Map quoteArticleDate(String article_num, String appName, String reqEncryptKey, String repDecryptKey) throws Exception;
 	
 }

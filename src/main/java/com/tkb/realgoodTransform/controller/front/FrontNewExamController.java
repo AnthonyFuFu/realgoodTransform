@@ -35,20 +35,21 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class FrontNewExamController extends BaseUtils{
+	
 	private int pageNo;
 	private String shareStr;
-	private int login_msg; // 登入訊息 判斷有無登入
 	
-
 	@Autowired
 	private NewExamService newExamService;
+	
 	@Autowired
 	private NewExamCategoryService newExamCategoryService;
+	
 	@Autowired
 	private NewExamContentService newExamContentService;
+	
 	@Autowired
 	private NavBannerService navBannerService;
-	
 	
 	@RequestMapping("/newExam/index")
 	public String index(NewExam newExam, NewExamCategory newExamCategory, Model model, HttpServletRequest request,@RequestParam(name="newExam.category",required = false)String category) {
@@ -129,18 +130,10 @@ public class FrontNewExamController extends BaseUtils{
 	@RequestMapping("/newExam/toEncrypt")
 	@ResponseBody
 	public String toEncrypt(HttpServletRequest request) throws IOException {
+		
 		int id = request.getParameter("id") == null ? 0 : Integer.valueOf(request.getParameter("id"));
-		
-//		System.out.println("toEncrypttoEncrypttoEncrypttoEncrypttoEncrypt");
-//		
-//		System.out.println("toEncryptid" + id);
-//		
-//		System.out.println("toEncryptid" + CryptographyUtils.encryptStr(String.valueOf(id)));
-//		
-
-		
 		return CryptographyUtils.encryptStr(String.valueOf(id));
-
+		
 	}
 
 	@PostMapping("/newExam/newExamMenu")
@@ -184,21 +177,12 @@ public class FrontNewExamController extends BaseUtils{
 			e.printStackTrace();
 		}
 		
-//		System.out.println("str" + str);
-		
-//		System.out.println("newExam" + newExam);
-		
 		newExam = newExamService.getFrontData(newExam);
 		newExamService.updateClickRate(newExam);
 		shareStr = str;
 		newExamContent.setNewExam_id(newExam.getId());
 		newExamContentList = newExamContentService.getList(newExamContent);
 		newExamRandomList = newExamService.getFrontList(newExam);
-		
-//		System.out.println("newExam" + newExam);
-//		
-//		System.out.println("newExamRandomList" + newExamRandomList);
-		
 		
 		navBannerList = navBannerService.getFrontList(navBanner);
 		navBannerType2List = navBannerService.getFrontType2List(navBanner);

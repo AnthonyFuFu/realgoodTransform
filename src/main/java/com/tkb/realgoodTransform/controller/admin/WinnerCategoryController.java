@@ -35,15 +35,17 @@ import com.tkb.realgoodTransform.utils.BaseUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 @RequestMapping("/tkbrule")
 @SessionAttributes(value = { "userAccountSession", "sideMenuList" })
 public class WinnerCategoryController extends BaseUtils {
+	
 	@Autowired
 	private WinnerCategoryService winnerCategoryService;
+	
 	@Autowired
 	private EditLogService editLogService;
+	
 	private int pageNo;							//頁碼
 	
 	/**

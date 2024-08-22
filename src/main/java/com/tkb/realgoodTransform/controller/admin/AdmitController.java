@@ -65,23 +65,24 @@ public class AdmitController extends BaseUtils {
 	@Value("${upload.file.path}")
 	private String uploadFilePath; // 榜單檔案
 	private int pageNo; // 頁碼
+	
 	@Autowired
-	AdmitContentService admitContentService;
+	private AdmitContentService admitContentService;
 
 	@Autowired
-	AdmitService admitService;
+	private AdmitService admitService;
 
 	@Autowired
-	AdmitContentOptionService admitContentOptionService;
+	private AdmitContentOptionService admitContentOptionService;
 
 	@Autowired
-	AdmitDetailService admitDetailService;
+	private AdmitDetailService admitDetailService;
 
 	@Autowired
-	AdmitCategoryService admitCategoryService;
+	private AdmitCategoryService admitCategoryService;
 
 	@Autowired
-	EditLogService editLogService;
+	private EditLogService editLogService;
 
 	@RequestMapping(value = "/admit/index")
 	public String index(Admit admit, Model model, HttpServletRequest request, HttpSession session,

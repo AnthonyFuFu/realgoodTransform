@@ -7,6 +7,7 @@ import java.util.Map;
 import lombok.Data;
 
 @Data
+@SuppressWarnings("rawtypes")
 public class Winner {
 
 	private Integer id;								//流水號
@@ -55,8 +56,8 @@ public class Winner {
 	private Integer rightPageNum;					//右邊頁碼數量
 	
 	private Integer use_count;                      //category有被使用的id
-	private Map prev_post;	  	    			//上一個
-	private Map next_post;	  					//下一個
+	private Map prev_post;	  	    				//上一個
+	private Map next_post;	  						//下一個
 	
 	private Integer prev_id;	  	    			//上一個
 	private Integer next_id;	  					//下一個

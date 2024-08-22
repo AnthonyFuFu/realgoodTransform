@@ -47,8 +47,10 @@ public class ChosenArticleCategoryController extends BaseUtils {
 
 	@Autowired
 	private ChosenArticleCategoryService chosenArticleCategoryService; // 精選文章類別服務
+	
 	@Autowired
 	private EditLogService editLogService; // 各功能編輯的LOG服務
+	
 	@Autowired
 	private ChosenArticleService chosenArticleService; // 精選文章服務
 

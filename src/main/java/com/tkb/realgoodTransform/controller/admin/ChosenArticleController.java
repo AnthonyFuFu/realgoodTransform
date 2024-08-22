@@ -35,7 +35,6 @@ import com.tkb.realgoodTransform.utils.CryptographyUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 @RequestMapping("/tkbrule")
 @SessionAttributes(value = { "userAccountSession", "sideMenuList" })
@@ -43,10 +42,13 @@ public class ChosenArticleController extends BaseUtils {
 
 	@Autowired
 	private ChosenArticleService chosenArticleService; // 精選文章服務
+	
 	@Autowired
 	private ChosenArticleCategoryService chosenArticleCategoryService; // 精選文章類別服務
+	
 	@Autowired
 	private ARTICLEAPIService articleapiService;
+	
 	@Autowired
 	private EditLogService editLogService; // 各功能編輯的LOG服務
 
@@ -75,6 +77,7 @@ public class ChosenArticleController extends BaseUtils {
 
 	}
 
+	@SuppressWarnings("rawtypes")
 	@RequestMapping(value = "/chosenArticle/add")
 	public String add(ChosenArticle chosenArticle, HttpServletRequest request,
 			ChosenArticleCategory chosenArticleCategory, Model model, String pageNoLog, String title) throws Exception {
@@ -414,7 +417,9 @@ public class ChosenArticleController extends BaseUtils {
 //	        PrintWriter out = response.getWriter();
 //	        out.write(msg);
 //	        
-//	    }   
+//	    }
+	
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 	    @ResponseBody
 		@RequestMapping(value = "/chosenArticle/updateAllArticle")
 	     public String updateAllArticle(ChosenArticle chosenArticle,HttpServletRequest request,@SessionAttribute("userAccountSession") User user

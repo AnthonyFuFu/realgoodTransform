@@ -194,7 +194,6 @@ public class CourseDiscountBannerDaoImpl implements CourseDiscountBannerDao {
 
 	@Override
 	public Integer getFrontCount(CourseDiscountBanner courseDiscountBanner) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

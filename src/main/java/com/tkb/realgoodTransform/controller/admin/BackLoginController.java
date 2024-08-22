@@ -5,13 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jmx.export.assembler.AbstractConfigurableMBeanInfoAssembler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +32,6 @@ import com.tkb.realgoodTransform.tkbApiService.TkbApiService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
-
 /**
  * 後台登入,登出
  */
@@ -52,20 +47,28 @@ public class BackLoginController {
 
 	@Autowired
 	private MenuService menuService;
+	
 	@Autowired
 	private TkbApiService tkbApiService;
+	
 	@Autowired
 	private UserAccountService userAccountService;
+	
 	@Autowired
 	private UserLoginLogService userLoginLogService;
+	
 //	@Autowired
 //	private EfficiencyAuthorityService efficiencyAuthorityService;
+	
 	@Autowired
 	private GroupsService groupService;
+	
 	@Autowired
 	private UserService userService;
+	
 	@Autowired
 	private GroupActionService groupActionService;
+	
 	/**
 	 * 登入頁面
 	 * 

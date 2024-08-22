@@ -97,7 +97,7 @@
 		<div class="back"><a th:href="@{/lectures/index}">回上頁</a></div>
 		<hr />
 		<h1 class="article-title" th:utext="${lectures.title}"></h1>
-		<div class="community_API"><a th:href="'javascript:void window.open('+@{'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('https://www.daso.com.tw/lectures/inside?str={str}')(str=${shareStr})}+')'"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/fb_api.png}"></a></div>
+		<div class="community_API"><a th:href="'javascript:void window.open('+@{'https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent('https://www.reallygood.com.tw/lectures/inside?str={str}')(str=${shareStr})}+')'"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/fb_api.png}"></a></div>
 		<div class="viewers">[[${lectures.click_rate}]]</div>
 		<div class="release" th:text="發佈時間：+${#dates.format(begin_date, 'yyyy/MM/dd')}"></div>
 		<div class="update" th:text="更新時間：+${#dates.format(update_date, 'yyyy/MM/dd')}"></div>

@@ -97,7 +97,8 @@ public class SchoolBulletinDaoImpl implements SchoolBulletinDao {
 	@Override
 	public List<SchoolBulletin> getFrontList(SchoolBulletin schoolBulletin) {
 		
-		String sql = " SELECT * FROM SCHOOL_BULLETIN "
+		String sql = " SELECT SB.*, SBC.NAME AS CATEGORY_NAME FROM SCHOOL_BULLETIN SB "
+				   + " LEFT JOIN SCHOOL_BULLETIN_CATEGORY SBC ON SBC.ID = CAST(SB.CATEGORY AS INTEGER) "
 				   + " WHERE TO_DATE(TO_CHAR(NOW(), 'yyyy-MM-dd'),'yyyy-MM-dd') >= BEGIN_DATE "
 				   + " AND TO_DATE(TO_CHAR(NOW(), 'yyyy-MM-dd'),'yyyy-MM-dd') <= END_DATE "
 				   + " ORDER BY END_DATE DESC LIMIT 5";

@@ -45,13 +45,13 @@ import jakarta.servlet.http.HttpSession;
 public class AdmitCategoryController extends BaseUtils {
 
 	@Autowired
-	AdmitCategoryService admitCategoryService;
+	private AdmitCategoryService admitCategoryService;
 
 	@Autowired
-	AdmitService admitService;
+	private AdmitService admitService;
 
 	@Autowired
-	EditLogService editLogService;
+	private EditLogService editLogService;
 
 	private int pageNo; // 頁碼
 

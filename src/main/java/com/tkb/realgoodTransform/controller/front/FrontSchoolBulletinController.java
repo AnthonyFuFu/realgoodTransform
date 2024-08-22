@@ -39,19 +39,21 @@ import com.tkb.realgoodTransform.utils.CryptographyUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-
-
 @Controller
 @RequestMapping(value = "/schoolBulletin")
 public class FrontSchoolBulletinController extends BaseUtils {
 
 	private int pageNo; // 頁碼
+	
 	@Autowired
 	private SchoolBulletinService schoolBulletinService;
+	
 	@Autowired
 	private SchoolBulletinCategoryService schoolBulletinCategoryService;
+	
 	@Autowired
 	private SchoolBulletinContentService schoolBulletinContentService;
+	
 	@Autowired
 	private NavBannerService navBannerService;
 
@@ -94,9 +96,6 @@ public class FrontSchoolBulletinController extends BaseUtils {
 		} else {
 			super.pageCount = 8;
 		}
-		
-		
-		System.out.println("areaInnerList" + areaInnerList);
 		
 		pageNo = super.pageSetting(pageNo);
 		schoolBulletinList = schoolBulletinService.getFrontList(pageCount, pageStart, schoolBulletin, sort);

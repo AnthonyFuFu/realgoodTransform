@@ -62,7 +62,6 @@ public class MarqueeDaoImpl implements MarqueeDao {
 
 	@Override
 	public Marquee getData(Marquee marquee) {
-		// TODO Auto-generated method stub
 		List<Object> args = new ArrayList<Object>();
 		String sql = "SELECT * FROM MARQUEE WHERE ID = ? ";
 		args.add(marquee.getId());
@@ -155,7 +154,6 @@ public class MarqueeDaoImpl implements MarqueeDao {
 
 	@Override
 	public void delete(Integer id) {
-		// TODO Auto-generated method stub
 		String sql = "DELETE FROM MARQUEE WHERE ID = ? ";
 		postgresqlJdbcTemplate.update(sql, new Object[] {id});
 	}

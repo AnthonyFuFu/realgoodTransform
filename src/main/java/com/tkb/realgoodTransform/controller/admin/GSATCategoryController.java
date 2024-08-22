@@ -28,9 +28,6 @@ import com.tkb.realgoodTransform.utils.BaseUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-/**
- * 類別Action
- */
 @Controller
 @RequestMapping("/tkbrule")
 @SessionAttributes(value = { "userAccountSession", "sideMenuList" })
@@ -38,8 +35,10 @@ public class GSATCategoryController extends BaseUtils{
 
 	@Autowired
 	private GSATCategoryService gSATCategoryService;
+	
 	@Autowired
 	private EditLogService editLogService;				//各功能編輯的LOG服務
+	
 	private int pageNo;
 
 	/**

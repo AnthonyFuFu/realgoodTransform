@@ -28,7 +28,6 @@ import com.tkb.realgoodTransform.utils.CryptographyUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-
 @Service
 public class WinnerServiceImpl implements WinnerService {
 
@@ -43,104 +42,88 @@ public class WinnerServiceImpl implements WinnerService {
 
 	@Override
 	public List<Winner> getList(int pageCount, int pageStart, Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getList(pageCount, pageStart, winner);
 	}
 
 	@Override
 	public List<Winner> getList(Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getList(winner);
 	}
 
 	@Override
 	public List<Winner> getSubList(Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getSubList(winner);
 	}
 
 	@Override
 	public List<Winner> getFrontList(Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getFrontList(winner);
 	}
 
 	@Override
+	@SuppressWarnings("rawtypes")
 	public List<Map> getIndexList(Winner winner) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Winner> getFrontList(int pageCount, int pageStart, Winner winner, String search_sort) {
-		// TODO Auto-generated method stub
 		return winnerDao.getFrontList(pageCount, pageStart, winner, search_sort);
 	}
 
 	@Override
 	public List<Winner> getFrontList(int pageCount, int pageStart, Winner winner,
 			List<WinnerCategory> winnerCategoryList, String search_sort) {
-		// TODO Auto-generated method stub
 		return winnerDao.getFrontList(pageCount, pageStart, winner, winnerCategoryList, search_sort);
 	}
 
 	@Override
 	public Integer getCount(Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getCount(winner);
 	}
 
 	@Override
 	public Integer getUseCount_parent(int count) {
-		// TODO Auto-generated method stub
 		return winnerDao.getUseCount_parent(count);
 	}
 
 	@Override
 	public Integer getUseCount_child(int count) {
-		// TODO Auto-generated method stub
 		return winnerDao.getUseCount_child(count);
 	}
 
 	@Override
 	public Integer getFrontCount(Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getFrontCount(winner);
 	}
 
 	@Override
 	public Integer getFrontCount(Winner winner, List<WinnerCategory> winnerCategoryList) {
-		// TODO Auto-generated method stub
 		return winnerDao.getFrontCount(winner, winnerCategoryList);
 	}
 
 	@Override
 	public Winner getData(Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getData(winner);
 	}
 
 	@Override
 	public Winner getFrontData(Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getFrontData(winner);
 	}
 
 	@Override
 	public Integer getNextId() {
-		// TODO Auto-generated method stub
 		return winnerDao.getNextId();
 	}
 
 	@Override
 	public void add(Winner winner) {
-		// TODO Auto-generated method stub
 		winnerDao.add(winner);
 	}
 
 	@Override
 	public void update(Winner winner) {
-		// TODO Auto-generated method stub
 		winnerDao.update(winner);
 	}
 
@@ -151,7 +134,6 @@ public class WinnerServiceImpl implements WinnerService {
 
 	@Override
 	public void delete(Integer id) {
-		// TODO Auto-generated method stub
 		winnerDao.delete(id);
 	}
 
@@ -162,25 +144,21 @@ public class WinnerServiceImpl implements WinnerService {
 
 	@Override
 	public List<Winner> getAllList(Winner winner) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void updateId(Winner winner) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public List<Winner> getVideoYearList(Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getVideoYearList(winner);
 	}
 
 	@Override
 	public List<Winner> getVideoList(Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getVideoList(winner);
 	}
 
@@ -196,13 +174,11 @@ public class WinnerServiceImpl implements WinnerService {
 
 	@Override
 	public List<Winner> getVideoIndexList(Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getVideoIndexList(winner);
 	}
 
 	@Override
 	public List<Winner> getVideoHotList(Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getVideoHotList(winner);
 	}
 
@@ -412,25 +388,21 @@ public class WinnerServiceImpl implements WinnerService {
 
 	@Override
 	public List<Winner> getFrontVideoList(Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getFrontVideoList(winner);
 	}
 
 	@Override
 	public List<Winner> getRecommendVideoList(Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getRecommendVideoList(winner);
 	}
 
 	@Override
 	public List<Winner> getPrevList(Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getPrevList(winner);
 	}
 
 	@Override
 	public List<Winner> getNextList(Winner winner) {
-		// TODO Auto-generated method stub
 		return winnerDao.getNextList(winner);
 	}
 

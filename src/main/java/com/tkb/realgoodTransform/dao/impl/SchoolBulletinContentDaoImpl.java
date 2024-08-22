@@ -47,7 +47,6 @@ public class SchoolBulletinContentDaoImpl implements SchoolBulletinContentDao {
 	@Override
 	public List<SchoolBulletinContent> getList(int pageCount, int pageStart,
 			SchoolBulletinContent schoolBulletinContent) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

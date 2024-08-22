@@ -239,7 +239,6 @@ public class LecturesDaoImpl implements LecturesDao {
 
 	@Override
 	public void delete(Integer id) {
-		// TODO Auto-generated method stub
 		String sql = "DELETE FROM LECTURES WHERE ID = ? ";
 		postgresqlJdbcTemplate.update(sql,new Object[] {id});
 	}

@@ -27,8 +27,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 import com.tkb.realgoodTransform.model.CourseDiscount;
 import com.tkb.realgoodTransform.model.CourseDiscountCategory;
+import com.tkb.realgoodTransform.model.CourseDiscountContent;
 import com.tkb.realgoodTransform.model.EditLog;
 import com.tkb.realgoodTransform.model.User;
+import com.tkb.realgoodTransform.service.CourseDiscountContentService;
 import com.tkb.realgoodTransform.service.CourseDiscountService;
 import com.tkb.realgoodTransform.service.EditLogService;
 import com.tkb.realgoodTransform.utils.BaseUtils;
@@ -36,8 +38,6 @@ import com.tkb.realgoodTransform.utils.UploadUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-
-
 
 @Controller
 @RequestMapping("/tkbrule")
@@ -47,8 +47,13 @@ public class CourseDiscountController extends BaseUtils {
 	private int pageNo;
 	@Value("${upload.file.path}")
 	private String uploadFilePath; // 檔案上傳位置
+	
 	@Autowired
-	CourseDiscountService courseDiscountService;
+	private CourseDiscountService courseDiscountService;
+	
+	@Autowired
+	private CourseDiscountContentService courseDiscountContentService;
+	
 	@Autowired
 	private EditLogService editLogService;
 	
@@ -244,7 +249,7 @@ public class CourseDiscountController extends BaseUtils {
 					courseDiscount.setUpdate_by(map.get("UPDATE_BY").toString());
 				}
 				if(map.get("UPDATE_DATE") != null) {
-					courseDiscount.setUpdate_date(map.get("UPDATE_DATE").toString());
+					courseDiscount.setUpdate_date(new Date(sdf.parse(map.get("UPDATE_DATE").toString()).getTime()));
 				}
 				if(map.get("CONTENT") != null) {
 					courseDiscount.setContent(map.get("CONTENT").toString());
@@ -299,4 +304,61 @@ public class CourseDiscountController extends BaseUtils {
 		//轉發 到首頁更新
 		return "redirect:index";
 	}
+
+	/**
+	 * 更新正是機資料到本地方法
+	 */
+	@GetMapping("/courseDiscount/updateNormalData2")
+	public String updateNormalData2() {
+		
+		List<Map<String, Object>> getCcourseDiscountContentList = new ArrayList<>();
+		getCcourseDiscountContentList = courseDiscountContentService.getNormalList();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+		
+			for(Map<String, Object> map : getCcourseDiscountContentList) {
+				CourseDiscountContent courseDiscountContent = new CourseDiscountContent();
+				
+				if(map.get("ID") != null) {
+					courseDiscountContent.setId(Integer.valueOf(map.get("ID").toString()));
+				}
+				if(map.get("COURSE_DISCOUNT_ID") != null) {
+					courseDiscountContent.setCourse_discount_id(Integer.valueOf(map.get("COURSE_DISCOUNT_ID").toString()));
+				}
+				if(map.get("ICON") != null) {
+					courseDiscountContent.setIcon(map.get("ICON").toString());
+				}
+				if(map.get("TITLE") != null) {
+					courseDiscountContent.setTitle(map.get("TITLE").toString());
+				}
+				if(map.get("CONTENT") != null) {
+					courseDiscountContent.setContent(map.get("CONTENT").toString());
+				}
+				if(map.get("CREATE_BY") != null) {
+					courseDiscountContent.setCreate_by(map.get("CREATE_BY").toString());
+				}
+				if(map.get("CREATE_DATE") != null) {
+					courseDiscountContent.setCreate_date(new Date(sdf.parse(map.get("CREATE_DATE").toString()).getTime()));
+				}
+				if(map.get("UPDATE_BY") != null) {
+					courseDiscountContent.setUpdate_by(map.get("UPDATE_BY").toString());
+				}
+				if(map.get("UPDATE_DATE") != null) {
+					courseDiscountContent.setUpdate_date(new Date(sdf.parse(map.get("UPDATE_DATE").toString()).getTime()));
+				}
+				if(map.get("IMAGE") != null) {
+					courseDiscountContent.setImage(map.get("IMAGE").toString());
+				}
+				courseDiscountContentService.updateNormalData(courseDiscountContent);
+				
+			}
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		//轉發 到首頁更新
+		return "redirect:index";
+	}
+	
 }

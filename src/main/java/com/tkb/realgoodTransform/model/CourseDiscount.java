@@ -14,9 +14,9 @@ public class CourseDiscount {
 	private Date end_date;				//結束日期
 	private Integer click_rate;			//點擊率
 	private String create_by;			//創建者
-	private Date create_date;		//創建時間
+	private Date create_date;			//創建時間
 	private String update_by;			//編輯者
-	private String update_date;		//編輯時間
+	private Date update_date;			//編輯時間
 	private String encryptId;            //類別
 	
 	private Integer area_id;			//地區ID

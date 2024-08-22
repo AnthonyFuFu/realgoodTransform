@@ -19,31 +19,26 @@ public class NewExamContentServiceImpl implements NewExamContentService {
 	private NewExamContentDao newExamContentDao;
 	@Override
 	public List<NewExamContent> getList(NewExamContent newExamContent) {
-		// TODO Auto-generated method stub
 		return newExamContentDao.getList(newExamContent);
 	}
 
 	@Override
 	public Integer getNextId() {
-		// TODO Auto-generated method stub
 		return newExamContentDao.getNextId();
 	}
 
 	@Override
 	public void add(NewExamContent newExamContent) {
-		// TODO Auto-generated method stub
 		newExamContentDao.add(newExamContent);
 	}
 
 	@Override
 	public void update(NewExamContent newExamContent) {
-		// TODO Auto-generated method stub
 		newExamContentDao.update(newExamContent);
 	}
 
 	@Override
 	public void delete(Integer id) {
-		// TODO Auto-generated method stub
 		newExamContentDao.delete(id);
 	}
 
@@ -52,13 +47,11 @@ public class NewExamContentServiceImpl implements NewExamContentService {
 	
 	@Override
 	public List<Map<String, Object>> getNormalList() {
-		// TODO Auto-generated method stub
 		return newExamContentDao.getNormalList();
 	}
 
 	@Override
 	public void updateNormalData(NewExamContent newExamContent) {
-		// TODO Auto-generated method stub
 		newExamContentDao.updateNormalData(newExamContent);
 	}
 

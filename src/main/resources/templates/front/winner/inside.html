@@ -107,7 +107,7 @@
 			</h1>
 			<h3>考取：[[${winner.admitted}]]</h3>
 			<div class="community_API">
-	           <a th:href="@{'https://www.facebook.com/sharer/sharer.php?u=' + @{https://daso.tkb.com.tw/lectures/inside?{str}}(str=${shareStr})}" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/fb_api.png}" /></a>
+	           <a th:href="@{'https://www.facebook.com/sharer/sharer.php?u=' + @{https://www.reallygood.com.tw/winner/inside?{str}}(str=${shareStr})}" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/fb_api.png}" /></a>
 	        </div>				
 			<div class="viewers">[[${winner.click_rate}]]</div>
 			<div class="release" th:text="發佈時間：+${#strings.replace(#strings.substring(begin_date, 0, 10), '-', '/')}"></div>

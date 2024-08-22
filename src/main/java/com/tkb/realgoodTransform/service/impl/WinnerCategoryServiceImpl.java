@@ -29,49 +29,41 @@ public class WinnerCategoryServiceImpl implements WinnerCategoryService {
 	
 	@Override
 	public List<WinnerCategory> getSubList(WinnerCategory winnerCategory) {
-		// TODO Auto-generated method stub
 		return winnerCategoryDao.getSubList(winnerCategory);
 	}
 
 	@Override
 	public List<WinnerCategory> getLayerList(String layer, WinnerCategory winnerCategory) {
-		// TODO Auto-generated method stub
 		return winnerCategoryDao.getLayerList(layer, winnerCategory);
 	}
 
 	@Override
 	public List<WinnerCategory> getLayerList(String layer) {
-		// TODO Auto-generated method stub
 		return winnerCategoryDao.getLayerList(layer);
 	}
 
 	@Override
 	public List<WinnerCategory> getList(int pageCount, int pageStart, WinnerCategory winnerCategory) {
-		// TODO Auto-generated method stub
 		return winnerCategoryDao.getList(pageCount, pageStart, winnerCategory);
 	}
 
 	@Override
 	public Integer getCount(WinnerCategory winnerCategory) {
-		// TODO Auto-generated method stub
 		return winnerCategoryDao.getCount(winnerCategory);
 	}
 
 	@Override
 	public WinnerCategory getData(WinnerCategory winnerCategory) {
-		// TODO Auto-generated method stub
 		return winnerCategoryDao.getData(winnerCategory);
 	}
 
 	@Override
 	public WinnerCategory checkRepeat(WinnerCategory winnerCategory) {
-		// TODO Auto-generated method stub
 		return winnerCategoryDao.checkRepeat(winnerCategory);
 	}
 
 	@Override
 	public Integer getNextId() {
-		// TODO Auto-generated method stub
 		return winnerCategoryDao.getNextId();
 	}
 
@@ -200,7 +192,6 @@ public class WinnerCategoryServiceImpl implements WinnerCategoryService {
 
 	@Override
 	public String getCategoryName(String category, WinnerCategory winnerCategory) {
-		// TODO Auto-generated method stub
 		return winnerCategoryDao.getCategoryName(category, winnerCategory);
 	}
 

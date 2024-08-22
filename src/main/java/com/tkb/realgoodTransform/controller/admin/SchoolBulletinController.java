@@ -46,21 +46,25 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-
 @Controller
 @RequestMapping("/tkbrule")
 @SessionAttributes(value = { "userAccountSession", "sideMenuList" })
 public class SchoolBulletinController extends BaseUtils {
+	
 	private int pageNo; // 頁碼
+	
 	@Value("${upload.file.path}")
 	private String uploadFilePath; // 檔案上傳位置
 
 	@Autowired
 	private SchoolBulletinService schoolBulletinService;
+	
 	@Autowired
 	private SchoolBulletinCategoryService schoolBulletinCategoryService;
+	
 	@Autowired
 	private SchoolBulletinContentService schoolBulletinContentService;
+	
 	@Autowired
 	private EditLogService editLogService;
 

@@ -33,8 +33,10 @@ import jakarta.servlet.http.HttpServletRequest;
 public class GSATNewsController extends BaseUtils {
 
 	private int pageNo;
+	
 	@Autowired
 	private GSATNewsService gSATNewsService;
+	
 	@Autowired
 	private EditLogService editLogService; // 各功能編輯的LOG服務
 

@@ -35,20 +35,22 @@ import com.tkb.realgoodTransform.utils.BaseUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-
-
 @Controller
 @RequestMapping("/tkbrule")
 @SessionAttributes(value = { "userAccountSession", "sideMenuList" })
 public class LecturesController extends BaseUtils {
 
 	private int pageNo;
+	
 	@Autowired
 	private LecturesService lecturesService;
+	
 	@Autowired
 	private LecturesCategoryService lecturesCategoryService;
+	
 	@Autowired
 	private LecturesContentService lecturesContentService;
+	
 	@Autowired
 	private LecturesPlaceService lecturesPlaceService;
 	

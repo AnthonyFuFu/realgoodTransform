@@ -16,7 +16,15 @@ public interface CourseDiscountDao {
 	 * @return List<CourseDiscount>
 	 */
 	public List<CourseDiscount> getList(int pageCount, int pageStart, CourseDiscount courseDiscount);
-	
+
+	/**
+	 * 取得前台課程優惠清單(依地區類別查詢)
+	 * @param pageCount
+	 * @param pageStart
+	 * @param courseDiscount 
+	 * @return List<CourseDiscount>
+	 */
+	public List<CourseDiscount> getFrontList(CourseDiscount courseDiscount);
 	
 	/**
 	 * 取得前台課程優惠資料清單(分頁)
@@ -53,7 +61,13 @@ public interface CourseDiscountDao {
 	 * @return CourseDiscount
 	 */
 	public CourseDiscount getData(CourseDiscount courseDiscount);
-	
+
+	/**
+	 * 取得前台單筆課程優惠
+	 * @param courseDiscount
+	 * @return CourseDiscount
+	 */
+	public CourseDiscount getFrontData(CourseDiscount courseDiscount);
 	
 	/**
 	 * 取得下一筆ID
@@ -72,7 +86,12 @@ public interface CourseDiscountDao {
 	 * @param newExam
 	 */
 	public void update(CourseDiscount courseDiscount);
-	
+
+	/**
+	 * 修改課程優惠點擊率
+	 * @param newExam
+	 */
+	public void updateClickRate(CourseDiscount courseDiscount);
 	
 	/**
 	 * 刪除課程優惠

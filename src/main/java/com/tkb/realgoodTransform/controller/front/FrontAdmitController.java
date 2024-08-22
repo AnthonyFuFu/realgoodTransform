@@ -1,17 +1,8 @@
 package com.tkb.realgoodTransform.controller.front;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,39 +22,32 @@ import com.tkb.realgoodTransform.service.AdmitContentOptionService;
 import com.tkb.realgoodTransform.service.AdmitContentService;
 import com.tkb.realgoodTransform.service.AdmitDetailService;
 import com.tkb.realgoodTransform.service.AdmitService;
-import com.tkb.realgoodTransform.service.LecturesService;
-import com.tkb.realgoodTransform.service.NewExamService;
 import com.tkb.realgoodTransform.utils.BaseUtils;
 import com.tkb.realgoodTransform.utils.CryptographyUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-
-
-
 @Controller
 public class FrontAdmitController extends BaseUtils {
-
 	
 	@Autowired
 	private AdmitService admitService;
+	
 	@Autowired
 	private AdmitContentService admitContentService;
+	
 	@Autowired
 	private AdmitContentOptionService admitContentOptionService;
+	
 	@Autowired
 	private AdmitDetailService admitDetailService;
-	@Autowired
-	private NewExamService newExamService;
-	@Autowired
-	private LecturesService lecturesService;
+
 	@Autowired
 	private AdmitCategoryService admitCategoryService;		//金榜類別服務
 	
 //	private List<Admit> admitList;							//金榜清單
 	
 	private int pageNo;										//頁碼
-	
 	
 	@RequestMapping("/admit/index")
 	public String index(Admit admit,AdmitCategory admitCategory,HttpServletRequest request,Model model) {
@@ -118,17 +102,9 @@ public class FrontAdmitController extends BaseUtils {
 				return "list";
 			}
 			
-//			System.out.println("insideinsideinside " + str);
-			
 	//		int admit_id = request.getParameter("admit_id") == null ? 0 : Integer.valueOf(request.getParameter("admit_id"));
 			String shareStr = str;
 			int admit_id = Integer.valueOf(CryptographyUtils.staticdecryptStr(str));
-			
-//			System.out.println("insideinsideinside " + admit_id);
-//			System.out.println("insideinsideinside " + CryptographyUtils.encryptStr("218"));
-//			System.out.println("insideinsideinside " + CryptographyUtils.encryptStr("219"));
-			
-//			System.out.println("insideinsideinside " + CryptographyUtils.staticdecryptStr("7250844E3BCFB2AA663A7297D9EF501E"));
 			
 			admit.setId(admit_id);
 			admitService.updateClickRate(admit);//增加點閱率
@@ -187,7 +163,6 @@ public class FrontAdmitController extends BaseUtils {
 //		out.write(super.encryptStr(String.valueOf(admit_id)));
 //	}
 	
-	
 	@PostMapping("/admit/toSearch")
 	public ResponseEntity<?> toSearch(Admit admit, AdmitCategory admitCategory, HttpServletRequest request,
 			Model model) {
@@ -236,8 +211,5 @@ public class FrontAdmitController extends BaseUtils {
 		addModelAttribute(pageNo, model);
 		return new ResponseEntity<>(admitList, HttpStatus.OK);
 	}
-	
-	
-	
 	
 }

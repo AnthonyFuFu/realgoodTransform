@@ -23,18 +23,21 @@ import com.tkb.realgoodTransform.service.WinnerService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-
-
 @Controller
 public class PathController {
+	
 	@Autowired
-	LecturesCategoryService lecturesCategoryService;
+	private LecturesCategoryService lecturesCategoryService;
+	
 	@Autowired
-	NavBannerService navBannerService;
+	private NavBannerService navBannerService;
+	
 	@Autowired
-	WinnerCategoryService winnerCategoryService;
+	private WinnerCategoryService winnerCategoryService;
+	
 	@Autowired
-	WinnerService winnerService;
+	private WinnerService winnerService;
+	
  @RequestMapping(value="/common/{pathName}")
  public String path(@PathVariable(value="pathName") String pathName,LecturesCategory lecturesCategory,Model model,NavBanner navBanner,HttpServletRequest request,WinnerCategory winnerCategory) {
 	 

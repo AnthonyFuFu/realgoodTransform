@@ -37,10 +37,13 @@ import jakarta.servlet.http.HttpSession;
 public class GSATController extends BaseUtils {
 
 	private int pageNo;
+	
 	@Autowired
 	private GSATService gSATService; // 外交特考文章服務
+	
 	@Autowired
 	private GSATCategoryService gSATCategoryService; // 類別服務
+	
 	@Autowired
 	private EditLogService editLogService; // 各功能編輯的LOG服務
 

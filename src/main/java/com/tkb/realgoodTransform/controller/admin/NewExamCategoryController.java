@@ -30,16 +30,11 @@ import com.tkb.realgoodTransform.utils.BaseUtils;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-
-
-/**
- * K12教育類別設定
- * @author Joshua
- */
 @Controller
 @RequestMapping("/tkbrule")
 @SessionAttributes({"userAccountSession", "sideMenuList"})
 public class NewExamCategoryController extends BaseUtils {
+	
 	@Autowired
 	private NewExamCategoryService newExamCategoryService;
 	

@@ -46,20 +46,28 @@ public class IndexController extends BaseUtils {
 	
 	@Autowired
 	private AdmitService admitService;
+	
 	@Autowired
 	private BannerService bannerService;
+	
 	@Autowired
 	private MarqueeService marqueeService;
+	
 	@Autowired
 	private NewExamService newExamService;
+	
 	@Autowired
 	private SchoolBulletinService schoolBulletinService;
+	
 	@Autowired
 	private WinnerService winnerService;
+	
 	@Autowired
 	private LecturesService lecturesService;
+	
 	@Autowired
 	private CourseDiscountService courseDiscountService;
+	
 	@Autowired
 	private ChosenArticleService chosenArticleService;
 	

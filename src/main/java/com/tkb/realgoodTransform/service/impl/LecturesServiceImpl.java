@@ -1,14 +1,11 @@
 package com.tkb.realgoodTransform.service.impl;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,8 +34,6 @@ import com.tkb.realgoodTransform.utils.UploadUtil;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-
-
 @Service
 public class LecturesServiceImpl extends BaseUtils implements LecturesService {
 
@@ -56,110 +51,92 @@ public class LecturesServiceImpl extends BaseUtils implements LecturesService {
 	private EditLogService editLogService;
 	@Override
 	public List<Lectures> getList(int pageCount, int pageStart, Lectures lectures) {
-		// TODO Auto-generated method stub
 		return lecturesDao.getList(pageCount, pageStart, lectures);
 	}
 
 	@Override
 	public List<Lectures> getFrontList(Lectures lectures) {
-		// TODO Auto-generated method stub
 		return lecturesDao.getFrontList(lectures);
 	}
 
 	@Override
 	public List<Lectures> getFrontList(int pageCount, int pageStart, Lectures lectures, String search_sort) {
-		// TODO Auto-generated method stub
 		return lecturesDao.getFrontList(pageCount, pageStart, lectures, search_sort);
 	}
 
 	@Override
 	public List<Lectures> getIndexFrontList(int pageCount, int pageStart, Lectures lectures, String search_sort) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<Lectures> getFrontList(int pageCount, int pageStart, Lectures lectures, List<Area> areaList,
 			String search_sort) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Integer getCount(Lectures lectures) {
-		// TODO Auto-generated method stub
 		return lecturesDao.getCount(lectures);
 	}
 
 	@Override
 	public Integer getFrontCount(Lectures lectures) {
-		// TODO Auto-generated method stub
 		return lecturesDao.getFrontCount(lectures);
 	}
 
 	@Override
 	public Integer getFrontCount(Lectures lectures, List<Area> areaList) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Lectures getData(Lectures lectures) {
-		// TODO Auto-generated method stub
 		return lecturesDao.getData(lectures);
 	}
 
 	@Override
 	public Lectures getFrontData(Lectures lectures) {
-		// TODO Auto-generated method stub
 		return lecturesDao.getFrontData(lectures);
 	}
 
 	@Override
 	public Integer getNextId() {
-		// TODO Auto-generated method stub
 		return lecturesDao.getNextId();
 	}
 
 	@Override
 	public void add(Lectures lectures) {
-		// TODO Auto-generated method stub
 		lecturesDao.add(lectures);
 	}
 
 	@Override
 	public void update(Lectures lectures) {
-		// TODO Auto-generated method stub
 		lecturesDao.update(lectures);
 	}
 
 	@Override
 	public void updateClickRate(Lectures lectures) {
-		// TODO Auto-generated method stub
 		lecturesDao.updateClickRate(lectures);
 	}
 
 	@Override
 	public void delete(Integer id) {
-		// TODO Auto-generated method stub
 		lecturesDao.delete(id);
 	}
 
 	@Override
 	public Integer checkTopCount(Lectures lectures) {
-		// TODO Auto-generated method stub
 		return lecturesDao.checkTopCount(lectures);
 	}
 
 	@Override
 	public List<Lectures> getList(Lectures lectures) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void updateId(Lectures lectures) {
-		// TODO Auto-generated method stub
 
 	}
 

@@ -26,13 +26,11 @@ public class NavBannerServiceImpl implements NavBannerService {
 
 	@Override
 	public List<NavBanner> getFrontList(NavBanner navBanner) {
-		// TODO Auto-generated method stub
 		return navBannerDao.getFrontList(navBanner);
 	}
 
 	@Override
 	public List<NavBanner> getFrontType2List(NavBanner navBanner) {
-		// TODO Auto-generated method stub
 		return navBannerDao.getFrontType2List(navBanner);
 	}
 
@@ -43,25 +41,21 @@ public class NavBannerServiceImpl implements NavBannerService {
 
 	@Override
 	public Integer getFrontCount(NavBanner navBanner) {
-		// TODO Auto-generated method stub
 		return navBannerDao.getFrontCount(navBanner);
 	}
 
 	@Override
 	public Integer getShowCount(NavBanner navBanner) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public NavBanner getData(NavBanner navBanner) {
-		// TODO Auto-generated method stub
 		return navBannerDao.getData(navBanner);
 	}
 
 	@Override
 	public NavBanner getFrontData(NavBanner navBanner) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -73,38 +67,32 @@ public class NavBannerServiceImpl implements NavBannerService {
 
 	@Override
 	public void add(NavBanner navBanner) {
-		// TODO Auto-generated method stub
 		navBannerDao.add(navBanner);
 	}
 
 	@Override
 	public void update(NavBanner navBanner) {
-		// TODO Auto-generated method stub
 		navBannerDao.update(navBanner);
 
 	}
 
 	@Override
 	public void updateClickRate(NavBanner navBanner) {
-		// TODO Auto-generated method stub
 		navBannerDao.updateClickRate(navBanner);
 	}
 
 	@Override
 	public void updateSort(NavBanner navBanner) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void delete(Integer id) {
-		// TODO Auto-generated method stub
 		navBannerDao.delete(id);
 	}
 
 	@Override
 	public void resetSort() {
-		// TODO Auto-generated method stub
 
 	}
 	@Override
