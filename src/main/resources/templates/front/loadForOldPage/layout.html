@@ -43,6 +43,7 @@
 			<a class="declare" href="javascript:void(0);"><i class="fas fa-skull-crossbones"></i>反詐騙聲明</a>
 			<a href="https://www.facebook.com/reallygood.com.tw/" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/fb.png}"></a>
 			<a href="https://www.youtube.com/channel/UC5jmb4Apa7M6lO6z6zhzsyA" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/yt.png}"></a>
+			<a href="https://line.me/R/ti/p/@402jvlvd?oat__id=2997565" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/line_logo.png}"></a>
 		</section>
 	</div>
 	<!-- header -->
@@ -55,7 +56,8 @@
             <div><i class="fas fa-caret-right"></i></div>
             <div><a class="btn-search-go" href="javascript:void(0);" onclick="google_search_rwd()"><i class="fas fa-search"></i></a></div>
         </div>
-        <a class="btn-user-settings" th:href="${@environment.getProperty('weburl')} + @{/memberAccount/login}"><i class="fas fa-user-cog"></i></a>
+		<a href="https://line.me/R/ti/p/@402jvlvd?oat__id=2997565" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/line_logo.png}"></a>
+		<a href="https://www.youtube.com/channel/UC5jmb4Apa7M6lO6z6zhzsyA" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/yt.png}"></a>
         <a href="https://www.facebook.com/tkbdaso/" target="_blank"><img th:src="${@environment.getProperty('static.url')}+@{/images/front/fb.png}"></a>
     </div><!-- top-nav-mobile -->
     
@@ -542,19 +544,20 @@
 	<!-- 行動版左上方主選單浮出次選單 -->
 	<section class="header-topbar">
     <div class="header-topbar-nav">
-        <a class="header-topbar-navBtn" th:href="${@environment.getProperty('weburl')}+@{/schedule/index}" target="_blank">
-            <i class="fas fa-book"></i>課表查詢
-        </a>
-        <a class="header-topbar-navBtn" href="https://m.me/tkbdaso" target="_blank">
-            <i class="fab fa-facebook-messenger"></i>FB諮詢
+        <a class="header-topbar-navBtn" th:href="${@environment.getProperty('weburl')}+@{/lectures/index}" target="_blank">
+            <i class="fas fa-tv"></i>最新活動
         </a>
         <a class="header-topbar-navBtn" th:href="${@environment.getProperty('weburl')}+@{/common/consultation}" target="_blank">
-            <i class="fas fa-phone"></i>課程諮詢
+            <i class="fa fa-phone"></i>預約諮詢
+        </a>
+        <a class="header-topbar-navBtn" th:href="${@environment.getProperty('weburl')}+@{/location/index}" target="_blank">
+            <i class="fas fa-table"></i>服務據點
         </a>
     </div>
+    </section>
 <!--     <input type="hidden" name="jsGetModel" id="jsGetModel" th:value="${#httpSession.getAttribute('dasoIdentity')}"> -->
-	</section>
-	<div class="nav-mobile" style="display:none">
+<!-- 	</section> -->
+	<div class="nav-mobile">
     <aside><a href="javascript:void(0);"><i class="fas fa-power-off"></i>關閉</a></aside>
     <section class="scroll-container">
         <a class="category" href="javascript:void(0);">
@@ -659,8 +662,14 @@
             <div class="category-basic">
                 <a th:href="${@environment.getProperty('weburl')}+@{/newExam/inside?str=11CACC520F9B5BB1A5D51C362B717B4A}">學測細說</a>
                 <a th:href="${@environment.getProperty('weburl')}+@{/newExam/inside?str=26682917388D1CB38E9299518C8657C1}">分科測驗細說</a>
-                <a th:href="${@environment.getProperty('weburl')}+@{/lectures/inside?str=B1C724AE8960084BE78670C9F3443C73}">學測總複習</a>
-                <a th:href="${@environment.getProperty('weburl')}+@{/newExam/inside?str=AE319D1BA5718EA52A3773AEB2AF223F}">分科測驗總複習</a>
+            </div>
+            
+            <a class="category-sub" href="javascript:void(0);">
+                <div><i class="fas fa-caret-right"></i>警專影音教材</div>
+                <div><i class="fas fa-angle-right"></i></div>
+            </a><!-- category-sub -->
+            <div class="category-basic">
+                <a href="https://www.reallygood.com.tw/newExam/inside?str=F71B9691C31348F36F97170F1F960DC1">警專總複習</a>
             </div>
             
             <a class="category-sub" href="javascript:void(0);">
@@ -672,17 +681,9 @@
                 <a th:href="${@environment.getProperty('weburl')}+@{/GSAT/index?str=13BE38143F89F6FD8563A0C6EAE15BC1}">素養考題</a>
                 <a th:href="${@environment.getProperty('weburl')}+@{/newExam/inside?str=81409192F1861A6551FD23DC875212B2}">學測歷屆試題</a>
                 <a th:href="${@environment.getProperty('weburl')}+@{/newExam/inside?str=244AE6959993A9D97BFAB0BA20FED495}">分科測驗歷屆試題</a>
+		        <a th:href="${@environment.getProperty('weburl')}+@{/newExam/inside?str=7D72E02F62D91E50B066D32395353782}">警專歷屆試題</a>
             </div>
              
-            <a class="category-sub" href="javascript:void(0);">
-                <div><i class="fas fa-caret-right"></i>精選題庫</div>
-                <div><i class="fas fa-angle-right"></i></div>
-            </a><!-- category-sub -->
-            <div class="category-basic">
-                <a href="https://reallygood.upad12.com/">知識點題庫</a>
-                <a href="https://eric.csofe.org/">素養題庫</a>
-            </div>  
-            
             <a class="category-sub" href="javascript:void(0);">
                 <div><i class="fas fa-caret-right"></i>教材介紹</div>
                 <div><i class="fas fa-angle-right"></i></div>
@@ -695,7 +696,7 @@
 
         <a class="category" href="javascript:void(0);">
             <div><i class="fas fa-list-ul"></i></div>
-            <div>醫學專班</div>
+            <div>醫學甄試專班</div>
             <div><i class="fas fa-angle-right"></i></div>
         </a><!-- category -->
         <section class="category-sub-container">
