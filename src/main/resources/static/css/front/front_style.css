@@ -1275,7 +1275,8 @@ body {
 .nav-mobile .category-basic {
   display: none;
   color: #000;
-  background-color: #db7171;
+  background-color: #ffaa07;
+/*   background-color: #db7171; */
   list-style: none;
   padding: 10px 0;
 }
@@ -1285,7 +1286,8 @@ body {
   padding: 10px 10px 10px 60px;
 }
 .nav-mobile .category-basic a:hover {
-  color: #db7171;
+/*   color: #db7171; */
+  color: #ffaa07;
   background-color: #fff;
 }
 
